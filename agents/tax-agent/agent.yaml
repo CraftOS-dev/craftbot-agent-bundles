@@ -1,0 +1,321 @@
+# Tax Agent — CraftBot agent definition
+#
+# Operational tax specialist sitting under `finance-controller` (parent — owns
+# bookkeeping + monthly close + ASC 740 inputs). Owns the filing surface:
+# federal + state corporate income tax (Forms 1120 / 1065 / 1120-S), payroll
+# tax (Forms 941 / 940), 1099 family + W-2, sales/use tax (multi-state),
+# international Forms 5471 / 5472 / 8865, R&D credit (Form 6765), QSBS
+# Section 1202 (incl. Big Beautiful Bill 2025 expansion), beneficial
+# ownership (FinCEN BOI), Pillar 2 / GloBE / CbCR, IRS + state DOR notice
+# response, ASC 740 tax provision (computes — finance-controller owns the
+# close inputs).
+#
+# Every field traces back to reference/SOTA_USE_CASES.md or to a default
+# CraftBot capability already shipped on the recipient's install. See
+# reference/INVENTORY.md for sources and SOURCES.md for the section→source map.
+
+name: Tax Agent
+slug: tax-agent
+category: finance
+tier: specialized
+description: >
+  Operational tax specialist — federal / state / multi-jurisdiction corp +
+  payroll + sales/use tax filings, R&D credits, QSBS, transfer pricing,
+  Pillar 2 / BEPS, IRS notice response, ASC 740 provision. Files Forms 1120
+  / 1065 / 1120-S / 941 / 940 / 1099 family / 5471 / 5472 / 8865 / 6765 /
+  8975 / 8997. Tracks 83(b) 30-day windows, Section 1202 QSBS 3/4/5-yr
+  holding tiers (Big Beautiful Bill 2025), NOL waterfalls + Section 382
+  ownership-change limits, Section 174 R&D capitalization (TCJA 2017 +
+  OBBB 2025 domestic-R&D reversal), Section 280E cannabis disallowance,
+  Section 199A QBI, Section 1031 like-kind 45/180-day windows, Section
+  1400Z Opportunity Zones, IRC 280E. Sits under `finance-controller`
+  (operational tax) and adjacent to `finance-agent` (strategic finance),
+  `legal-counsel` (entity formation legal mechanics), `compliance-agent`
+  (regulatory reporting). Three convictions: (1) documentation BEFORE
+  filing — auditors love trails; (2) tax planning is multi-year — single-
+  year optimization can wreck future returns; (3) most "tax loopholes"
+  online are 5+ years out of date. **MANDATORY disclaimer:** every binding
+  tax output includes "consult a licensed CPA / tax attorney."
+tags:
+  - finance
+  - tax
+  - corporate-tax
+  - sales-tax
+  - payroll-tax
+  - rd-credit
+  - qsbs
+  - section-1202
+  - asc-740
+  - international-tax
+  - transfer-pricing
+  - pillar-2
+  - globe
+  - fincen-boi
+  - cta
+  - irs-notice
+  - state-dor
+  - section-174
+  - section-280e
+  - section-1031
+  - opportunity-zones
+  - apportionment
+  - nexus
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time. Build script looks up names in
+# agents/tax-agent/skills/ (bundled — Round 2 creates the contents)
+# first, then top-level skills/ (CraftBot defaults — already on recipient).
+enabled_skills:
+  # ── Bundled (21) — SOTA tax skill packs we ship with this agent ──────
+  # Round 2 creates each skills/<name>/SKILL.md.
+  - form-1120-corp-income-tax-filing        # Drake / ProConnect / UltraTax / CCH; book-to-tax M-1/M-3; e-file MeF
+  - form-1065-1120s-passthrough-filing      # Partnership + S-corp; K-1 generation; AAA + 704(b) basis tracking
+  - multistate-sales-tax-anrok-stripe-avalara  # Anrok + Stripe Tax + Avalara + Numeral + Sphere; SaaS taxability per state
+  - payroll-tax-940-941-quarterly-annual    # Gusto / Rippling / ADP / Paychex; safe-harbor estimated tax
+  - 1099-k-misc-nec-w2-filing               # Track1099 / Tax1099 / Stripe 1099-K; threshold matrix + 1042-S
+  - transfer-pricing-form-5471-8865-5472    # CFC (5471) + foreign partnership (8865) + reportable txns (5472) + TP studies
+  - rd-tax-credit-form-6765-mainstreet-neo  # MainStreet / Neo Tax / Strike Tax; payroll allocation; ASC method
+  - qsbs-section-1202-bbb-2025-expansion    # Carta QSBS + Pulley; tiered exclusion 50/75/100% (OBBB 2025)
+  - nol-amt-multi-year-tax-planning         # NOL waterfall + Section 382 + CAMT + multi-year planning
+  - pillar-2-globe-cbcr-international       # OECD Pillar 2 + GloBE IIR/UTPR/QDMTT + CbCR Form 8975
+  - beneficial-ownership-fincen-boi-cta     # CTA / BOI rule + FinCEN BOSS portal + March 2025 interim final rule
+  - sales-tax-nexus-study-economic-physical # Wayfair thresholds per state + physical presence map
+  - irs-state-dor-notice-response           # CP2000 / CP501 / CP504 / state DOR templates + 30/60/90-day deadlines
+  - asc-740-tax-provision-deferred          # M-1/M-3 + deferred tax + valuation allowance + UTP FIN 48
+  - sec-174-rd-capitalization               # TCJA 2017 capitalization + OBBB 2025 reversal for domestic R&D
+  - entity-structure-c-vs-s-vs-llc          # C-corp / S-corp / LLC / partnership decision matrix + Section 280E
+  - iso-nso-rsu-employee-tax-treatment      # Equity comp tax mechanics + 83(b) 30-day + AMT Form 6251
+  - fringe-benefit-tax-sec-132-274          # Section 132 exclusions + Section 274 meal/entertainment 50% limit
+  - opportunity-zones-1031-like-kind        # Sec 1400Z QOF + Sec 1031 real-property 45/180-day windows
+  - state-apportionment-nexus-analysis      # Single-sales factor + market-based sourcing + state thresholds
+  - tax-audit-prep-response-federal-state   # Substantiation library + IDR response + 30/90-day letter
+
+  # ── CraftBot defaults (22) — already on recipient's install ──────────
+  # Always evaluate (per METHODOLOGY.md default skills audit checklist):
+  - cli-anything                            # universal verb for Drake/ProConnect/CCH/MainStreet/Anrok/Track1099 REST
+  - file-format                             # convert receipts / 1099s / W-2s between formats
+  - file-organizer                          # organize tax binder, substantiation library, audit packet
+  - using-git-worktrees                     # isolated worktree per tax year (e.g., TY2025, TY2026)
+
+  # Content / comms (tax delivers a lot of memos + emails + filings):
+  - docx                                    # Tax position memo, M-1/M-3 reconciliation memo, notice response letter
+  - pdf                                     # Form output, K-1 distribution PDFs, substantiation export
+  - pptx                                    # Board / audit committee tax-provision update slides
+  - xlsx                                    # M-1/M-3 reconciliation, deferred tax waterfall, NOL waterfall, R&D allocation, apportionment, QSBS tiered exclusion model
+  - google-sheet                            # Live shared tax models for team collaboration
+  - microsoft-excel                         # Local Excel for sensitive equity / QSBS / Section 1202 work
+  - gmail                                   # Notice response acknowledgments, K-1 distribution, vendor 1099 outreach
+  - notion                                  # Tax workpaper library / SOPs / filing calendar / substantiation index
+  - obsidian                                # Alt local-first notes for sensitive equity-tax drafts
+
+  # Existing finance / accounting defaults that ship:
+  - xero                                    # Xero via Maton-managed OAuth — pull GL for M-1/M-3 + sales by state
+  - stripe-api                              # Stripe via Maton gateway — pull Stripe Tax + Sigma sales-by-state
+
+  # Research + planning (tax spends substantial time researching statute + case law):
+  - brainstorming                           # Position hypothesis generation; structural restructure scenarios
+  - concise-planning                        # Filing-calendar planning per tax year
+  - ask-questions-if-underspecified         # Clarify entity / state / tax year / instrument before computing
+  - audit-context-building                  # Gather context rigorously before stating tax positions
+  - verification-before-completion          # Tie out M-1/M-3 / NOL waterfall / deferred tax before delivering
+
+  # Versioning / collaboration:
+  - git-commit                              # Version-control tax workpapers + close packages by tax year
+  - markdown-converter                      # Convert tax docs across formats
+
+  # Scheduling (CRITICAL — tax has hard statutory deadlines):
+  - remindme                                # 83(b) 30-day window, 1031 45/180-day window, BOI 30-day window, IRS notice 30/60/90-day, quarterly estimated tax dates
+
+# MCP servers — every name must exist in app/config/mcp_config.json
+# (verify.py checks this). The recipient enables each in their MCP settings
+# after importing the .craftbot bundle and fills in any required API keys.
+mcp_servers:
+  - filesystem                              # always
+
+  # ── Bookkeeping + billing core (for book-to-tax M-1/M-3) ─────────────
+  - xero-mcp                                # GL for book income → tax income reconciliation
+  - stripe-mcp                              # Stripe Tax + Sigma queries for sales by state + apportionment
+
+  # ── SEC / public-market reference (for R&D + TP benchmarks) ──────────
+  - sec-edgar-mcp                           # peer benchmarks for TP comparable data + R&D allocation
+  - octagon-sec-mcp                         # alt SEC research for TP benchmarks
+  - yahoo-finance-mcp                       # public-comp data for comparable companies
+  - alpha-vantage-mcp                       # alt market data
+  - mcp-finance                             # multi-source finance data aggregator
+
+  # ── Database / GL access ─────────────────────────────────────────────
+  - postgresql-mcp                          # raw GL queries when accounting DB exposed; M-1/M-3 / deferred tax temp diffs
+
+  # ── Comms (notice response, K-1 distribution, IRS / state DOR letters) ──
+  - gmail-mcp                               # send notice acknowledgments + K-1 distribution + 1099 vendor outreach
+  - outlook-mcp                             # alt for recipients on Outlook
+  - notion-mcp                              # tax workpaper library + SOPs + filing calendar
+  - slack-mcp                               # team finance comms (filing deadlines, notice triage)
+
+  # ── Research / scrape / OCR (statutory research + paper notices) ─────
+  - firecrawl-mcp                           # IRS.gov + state DOR site scraping for current statute + form instructions
+  - brightdata-mcp                          # paid scrape for TP comparable databases (RoyaltyStat / RoyaltyRange paywalls)
+  - huggingface-mcp                         # industry benchmark dataset discovery (R&D / TP / payroll)
+  - gemini-ocr-mcp                          # OCR for paper IRS notices + 1099s + W-2s + invoices for substantiation
+  - mistral-ocr-mcp                         # alt OCR engine for paper notices
+
+  # ── Reliability + audit trail ────────────────────────────────────────
+  - sentry-mcp                              # incident financial impact when computing tax provision adjustment for unusual losses
+
+sources:
+  - name: IRS Form 1120 instructions (corporate income tax)
+    url: https://www.irs.gov/forms-pubs/about-form-1120
+    used_for: Form 1120 filing + Schedule M-1 / M-3 reconciliation
+  - name: IRS Form 1065 instructions (partnership return)
+    url: https://www.irs.gov/forms-pubs/about-form-1065
+    used_for: Form 1065 + K-1 + Schedule K-2 / K-3 international reporting
+  - name: IRS Form 1120-S instructions (S-corp)
+    url: https://www.irs.gov/forms-pubs/about-form-1120-s
+    used_for: Form 1120-S + AAA + shareholder basis tracking
+  - name: Drake Tax (preparer software — SMB / firm leader)
+    url: https://www.drakesoftware.com/
+    used_for: Form 1120 / 1065 / 1120-S preparation + e-file via MeF
+  - name: Intuit ProConnect (Lacerte cloud preparer)
+    url: https://accountants.intuit.com/proconnect/
+    used_for: Alt preparer software; cloud version of Lacerte
+  - name: Thomson Reuters UltraTax CS
+    url: https://tax.thomsonreuters.com/en/cs-professional-suite/ultratax-cs
+    used_for: Enterprise / firm preparer software
+  - name: CCH Axcess (Wolters Kluwer)
+    url: https://www.wolterskluwer.com/en/solutions/cch-axcess
+    used_for: Enterprise cloud-native preparer + workflow
+  - name: Bloomberg Tax Provision (CorpTax)
+    url: https://www.bloombergtax.com/tax-provision/
+    used_for: ASC 740 deferred tax + uncertain tax positions (FIN 48); Pillar 2
+  - name: ONESOURCE Tax Provision (Thomson Reuters)
+    url: https://tax.thomsonreuters.com/en/onesource/tax-provision
+    used_for: Alt ASC 740 provision software
+  - name: IRS Form 941 + 940 (payroll tax)
+    url: https://www.irs.gov/forms-pubs/about-form-941
+    used_for: Quarterly + annual payroll tax filings
+  - name: IRS Form 1099-NEC instructions
+    url: https://www.irs.gov/forms-pubs/about-form-1099-nec
+    used_for: Contractor 1099 filings
+  - name: IRS Form 1099-K marketplace reporting
+    url: https://www.irs.gov/businesses/understanding-your-form-1099-k
+    used_for: 1099-K threshold rollout (2024 $5K → 2025 $2.5K → 2026 $600)
+  - name: Anrok (SaaS-specific multi-state sales tax)
+    url: https://anrok.com/
+    used_for: Multi-state sales tax registration + filing + remittance
+  - name: Stripe Tax docs
+    url: https://docs.stripe.com/tax
+    used_for: Embedded Stripe Tax for sales tax calc + filing
+  - name: Avalara AvaTax (enterprise sales / income tax)
+    url: https://www.avalara.com/
+    used_for: Enterprise multi-state sales + use + income tax
+  - name: Numeral (AI-first sales tax automation)
+    url: https://www.numeral.com/
+    used_for: AI-driven sales tax registration + filing
+  - name: Sphere (modern sales/use + business licenses)
+    url: https://sphere.co/
+    used_for: Sales tax + use tax + business license automation
+  - name: TaxJar (e-commerce sales tax)
+    url: https://www.taxjar.com/
+    used_for: E-commerce sales tax filing
+  - name: Vertex Income Tax (enterprise apportionment)
+    url: https://www.vertexinc.com/products/income-tax
+    used_for: Multi-state apportionment + nexus
+  - name: MainStreet (R&D credit automation for startups)
+    url: https://mainstreet.com/
+    used_for: R&D credit Form 6765 + payroll allocation
+  - name: Neo Tax (R&D credit AI)
+    url: https://neo.tax/
+    used_for: Alt R&D credit automation
+  - name: Strike Tax Advisory (managed R&D)
+    url: https://striketax.com/
+    used_for: Managed R&D credit service
+  - name: IRS Form 6765 (R&D credit)
+    url: https://www.irs.gov/forms-pubs/about-form-6765
+    used_for: Section 41 R&D credit calculation
+  - name: Carta QSBS / Section 1202
+    url: https://carta.com/learn/equity/stock-options/iso-amt/qsbs/
+    used_for: QSBS qualification + holding period tracking
+  - name: Fenwick & West — QSBS Update (One Big Beautiful Bill Act 2025)
+    url: https://www.fenwick.com/insights/publications/qsbs-update-one-big-beautiful-bill-act-expands-section-1202
+    used_for: Big Beautiful Bill July 2025 QSBS expansion (tiered exclusion 50/75/100%, $15M cap, $75M gross-assets)
+  - name: Fenwick & West — Section 174 update (OBBB 2025)
+    url: https://www.fenwick.com/insights/publications/section-174-rd-capitalization-update-big-beautiful-bill
+    used_for: Section 174 OBBB 2025 reversal for domestic R&D (immediate expensing restored)
+  - name: IRS Form 5471 (CFC reporting)
+    url: https://www.irs.gov/forms-pubs/about-form-5471
+    used_for: 10%+ US-owned foreign corporation reporting
+  - name: IRS Form 8865 (foreign partnership)
+    url: https://www.irs.gov/forms-pubs/about-form-8865
+    used_for: Foreign partnership reporting
+  - name: IRS Form 5472 (foreign-owned US corp)
+    url: https://www.irs.gov/forms-pubs/about-form-5472
+    used_for: 25%+ foreign owner reportable transactions; $25K penalty per missed filing
+  - name: OECD Pillar 2 / GloBE implementation package
+    url: https://www.oecd.org/tax/beps/pillar-two-implementation-package.htm
+    used_for: 15% minimum effective tax rate for €750M+ MNCs
+  - name: OECD BEPS Action 13 (CbCR)
+    url: https://www.oecd.org/tax/beps/beps-actions/action13/
+    used_for: Country-by-Country Reporting for €750M+ MNCs
+  - name: FinCEN BOI / Corporate Transparency Act
+    url: https://www.fincen.gov/boi
+    used_for: Beneficial ownership reporting (CTA / BOI rule)
+  - name: FinCEN interim final rule (March 2025)
+    url: https://www.fincen.gov/news/news-releases/fincen-issues-interim-final-rule-removes-beneficial-ownership-reporting
+    used_for: March 2025 BOI exemption for domestic entities; foreign-registered still file
+  - name: IRS CP2000 notice guide
+    url: https://www.irs.gov/individuals/understanding-your-cp2000-notice
+    used_for: IRS underreporter inquiry response
+  - name: FASB ASC 740 (Income Taxes)
+    url: https://www.fasb.org/page/PageContent?pageId=/standards/asc740.html
+    used_for: ASC 740 tax provision standard (current + deferred + UTP)
+  - name: IRS Form 4626 (Corporate AMT / CAMT)
+    url: https://www.irs.gov/forms-pubs/about-form-4626
+    used_for: Corporate Alternative Minimum Tax (15% on $1B+ AFSI post-IRA 2022)
+  - name: IRS Form 6251 (AMT for individuals + ISOs)
+    url: https://www.irs.gov/forms-pubs/about-form-6251
+    used_for: Individual AMT incl. ISO bargain element
+  - name: Carta — ISO + AMT
+    url: https://carta.com/learn/equity/stock-options/iso-amt/
+    used_for: ISO / AMT mechanics
+  - name: Carta — 83(b) elections
+    url: https://carta.com/learn/equity/stock-options/83b-elections/
+    used_for: 83(b) 30-day window
+  - name: IRS Publication 15-B (fringe benefits)
+    url: https://www.irs.gov/publications/p15b
+    used_for: Section 132 fringe benefit exclusions
+  - name: IRS Section 274 (meals + entertainment)
+    url: https://www.irs.gov/businesses/section-274-meals-entertainment
+    used_for: Section 274(n)(1) 50% meal limit + entertainment disallowance
+  - name: IRS Opportunity Zones
+    url: https://www.irs.gov/credits-deductions/opportunity-zones
+    used_for: Section 1400Z QOF deferral + 5/7/10-yr step-up
+  - name: IRS Form 8824 (Section 1031 like-kind exchange)
+    url: https://www.irs.gov/forms-pubs/about-form-8824
+    used_for: Section 1031 real property exchange + 45/180-day windows
+  - name: IRS Form 8997 (QOF investment)
+    url: https://www.irs.gov/forms-pubs/about-form-8997
+    used_for: OZ QOF annual reporting
+  - name: IRS Section 280E (cannabis)
+    url: https://www.irs.gov/pub/irs-drop/n-21-23.pdf
+    used_for: Section 280E disallowance for plant-touching cannabis
+  - name: Track1099
+    url: https://www.track1099.com/
+    used_for: Electronic 1099 filing service
+  - name: Tax1099
+    url: https://www.tax1099.com/
+    used_for: Alt electronic 1099 filing service
+  - name: AICPA — IRS Examination Defense
+    url: https://www.aicpa.org/topic/tax/irs-examination-defense
+    used_for: Audit prep + response methodology
+  - name: Sales Tax Institute — Economic Nexus State Guide
+    url: https://www.salestaxinstitute.com/resources/economic-nexus-state-guide
+    used_for: Post-Wayfair nexus thresholds per state
+  - name: IRS EFTPS payment system
+    url: https://www.irs.gov/payments/eftps-the-electronic-federal-tax-payment-system
+    used_for: Federal tax payments + quarterly estimated tax + payroll deposits
+  - name: IRS Direct Pay
+    url: https://www.irs.gov/payments/direct-pay
+    used_for: Alt federal tax payment for individuals

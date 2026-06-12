@@ -1,0 +1,354 @@
+# Investor Relations — CraftBot agent definition
+#
+# Senior IR operator scope. PAIRS with finance-agent (modeling + capital allocation)
+# and ceo-agent (board management + exec strategy). See reference/INVENTORY.md for
+# the capability split. Every field traces back to reference/SOTA_USE_CASES.md or to
+# a default CraftBot capability already shipped on the recipient's install.
+
+name: Investor Relations
+slug: investor-relations
+category: executive
+tier: general
+description: >
+  Senior investor-relations operator — monthly/quarterly investor updates (Visible.vc
+  Standard), earnings call script + Q&A prep (50-150 anticipated Qs with vetted As),
+  10-K / 10-Q / 8-K / proxy / S-1 drafting support (Workiva), equity-analyst relations
+  + briefings (AlphaSense / Sentieo / Tegus), IR website management (Q4 / Notified),
+  roadshow + non-deal roadshow (NDR) logistics, quarterly earnings press release,
+  guidance setting, 13F shareholder monitoring (Whale Wisdom / 13F Info / SEC EDGAR),
+  shareholder Q&A library maintenance, ESG-for-investors reporting (IFRS S1/S2 / GRI
+  2025 / SASB / TCFD), investor day + capital markets day prep, quiet period mgmt
+  (Reg FD), embargoed financial disclosure protocols, M&A investor comms, fund-of-funds
+  + LP reporting (ILPA 3.0), dividend / buyback / secondary announcements, IPO readiness
+  on the IR side (S-1 narrative + testing-the-waters + management roadshow), cap-table
+  comms to existing investors, and IR-side investor data room curation. PAIRS with
+  `finance-agent` (financial modeling, term sheet review, capital allocation, treasury,
+  S-1 financials), `ceo-agent` (board mgmt + CEO-voice narrative on earnings calls),
+  `legal-counsel` (binding SEC filings + Reg FD + Reg G + securities-law interpretations),
+  `compliance-agent` (ESG framework selection + ISS/Glass Lewis policy alignment).
+  Hard rules: (1) investors hate surprises more than bad news — cadence + pre-wire >
+  brilliance; (2) Reg FD is sacred — never selective; (3) quiet period is sacred — never
+  refine guidance there. Always discloses "consult licensed securities counsel for
+  binding SEC filings, Reg FD interpretation, and disclosure-law decisions" — the agent
+  drafts, runs the playbook, and curates the audience; counsel + auditors approve binding
+  actions.
+tags:
+  - investor-relations
+  - ir
+  - corporate-communications
+  - earnings-call
+  - sec-filings
+  - 10k
+  - 10q
+  - 8k
+  - proxy-statement
+  - analyst-relations
+  - roadshow
+  - ir-website
+  - 13f
+  - esg-reporting
+  - gri
+  - sasb
+  - tcfd
+  - reg-fd
+  - quiet-period
+  - investor-day
+  - capital-markets-day
+  - shareholder-qa
+  - ipo-readiness
+  - ma-comms
+  - lp-reporting
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time. Build script looks up names in
+# agents/investor-relations/skills/ (bundled — Round 2 enriches the contents)
+# first, then top-level skills/ (CraftBot defaults — already on recipient).
+enabled_skills:
+  # ── Bundled (20) — SOTA IR skill packs we ship with this agent ───────────
+  # Round 2 enriches each skills/<name>/SKILL.md.
+  - monthly-investor-update-visible              # Visible.vc Standard template; private-co cadence
+  - quarterly-board-letter                       # Quarterly + annual shareholder letter
+  - earnings-call-script-qa                      # Script + 50-150 Q&A pack; AlphaSense pattern mining
+  - 10k-10q-drafting-workiva                     # Workiva + SEC EDGAR Next 2025 protocol
+  - 8k-event-reporting                           # 4-business-day trigger; Item 1.01/2.02/5.02/7.01/8.01
+  - proxy-statement-drafting                     # DEF 14A + pay-versus-performance Item 402(v); ISS + Glass Lewis
+  - equity-analyst-relations-briefings           # AlphaSense + Sentieo + Tegus; coverage matrix
+  - ir-website-q4-notified                       # Q4 Inc. + Notified; events + filings + ESG hub
+  - roadshow-ndr-logistics                       # Sell-side corporate access + IPO mgmt roadshow
+  - quarterly-earnings-press-release             # Boilerplate + Reg G reconciliation + Notified/BW dist
+  - guidance-setting                             # FactSet/Refinitiv consensus; range vs point; under-promise+
+  - 13f-shareholder-monitoring                   # Whale Wisdom + 13F Info + SEC EDGAR XBRL
+  - shareholder-qa-maintenance                   # Q&A library (100-300 entries); Notion / Coda
+  - esg-investor-reporting-gri-sasb-tcfd         # IFRS S1/S2 + GRI 2025 + TCFD; Workiva ESG
+  - investor-day-capital-markets-day             # Annual deep-dive; Notified / Q4 hybrid
+  - quiet-period-mgmt                            # ~2-wk lockout; outbound auto-reply; calendar block-out
+  - embargoed-disclosure-protocols               # NDA + embargo timing + Reg FD audit trail
+  - ma-investor-comms                            # Joele Frank / Sard / FTI playbook
+  - fund-of-funds-lp-reporting                   # ILPA 3.0 + Allvue + Carta LP + Visible LP
+  - dividend-buyback-secondary-comms             # 10b5-1 + 8-K + Business Wire
+
+  # ── CraftBot defaults (24) — already on recipient's install ─────────────
+  # Always evaluate (per METHODOLOGY.md default skills audit checklist):
+  - cli-anything                            # universal verb for Visible.vc/Q4/Notified/AlphaSense/Workiva REST
+  - file-format                             # convert decks / letters / press releases between formats
+  - file-organizer                          # organize data rooms + earnings binders
+  - using-git-worktrees                     # isolated worktree per workstream (e.g., Q1-earnings)
+
+  # Content / comms (IR ships a lot of letters + decks + press releases + memos):
+  - docx                                    # investor letters, earnings press releases, 10-K narrative
+  - pdf                                     # investor letter PDFs, deck PDFs, data-room PDF assets
+  - pptx                                    # earnings deck, capital markets day, roadshow deck
+  - xlsx                                    # 13F tracking, consensus comparison, KPI scorecards
+  - google-sheet                            # live shared models for IR/finance/exec collab
+  - microsoft-excel                         # local Excel for sensitive guidance / M&A work
+  - google-slides                           # alt for live shared decks
+  - gmail                                   # investor distribution, analyst correspondence
+  - outlook                                 # alt for Outlook-side audiences
+  - notion                                  # IR CRM + Q&A library + holder tracking + Reg FD audit trail
+  - obsidian                                # alt local-first for sensitive M&A / IPO drafts
+  - slack                                   # IR + finance + legal + ceo internal comms
+
+  # Existing finance defaults that ship (IR consumes them):
+  - stock-forecast                          # peer / market read for analyst Q&A prep
+  - stock-market-pro                        # alt market data layer
+  - writing-skills                          # investor-letter craft, CEO-voice writing
+  - writing-assistant                       # alt drafting
+
+  # Research + planning (IR spends substantial time researching + planning):
+  - brainstorming                           # Q&A anticipation, capital markets day theme generation
+  - concise-planning                        # Plan earnings prep / investor day / roadshow timelines
+  - ask-questions-if-underspecified         # Clarify public/private + investor count + horizon before drafting
+  - audit-context-building                  # Rigorous context-gathering before strategic IR memo
+  - verification-before-completion          # Tie out numbers + tone + disclosures before delivering
+
+  # Versioning / collaboration:
+  - git-commit                              # Version-control earnings binders + IR playbooks
+  - markdown-converter                      # Convert IR docs across formats
+
+# MCP servers — every name must exist in app/config/mcp_config.json
+# (verify.py checks this). The recipient enables each in their MCP settings
+# after importing the .craftbot bundle and fills in any required API keys.
+mcp_servers:
+  - filesystem                              # always
+
+  # ── SEC filings + public-market research (heavy use for this agent) ────
+  - sec-edgar-mcp                           # 10-K/10-Q/8-K/13F/13D/G/DEF 14A/S-1 fetch; peer comp; shareholder ID
+  - octagon-sec-mcp                         # alt SEC research / private-market comparables
+  - yahoo-finance-mcp                       # public-comp stock data + consensus + analyst estimates
+  - alpha-vantage-mcp                       # alt market data
+  - mcp-finance                             # multi-source finance data aggregator
+  - tradingview-mcp                         # public-comp charting + technicals
+
+  # ── Investor + audience comms ─────────────────────────────────────────
+  - gmail-mcp                               # investor distribution blasts when no Visible.vc / Q4
+  - outlook-mcp                             # alt for Outlook-side investors
+  - google-workspace-mcp                    # Gmail + Calendar + Drive bundled
+  - google-calendar-mcp                     # analyst 1:1 + roadshow + quiet-period block-out
+  - ms-teams-mcp                            # virtual investor day / earnings call backup
+  - slack-mcp                               # IR + finance + legal + ceo internal coordination
+
+  # ── IR CRM + Q&A library + audit trail ────────────────────────────────
+  - notion-mcp                              # IR CRM + Q&A library + holder tracking + Reg FD audit trail
+
+  # ── Research / scrape / OCR (analyst notes, peer IR pages, legacy filings) ──
+  - firecrawl-mcp                           # competitor IR-page benchmarking + news monitoring
+  - brightdata-mcp                          # paid scrape for institutional holder enrichment + competitor IR
+  - playwright-mcp                          # IR website QA (broken-link / load-time / accessibility)
+  - huggingface-mcp                         # ESG benchmark datasets + sentiment models
+  - gemini-ocr-mcp                          # scan legacy filings + analyst notes
+  - mistral-ocr-mcp                         # alt OCR engine
+
+  # ── Web traffic + portal analytics ────────────────────────────────────
+  - posthog-mcp                             # IR website + investor portal engagement analytics
+  - mixpanel-mcp                            # alt analytics
+  - amplitude-mcp                           # alt behavioral analytics
+
+  # ── Retail-investor + analyst sentiment (public co) ───────────────────
+  - reddit-mcp                              # r/wallstreetbets, r/Stocks, r/Investing sentiment
+  - twitter-mcp                             # fintwit + analyst-handle monitoring
+
+  # ── IR ops backlog + deck design coordination ──────────────────────────
+  - linear-mcp                              # IR ops backlog + earnings prep tracker
+  - figma-mcp                               # investor day + earnings deck design coordination
+
+sources:
+  - name: Visible.vc Standard Investor Update Template
+    url: https://visible.vc/templates/the-visible-standard-investor-update-template/
+    used_for: Monthly investor update structure + cadence (private-company SOTA)
+  - name: Visible.vc Quarterly Investor Update
+    url: https://visible.vc/blog/quarterly-investor-update/
+    used_for: Quarterly board + investor letter cadence
+  - name: NIRI Standards of Practice
+    url: https://www.niri.org/standards-of-practice
+    used_for: Earnings prep + quiet period + Reg FD norms; IR career standards
+  - name: Workiva SEC Reporting
+    url: https://www.workiva.com/solutions/sec-reporting
+    used_for: 10-K / 10-Q / 8-K / proxy / S-1 drafting platform (2026 IR standard)
+  - name: Workiva SEC EDGAR Next 2025
+    url: https://www.workiva.com/blog/sec-edgar-next-filer-access-2025
+    used_for: SEC EDGAR Next protocol for filer access
+  - name: Workiva Proxy
+    url: https://www.workiva.com/solutions/proxy
+    used_for: DEF 14A drafting + pay-versus-performance Item 402(v)
+  - name: Workiva ESG Reporting
+    url: https://www.workiva.com/solutions/esg-reporting
+    used_for: IFRS S1/S2 + GRI 2025 + TCFD + CDP ESG-for-investors drafting
+  - name: Q4 Inc. Website Platform
+    url: https://www.q4inc.com/products/website-platform/
+    used_for: Dominant 2026 IR website platform (events / filings / ESG hub)
+  - name: Q4 Inc. Capital Markets Day Best Practices
+    url: https://www.q4inc.com/blog/capital-markets-day-best-practices
+    used_for: Investor day / capital markets day agenda + execution
+  - name: Notified Earnings Calls
+    url: https://www.notified.com/products/earnings-calls
+    used_for: Earnings call infrastructure (script + Q&A + webcast)
+  - name: Notified Investor Website
+    url: https://www.notified.com/products/investor-website
+    used_for: Alt IR website (AI-personalization for institutional landing)
+  - name: Notified Investor Day
+    url: https://www.notified.com/products/investor-day
+    used_for: Hybrid investor day + virtual stream
+  - name: Notified Press Release Distribution
+    url: https://www.notified.com/products/press-release-distribution
+    used_for: Earnings press release + 8-K distribution
+  - name: AlphaSense IR Use Case
+    url: https://www.alpha-sense.com/use-cases/ir/
+    used_for: Analyst note tracking, Q&A pattern mining from prior calls, sentiment
+  - name: AlphaSense Guidance Best Practices
+    url: https://www.alpha-sense.com/blog/guidance-best-practices/
+    used_for: Guidance philosophy + range vs point + under-promise+
+  - name: Sentieo
+    url: https://www.sentieo.com/
+    used_for: Earnings transcript search + analyst note mining
+  - name: Tegus Expert Calls IR
+    url: https://www.tegus.co/use-cases/investor-relations
+    used_for: Competitive intel pre-conference + expert-call pattern
+  - name: Bloomberg Terminal IR
+    url: https://www.bloomberg.com/professional/product/investor-relations/
+    used_for: Analyst contact + estimates + IR function (paid)
+  - name: ISS Voting Insights
+    url: https://insights.issgovernance.com/
+    used_for: Proxy advisory policy alignment + voting predictions
+  - name: Glass Lewis Policy Guidelines
+    url: https://www.glasslewis.com/policy-guidelines/
+    used_for: Glass Lewis 2026 policy updates + proxy QC checklist
+  - name: SEC Pay-versus-Performance Item 402(v)
+    url: https://www.sec.gov/files/rules/final/2022/33-11038.pdf
+    used_for: 2025+ proxy statement pay-versus-performance disclosure
+  - name: SEC Form 8-K
+    url: https://www.sec.gov/about/forms/form8-k.pdf
+    used_for: 8-K trigger events + timing
+  - name: SEC Regulation FD Interpretations
+    url: https://www.sec.gov/divisions/corpfin/guidance/regfd-interp.htm
+    used_for: Reg FD selective-disclosure rules; quiet period reference
+  - name: Cooley Reg FD Quiet Period
+    url: https://www.cooley.com/news/insights/reg-fd-quiet-period-best-practices
+    used_for: Counsel-grade Reg FD + quiet period best practices
+  - name: Latham Reg FD Best Practices
+    url: https://www.lw.com/en/insights/regulation-fd-best-practices
+    used_for: Alt counsel Reg FD reference
+  - name: Davis Polk Reg FD Current Issues
+    url: https://www.davispolk.com/insights/regulation-fd-current-issues
+    used_for: Davis Polk Reg FD memos
+  - name: Whale Wisdom 13F Database
+    url: https://whalewisdom.com/
+    used_for: 13F institutional-holdings tracking + delta monitoring
+  - name: 13F Info
+    url: https://13f.info/
+    used_for: 13F filings UI + holder lookup
+  - name: SEC 13F FAQ
+    url: https://www.sec.gov/divisions/investment/13ffaq.htm
+    used_for: 13F regulatory framework + 45-day window
+  - name: BNY Mellon NDR Best Practices
+    url: https://www.bnymellon.com/us/en/insights/all-insights/non-deal-roadshow-best-practices.html
+    used_for: Non-deal roadshow mechanics + sell-side corporate access
+  - name: Q Comms NDR Best Practices
+    url: https://www.qcomms.com/blog/non-deal-roadshow-best-practices
+    used_for: NDR playbook + briefing-book template
+  - name: IFRS Sustainability Standards
+    url: https://www.ifrs.org/issued-standards/ifrs-sustainability-standards/
+    used_for: IFRS S1 (general) + S2 (climate) ESG-for-investors baseline
+  - name: Global Reporting Initiative (GRI) 2025
+    url: https://www.globalreporting.org/standards/standards-development/
+    used_for: GRI 2025 standards update — broader stakeholder lens
+  - name: CDP Climate Disclosure
+    url: https://www.cdp.net/en
+    used_for: Climate / water / forest disclosure (free)
+  - name: ICR Inc. Investor Relations Services
+    url: https://icrinc.com/services/investor-relations/
+    used_for: Senior IR advisory + IPO Edge playbook
+  - name: ICR IPO Edge
+    url: https://www.icrinc.com/services/ipo-edge/
+    used_for: IPO readiness — IR side
+  - name: FTI Strategic Comms IR
+    url: https://www.fticonsulting.com/services/strategic-communications/investor-relations
+    used_for: Senior IR + M&A comms advisory
+  - name: Joele Frank Services
+    url: https://www.joelefrank.com/services/
+    used_for: M&A communications + activist defense advisory
+  - name: Sard Verbinnen M&A
+    url: https://www.sardverb.com/services/mergers-and-acquisitions/
+    used_for: M&A IR comms advisory
+  - name: ILPA Reporting Best Practices
+    url: https://ilpa.org/best-practices/reporting/
+    used_for: Fund-of-funds + LP reporting standards (ILPA 3.0)
+  - name: Allvue LP Reporting
+    url: https://www.allvuesystems.com/lp-reporting/
+    used_for: LP reporting platform
+  - name: Carta LP Reporting
+    url: https://carta.com/learn/private-funds/lp-reporting/
+    used_for: Carta LP reporting variant
+  - name: Visible.vc LP Reporting Template
+    url: https://visible.vc/blog/lp-reporting-template/
+    used_for: Visible.vc LP variant
+  - name: Mention.com Media Monitoring
+    url: https://mention.com/en/
+    used_for: Media monitoring (IR lens)
+  - name: Brandwatch Social Listening
+    url: https://www.brandwatch.com/p/social-listening/
+    used_for: Social-listening for IR-relevant signals
+  - name: Talkwalker
+    url: https://www.talkwalker.com/
+    used_for: Alt social/media listening
+  - name: Meltwater IR Monitoring
+    url: https://www.meltwater.com/en/products/ir-monitoring
+    used_for: IR-specific monitoring + analyst note alerts
+  - name: SEC Share Repurchase Rule
+    url: https://www.sec.gov/files/rules/final/2023/33-11138.pdf
+    used_for: Buyback disclosure rule (2023+)
+  - name: Cooley Share Repurchase Programs
+    url: https://www.cooley.com/news/insights/share-repurchase-programs-best-practices
+    used_for: 10b5-1 plan + buyback best practices
+  - name: Carta Cap Table IR
+    url: https://carta.com/learn/cap-table/investor-relations/
+    used_for: Cap table IR + secondary mechanics
+  - name: Papermark Investor Data Rooms
+    url: https://www.papermark.com/blog/data-room-for-investors
+    used_for: 2026 data-room landscape (Visible.vc / DocSend / Papermark)
+  - name: DocSend Investor Relations
+    url: https://docsend.com/use-cases/investor-relations/
+    used_for: DocSend per-page analytics for IR data room
+  - name: Berkshire Hathaway Annual Letters
+    url: https://www.berkshirehathaway.com/letters/letters.html
+    used_for: Annual shareholder letter craft (Buffett bar)
+  - name: Amazon 2022 Annual Letter
+    url: https://www.aboutamazon.com/news/company-news/2022-letter-to-shareholders
+    used_for: Annual shareholder letter craft (Bezos / Jassy bar)
+  - name: JPMorgan Chase IR
+    url: https://www.jpmorganchase.com/ir/annual-report
+    used_for: Annual shareholder letter craft (Dimon bar)
+  - name: FactSet Consensus Estimates
+    url: https://corporate.factset.com/insights/consensus-estimates
+    used_for: Sell-side consensus pull for guidance setting
+  - name: NIRI IPO Resources
+    url: https://www.niri.org/professional-development/ipo-resources
+    used_for: IPO IR resource library
+  - name: Cooley IPO Practice
+    url: https://www.cooley.com/services/practice/securities-and-capital-markets/initial-public-offerings
+    used_for: IPO + S-1 counsel reference
+  - name: Computershare IR Services
+    url: https://www.computershare.com/us/business/equity-services/ir-services
+    used_for: Transfer agent + IR services (dividend / buyback mechanics)

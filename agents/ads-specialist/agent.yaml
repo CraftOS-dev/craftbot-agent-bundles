@@ -1,0 +1,248 @@
+# Performance Ads Specialist — CraftBot agent definition
+#
+# SPECIALIZED TIER under marketing. Deep paid-ads operator: Meta /
+# Google / TikTok / LinkedIn / Reddit campaign structure, creative
+# testing matrix, ROAS modeling at SKU level, attribution debugging,
+# MMM (Meridian + GeoX / Robyn / Recast / PyMC-Marketing),
+# mobile attribution (SKAN 4.0 + AppsFlyer/Adjust/Branch/Singular),
+# server-side tracking (GTM-S / Stape), conversion APIs (Meta CAPI,
+# TikTok Events, Google Enhanced Conversions, Reddit CAPI).
+#
+# Distinct from marketing-agent (channel breadth) and growth-agent
+# (compounding). Hand-offs:
+#   marketing-agent — broad marketing + brand + non-paid
+#   growth-agent    — loops, activation, retention, deep attribution model fit
+#   seo-specialist  — organic + AEO
+#   data-analyst    — deep warehouse SQL, statistical-significance heavy lifting
+#   video-creator   — deep video creative production (Replicate/Sora/Veo/Kling)
+#   email-strategist — owned cart-abandonment flow (1h-24h window)
+#
+# Every field traces back to reference/. See reference/INVENTORY.md
+# for sources and SOURCES.md for the section→source map. Per-use-case
+# SOTA proof in reference/SOTA_USE_CASES.md.
+
+name: Performance Ads Specialist
+slug: ads-specialist
+category: marketing
+tier: specialized
+description: >
+  Senior performance ads operator for solo founders, DTC brands, and
+  in-house growth/marketing teams. Builds and runs Meta / Google /
+  TikTok / LinkedIn / Reddit campaigns; designs creative testing
+  matrices (creative x audience x offer); models ROAS at SKU level;
+  debugs attribution (UTM hygiene, view-through, click-through, MMM,
+  multi-touch); ships server-side tracking via GTM-S / Stape; wires
+  Meta CAPI / TikTok Events API / Google Enhanced Conversions for
+  iOS-14.5+ signal recovery; handles SKAN 4.0 + Privacy Sandbox for
+  mobile; runs MMM via Google Meridian (with GeoX) / Meta Robyn /
+  Recast / lightweight_mmm / PyMC-Marketing; audits Meta Business
+  Manager + Google Ads accounts. Three convictions: creative is 70%
+  of paid perf (bid optimization is 10%); audience pyramid (cold ->
+  warm -> hot) beats single-funnel; attribution is rarely "right" --
+  pick a model and stay consistent. Defers to marketing-agent for
+  broad marketing, growth-agent for retention/loop depth,
+  seo-specialist for organic + AEO, data-analyst for attribution
+  math depth, video-creator for video production.
+tags:
+  - ads
+  - paid
+  - performance-marketing
+  - meta
+  - google-ads
+  - tiktok-ads
+  - linkedin-ads
+  - reddit-ads
+  - attribution
+  - mmm
+  - skan
+  - capi
+  - gtm-server-side
+  - roas
+  - creative-testing
+  - retargeting
+  - dpa
+  - pmax
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 22 bundled SOTA skill packs (Round 2 will populate SKILL.md content).
+# Each closes a documented use case from reference/SOTA_USE_CASES.md.
+enabled_skills:
+  # ── Bundled (22) — 2026 SOTA performance-ads skill packs ──────────────
+  - meta-ads-campaign-structure-cbo-abo               # Meta CBO vs ABO, audience pyramid, bid strategy
+  - google-ads-performance-max                        # PMax + standard Search + tROAS + asset groups
+  - tiktok-ads-spark-promote                          # Spark Ads + Promote + Smart Performance Campaign
+  - linkedin-ads-abm-campaigns                        # Matched Audiences + Sponsored Content + Lead Gen Forms
+  - reddit-ads-niche-targeting                        # Subreddit targeting + Reddit CAPI
+  - audience-pyramid-cold-warm-hot                    # Cold/warm/hot/LAL pyramid spec per platform
+  - creative-testing-matrix-design                    # Creative x audience x offer matrix + z-test significance
+  - creative-brief-authoring-for-designers            # Structured brief for designers / video team
+  - ad-fatigue-rotation-strategy                      # Frequency/CPM/CTR thresholds + Madgicx/Revealbot rules
+  - roas-sku-level-modeling                           # Per-SKU ROAS via Triple Whale or PostgreSQL warehouse
+  - attribution-debugging-utm-hygiene                 # UTM convention enforcement, VTC/CTC, Funnel.io / Improvado
+  - server-side-tracking-gtm-s-stape                  # GTM Server-side on Stape + CAPI forwarding + dedup
+  - meta-capi-tiktok-events-google-enhanced-conversions  # Server-side conversion APIs + AEM priority ranking
+  - mmm-meridian-robyn-recast-pymc                    # Meridian + GeoX / Robyn / Recast / lightweight_mmm / PyMC-Marketing
+  - mobile-attribution-skan-appsflyer-adjust-branch   # SKAN 4.0 conversion-value schema + MMP integration
+  - dynamic-product-feeds-shopping-dpa                # Meta Catalog + Google Merchant Center + DPA + PMax retail
+  - retargeting-customer-list-match                   # Customer Match / Custom Audiences / Matched Audiences
+  - geo-targeting-dayparting                          # Native geo + Google ad_schedule + Revealbot dayparting
+  - account-audit-meta-google                         # check_signal_health + get_recommendations + structured audit
+  - competitor-ad-spying-meta-ad-library              # Meta Ad Library API + Google Ads Transparency scrape
+  - ai-creative-generation-adcreative-smartly         # AdCreative.ai + Smartly + Bannerbear + Creatify
+  - landing-page-cro-coordination                     # Message match + PageSpeed Insights + VWO/Hotjar/Maze handoff
+
+  # ── CraftBot defaults (20) — already on recipient's install ───────────
+  # Universal verb + plumbing.
+  - cli-anything                                      # universal verb for OSS Python libs (Robyn, Meridian, PyMC-Marketing, lightweight_mmm) + REST APIs (LinkedIn Marketing, Reddit Ads, Stape, Funnel.io, Improvado, AppsFlyer, Adjust, Triple Whale)
+  - file-format                                       # cross-format conversion (CSV/JSON/XLSX feeds)
+  - file-organizer                                    # campaign asset / creative library organization
+
+  # Document output (audit decks, creative briefs, weekly reports).
+  - xlsx                                              # creative testing matrix, ROAS by SKU, audit findings, MMM input CSV
+  - docx                                              # creative briefs, account audits, attribution debugging memos
+  - pptx                                              # weekly performance review, MMM result deck, account audit deck
+  - pdf                                               # client deliverables, audit findings, MMM report
+  - google-sheets                                     # collaborative spreadsheet (creative testing matrix, weekly KPI tracker)
+
+  # Web + competitive research, landing page UX scan.
+  - playwright-mcp                                    # browse competitor LPs, ad-creative reverse-image, landing-page UX scan
+  - firecrawl                                         # structured scrape of Google Ads Transparency Center + competitor LPs
+  - brave-search                                      # SERP scan for branded competitor terms
+  - tavily-search                                     # multi-engine research for SOTA tool updates
+  - web-search-plus                                   # multi-engine research fallback
+
+  # Ideation, planning, cross-check.
+  - brainstorming                                     # creative hook ideation, audience hypothesis generation
+  - concise-planning                                  # test plan + measurement plan + budget plan
+  - ask-questions-if-underspecified                   # clarify spend / objective / target CPA / ROAS before building
+  - audit-context-building                            # rigorous discovery (pixel/CAPI health, account history, prior tests)
+  - gemini                                            # second-opinion model for creative-brief review
+
+  # Version control for campaign config + tracking-plan history.
+  - git-commit                                        # track campaign config + UTM convention + GTM-S container changes
+
+# MCP servers — every name must exist in app/config/mcp_config.json
+# (verify.py checks this). The recipient enables each in their MCP
+# settings after importing the .craftbot bundle and fills in any
+# required API keys / OAuth.
+mcp_servers:
+  - filesystem                                        # read/edit campaign config, audit reports, creative briefs
+
+  # ── Paid ads (primary surface) ────────────────────────────────────────
+  - facebook-ads-mcp                                  # PRIMARY: Meta Ads (campaigns/adsets/ads/catalog/Advantage+/signal health/AEM)
+  - tiktok-ads-mcp                                    # TikTok Marketing API (campaigns/ad groups/Spark Ads/custom audiences)
+
+  # ── Organic context for paid (Ad Library scrape, organic learnings) ──
+  - facebook-mcp-server                               # Meta Ad Library access via Page context
+  - twitter-mcp                                       # X Ads via X Ads API (cli-anything fallback) + organic context
+  - reddit-mcp                                        # organic Reddit context for niche targeting; Reddit Ads via cli-anything
+  - tiktok-mcp                                        # organic TikTok context for Spark Ads partner selection
+
+  # ── Analytics (conversion, funnel, retention crossover) ───────────────
+  - posthog-mcp                                       # conversion / funnel / cohort HogQL for landing page CRO + post-click analysis
+  - mixpanel-mcp                                      # alt product analytics + retention
+  - amplitude-mcp                                     # alt product analytics + behavioral cohorts (e-com / DTC default)
+
+  # ── Knowledge base + comms ────────────────────────────────────────────
+  - notion-mcp                                        # creative library + experiment results DB + tracking-plan storage
+  - gmail-mcp                                         # design-team brief send + budget approval + audit report delivery
+  - slack-mcp                                         # ad-fatigue alerts + auto-stop notifications + spend anomaly alerts
+
+  # ── Data warehouse (cross-platform reporting + ROAS @ SKU + MMM) ──────
+  - postgresql-mcp                                    # warehouse for Triple Whale / Northbeam / Funnel.io / Improvado pipes + ROAS@SKU joins + MMM input CSV
+
+  # ── Research / scraping (competitor ads, LP intel) ────────────────────
+  - firecrawl-mcp                                     # Google Ads Transparency Center scrape + competitor LP scrape
+  - brightdata-mcp                                    # paid SERP/web data fallback for Pathmatics-style intel
+
+  # ── Translation (multi-market ad copy) ────────────────────────────────
+  - deepl-mcp                                         # multi-language ad copy + LP translation for international campaigns
+
+  # ── Creative gen (static + image + AI video handoff) ──────────────────
+  - canva-mcp                                         # branded creative template instantiation (carousel, story, feed)
+  - figma-mcp                                         # brand-system fidelity check + asset export to platforms
+  - imagegen-mcp                                      # AI image gen for cold-traffic creative variants
+  - stability-ai-mcp                                  # alt AI image gen
+  - replicate-mcp                                     # AI video gen handoff path to video-creator (Sora/Veo/Kling/Flux)
+  - elevenlabs-mcp                                    # voiceover for video ad creative
+
+  # ── Landing page UX + CWV pre-launch check ────────────────────────────
+  - playwright-mcp                                    # programmatic LP UX scan + mobile viewport check
+  - browserbase-mcp                                   # remote browser for LP screenshot + form interaction audit
+
+sources:
+  - name: Official Meta Ads MCP (mcp.facebook.com/ads, GA April 29 2026)
+    url: https://pasqualepillitteri.it/en/news/1707/official-meta-ads-mcp-claude-29-tools-2026
+    used_for: Meta campaign structure, CBO/ABO, audience pyramid, bid strategy, Advantage+ Shopping, signal health, AEM event priority
+  - name: Official Google Ads MCP
+    url: https://developers.google.com/google-ads/api/docs/developer-toolkit/mcp-server
+    used_for: PMax + standard Search, GAQL queries, mutation enablement, audience signals, recommendations API
+  - name: TikTok Marketing API
+    url: https://business-api.tiktok.com/portal/docs?id=1739585377598978
+    used_for: TikTok Ads campaigns / ad groups / Spark Ads / Smart Performance Campaign / Custom Audiences
+  - name: LinkedIn Marketing API
+    url: https://learn.microsoft.com/en-us/linkedin/marketing/integrations/ads/advertising-targeting/create-and-manage-segments
+    used_for: ABM Matched Audiences upload, Sponsored Content campaign create, Lead Gen Forms, Message Ads
+  - name: Reddit Ads API + Conversion API
+    url: https://ads-api.reddit.com/docs/v3/
+    used_for: Reddit Ads campaign create, subreddit targeting, Reddit Conversion API for iOS signal recovery
+  - name: Meta Conversions API (CAPI)
+    url: https://developers.facebook.com/docs/marketing-api/conversions-api
+    used_for: Server-side conversion events to recover ATT/cookie loss, Aggregated Event Measurement (AEM) 8-event ranking
+  - name: TikTok Events API
+    url: https://business-api.tiktok.com/portal/docs?id=1739585696931842
+    used_for: Server-side conversion events for TikTok pixel signal recovery + advanced matching
+  - name: Google Enhanced Conversions (Web + Leads)
+    url: https://developers.google.com/google-ads/api/docs/conversions/upload-clicks
+    used_for: Enhanced Conversions upload, GCLID + email/phone hash matching, offline conversion import
+  - name: Google Tag Manager Server-side + Stape
+    url: https://developers.google.com/tag-platform/tag-manager/server-side
+    used_for: Server-side GTM container, first-party cookies, CAPI forwarding, event dedup, request routing
+  - name: Stape.io
+    url: https://stape.io/blog/google-tag-manager-server-side-setup
+    used_for: Managed server-side GTM hosting, custom domain, CAPI gateway templates
+  - name: Google Meridian (May 2026, with GeoX)
+    url: https://developers.google.com/meridian
+    used_for: SOTA MMM with geo-incrementality (GeoX), reach/frequency response curves, Bayesian inference
+  - name: Meta Robyn
+    url: https://facebookexperimental.github.io/Robyn/
+    used_for: OSS R-based MMM with Bayesian + Hyperparameter optimization + budget allocator
+  - name: PyMC-Marketing
+    url: https://www.pymc-marketing.io/
+    used_for: Python-native Bayesian MMM + customer lifetime value modeling
+  - name: AppsFlyer SKAN 4.0 guide
+    url: https://www.appsflyer.com/resources/guides/skadnetwork-4/
+    used_for: SKAN 4.0 conversion-value schema (4 coarse + 6 fine + 3 postback windows), MMP integration patterns
+  - name: Triple Whale
+    url: https://www.triplewhale.com
+    used_for: Shopify-native blended-ROAS, SKU-level attribution, multi-touch path analysis (paid SaaS)
+  - name: Northbeam
+    url: https://www.northbeam.io/
+    used_for: DTC multi-touch attribution, blended-ROAS, channel incrementality (paid SaaS)
+  - name: Funnel.io
+    url: https://funnel.io/api-docs
+    used_for: Cross-platform ad data normalization, daily warehouse export, dashboard data pipe
+  - name: Madgicx
+    url: https://www.madgicx.com/blog/facebook-ad-fatigue
+    used_for: Meta automation rules, ad-fatigue detection, auto-rotation, Advantage+ optimization
+  - name: Revealbot
+    url: https://revealbot.com/blog/facebook-dayparting
+    used_for: Cross-platform automation rules, Meta dayparting (post-native-deprecation), threshold-based ad pausing
+  - name: AdCreative.ai API
+    url: https://www.adcreative.ai/api
+    used_for: AI static + carousel ad creative generation, banner generator, brand-consistent variants
+  - name: Smartly.io
+    url: https://www.smartly.io/products
+    used_for: Cross-platform programmatic creative + auto-optimization, Dynamic Product Ads, enterprise creative scaling
+  - name: Meta Ad Library API
+    url: https://www.facebook.com/ads/library/api
+    used_for: Competitor ad spying, creative concept reference, brand-monitoring (free, public, commercial-open)
+  - name: Google Ads Transparency Center
+    url: https://adstransparency.google.com/
+    used_for: Competitor Google Ads intel via scrape (firecrawl-mcp), public ad copy + display creative + landing page
+  - name: Smartly creative testing framework
+    url: https://www.smartly.io/blog/creative-testing-framework
+    used_for: Creative testing matrix design (creative x audience x offer), cell sizing, statistical significance

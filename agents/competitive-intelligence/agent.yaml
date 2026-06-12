@@ -1,0 +1,253 @@
+# Competitive Intelligence — CraftBot agent definition
+#
+# Every field traces back to reference/SOTA_USE_CASES.md or to a default
+# CraftBot capability. See reference/INVENTORY.md for sources, SOURCES.md
+# for section→source map.
+#
+# Tier: specialized — narrower than research-analyst (parent), focused on
+# continuous competitor monitoring + battlecard + win/loss + sales adoption.
+
+name: Competitive Intelligence
+slug: competitive-intelligence
+category: research
+tier: specialized
+description: >
+  Competitive intelligence operator for B2B / SaaS / consumer companies.
+  Runs continuous competitor monitoring across pricing pages, changelogs,
+  ad libraries, social, reviews, hiring, M&A, and patents; authors and
+  maintains battlecards in sync with win/loss data; ships kill sheets,
+  war-game playbooks, and deal-level CI cards into Slack and Salesforce.
+  Defaults to ethical, public-source-only methodology (SCIP code-compliant)
+  — never social-engineers, scrapes behind logins, or pretexts.
+  Specialist sibling of research-analyst (parent). Hand off broader
+  scientific lit, market sizing, and trend-fan-out to research-analyst.
+tags:
+  - competitive-intelligence
+  - battlecards
+  - win-loss-analysis
+  - kill-sheets
+  - intent-data
+  - competitor-monitoring
+  - sales-enablement
+  - product-marketing
+  - klue-crayon-kompyte
+  - scip-ethical-ci
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time. Build script looks up names in
+# agents/competitive-intelligence/skills/ (bundled) first, then top-level skills/.
+enabled_skills:
+  # ── Bundled (23) — SOTA CI skill packs we ship with this agent ─────────
+  # Round 2 (runtime build) creates each SKILL.md. Names referenced here
+  # match folders under agents/competitive-intelligence/skills/<name>/.
+  - continuous-competitor-monitoring-klue-kompyte-crayon  # daily monitoring across 8+ source types; Klue/Crayon/Kompyte if paid, free self-build via Visualping + ai-news + reddit + GDELT
+  - competitor-product-teardown-depth                     # in-product walkthrough + IA + state machine + activation-moment timing
+  - feature-parity-tracking                               # YAML/CSV per-feature matrix with versioned diffs + changelog watch
+  - competitor-pricing-tier-comparison                    # public pricing-page scrape + per-tier grid + diff history + Reddit/G2 chatter overlay
+  - win-loss-ci-integration-klue-insider                  # Klue Win/Loss path + self-build Whisper + LLM coding + Salesforce loop
+  - battlecard-authoring-maintenance                      # per-competitor battlecard template + refresh-on-signal rules
+  - competitor-messaging-tracking-diff                    # weekly homepage + LP diff with positioning/claims/pricing/category-language classifier
+  - kill-sheet-objection-rebuttals                        # review-mined objections + PMM-approved rebuttals + quarterly refresh
+  - war-games-competitive-mock-scenarios                  # pre-mortem attack-vector generation + red-team response playbook
+  - intent-data-bombora-g2-zoominfo                       # Bombora category + G2 vendor-specific + ZoomInfo + 6sense Surge integration
+  - competitor-hiring-intel-linkedin-sales-nav            # LinkedIn Sales Nav saved-search + careers-page scrape + Glassdoor signal
+  - competitor-tech-stack-builtwith-wappalyzer            # BuiltWith historical + Wappalyzer fingerprint + DetectZeStack + python-Wappalyzer
+  - competitor-ad-pathmatics-spyfu-semrush                # free official ad libraries first + SpyFu / Pathmatics paid uplift
+  - competitor-seo-ahrefs-semrush-organic                 # Ahrefs backlinks + SEMrush keywords + Similarweb traffic + DataForSEO SERP
+  - competitor-app-intel-sensor-tower-data-ai             # Sensor Tower (post-data.ai merger) + Apptopia + Appfigures
+  - competitor-review-g2-trustradius-capterra             # Apify Review Intelligence + PageCrawl velocity + post-G2-Capterra-merger landscape
+  - competitor-pricing-page-visualping-distill            # element-level pricing-page diff + webhook → Slack
+  - competitor-m-a-funding-crunchbase-pitchbook           # Crunchbase + PitchBook + Owler + CB Insights + SEC EDGAR fallback
+  - ci-program-metrics-adoption-rate                      # battlecard open-rate + competitive win-rate + CI-influenced revenue
+  - ci-delivery-slack-crm-klue-insider                    # in-CRM cards + Slack feed + weekly digest tri-layer delivery
+  - ethical-public-source-methodology                     # SCIP Code of Ethics enforcement + per-deliverable provenance footer
+  - hot-deals-ci-deal-level                               # deal-specific micro-battlecard on Salesforce competitor-field trigger
+  - analyst-relations-watching-gartner-forrester          # MQ / Wave / IDC / Constellation diff + analyst-quote citation tracking
+
+  # ── CraftBot defaults (24) — already on recipient's install ────────────
+  # Web research, scraping, output formats, planning, CRM, comms.
+  - cli-anything                       # universal verb for installing/running SOTA tools
+  - file-format
+  - file-organizer
+  - using-git-worktrees
+  - playwright-mcp                     # interact with JS-rendered pricing / SaaS in-product
+  - brave-search                       # web search (privacy-respecting)
+  - duckduckgo-search                  # alt web search
+  - tavily-search                      # AI-optimized web search for triangulation
+  - web-search-plus                    # broader multi-engine search
+  - firecrawl                          # structured web scraping
+  - ai-news-collectors                 # competitor press / release feeds
+  - reddit-api                         # community signal + pricing chatter
+  - linkedin                           # competitor hiring intel + Sales Nav export
+  - salesforce-api                     # deal-level CI write-back + battlecard surface
+  - slack                              # CI delivery feed + weekly digest
+  - notion                             # battlecard storage + per-competitor pages
+  - better-notion                      # higher-quality Notion ops (preferred)
+  - gmail                              # weekly digest send + press-release inbox
+  - docx                               # branded battlecard / kill-sheet / report export
+  - pdf                                # PDF deliverables
+  - pptx                               # QBR slides + war-game playbook
+  - xlsx                               # feature-parity + pricing-tier comparison matrix
+  - markdown-converter                 # source extraction for messaging diff
+  - brainstorming                      # war-game divergent attack-vector generation
+  - concise-planning                   # CI program planning + per-quarter roadmap
+  - audit-context-building             # before-deliverable context gathering
+  - ask-questions-if-underspecified    # clarify CI scope before kicking off monitoring
+  - git-commit                         # version-control battlecards + matrices
+  - github                             # OSS competitor repo intel
+  - github-api                         # deeper GitHub queries
+
+# MCP servers — every name must exist in app/config/mcp_config.json.
+# Recipient enables each in CraftBot's MCP settings and adds API keys per provider.
+mcp_servers:
+  - filesystem                         # always
+
+  # ── Authoritative public data sources ───────────────────────────────────
+  - sec-edgar-mcp                      # SEC EDGAR — free public-company financials, M&A filings
+  - uspto-mcp                          # USPTO patents — competitor R&D direction signal
+
+  # ── Scraping + JS-rendered pages ───────────────────────────────────────
+  - firecrawl-mcp                      # structured scraping for pricing / case studies / changelogs / reviews
+  - brightdata-mcp                     # paid SERP / proxy for hard-to-reach public pages
+  - playwright-mcp                     # JS-rendered LP / pricing toggles / in-product walkthroughs
+
+  # ── Social + community signal ──────────────────────────────────────────
+  - reddit-mcp                         # free community-signal fallback for social listening
+  - twitter-mcp                        # X / Twitter free fallback
+  - youtube-mcp                        # competitor video / demo / earnings call ingestion
+
+  # ── Behavioral / CI-program metrics ────────────────────────────────────
+  - posthog-mcp                        # own-product analytics for CI-influenced metrics
+  - mixpanel-mcp                       # alt product analytics
+  - amplitude-mcp                      # alt behavioral cohorts
+  - postgresql-mcp                     # warehouse-side funnel data for CI program metrics
+
+  # ── CI delivery layer ─────────────────────────────────────────────────
+  - notion-mcp                         # battlecard storage + per-competitor pages
+  - slack-mcp                          # real-time CI feed + weekly digest
+  - gmail-mcp                          # weekly digest send + press-feed subscription
+  - linear-mcp                         # CI program task tracking
+
+  # ── OCR + translation for foreign-language CI ──────────────────────────
+  - gemini-ocr-mcp                     # OCR competitor screenshots / scanned earnings reports
+  - mistral-ocr-mcp                    # alt OCR engine
+  - deepl-mcp                          # translate foreign-language competitor sources
+
+  # ── Dataset / benchmark access (limited use) ───────────────────────────
+  - huggingface-mcp                    # open benchmark datasets where competitor releases models
+
+sources:
+  - name: Klue — Competitive Intelligence Tools for B2B Tech Teams 2026
+    url: https://klue.com/topics/competitive-intelligence-tools-b2b-software
+    used_for: continuous monitoring, battlecard delivery, win-loss CI, CI delivery to sales
+  - name: Klue vs Crayon (2026) pricing
+    url: https://parano.ai/blog/klue-vs-crayon
+    used_for: tier comparison, CRM integration depth, paid-CI-platform sizing
+  - name: Klue Win-Loss × Salesforce integration
+    url: https://klue.com/blog/win-loss-battlecards-salesforce
+    used_for: win/loss-to-battlecard pipeline, Salesforce data card pattern
+  - name: Klue × Salesforce integration playbook
+    url: https://klue.com/salesforce
+    used_for: deal-level CI surface, in-opportunity battlecard delivery
+  - name: Autobound — 15 CI Tools Compared 2026
+    url: https://www.autobound.ai/blog/top-15-competitive-intelligence-tools-2026
+    used_for: continuous-monitoring source coverage (Crayon depth — websites/social/jobs/patents/app reviews/pricing pages)
+  - name: Visualping — 8 Best Distill Alternatives
+    url: https://visualping.io/blog/distill-alternatives
+    used_for: pricing-page change detection, element-level monitoring patterns
+  - name: UptimeRobot — 9 Best Website Change Monitoring 2026
+    url: https://uptimerobot.com/knowledge-hub/monitoring/9-best-website-change-monitoring-tools-compared/
+    used_for: Visualping / Distill.io / ChangeTower / Wachete capabilities + pricing
+  - name: GrowthSpree — Buyer Intent Signals 2026 (Bombora vs G2 vs ZoomInfo)
+    url: https://www.growthspreeofficial.com/blogs/buyer-intent-signals-bombora-g2-zoominfo-b2b-2026
+    used_for: intent-data CI sourcing, per-provider mechanism + pricing
+  - name: ZoomInfo — 15 Best Buyer Intent Data Platforms 2026
+    url: https://pipeline.zoominfo.com/sales/intent-data-platform
+    used_for: ZoomInfo + 6sense + Demandbase + TrustRadius Intent coverage
+  - name: BuiltWith vs Wappalyzer comparison 2026
+    url: https://prospeo.io/s/builtwith-vs-wappalyzer
+    used_for: competitor tech-stack monitoring, market-intelligence vs browse-time choice
+  - name: Tech-stack detection guide 2026
+    url: https://pasqualepillitteri.it/en/news/2424/how-to-detect-website-tech-stack-wappalyzer-builtwith
+    used_for: DetectZeStack / TechPeeker / python-Wappalyzer / Apify Tech Stack Detector
+  - name: Apify Review Intelligence — G2/Trustpilot/Glassdoor/Capterra
+    url: https://apify.com/ramsford/review-intelligence-agent
+    used_for: competitor review monitoring API path
+  - name: Aikenhouse — Best Software Review Platforms 2026
+    url: https://www.aikenhouse.com/post/the-best-software-review-platforms-in-2026
+    used_for: G2 + Capterra + Software Advice + GetApp consolidation context (Feb 2026)
+  - name: PageCrawl — G2/Trustpilot/Capterra review-velocity alerts
+    url: https://pagecrawl.io/blog/trustpilot-g2-capterra-review-velocity-alerts
+    used_for: review-velocity alerting pattern
+  - name: SimilarWeb / SEMrush / Ahrefs data sources
+    url: https://onlysearch.ai/blog/competitive-intel-data-sources
+    used_for: competitor SEO + traffic methodology + accuracy bands
+  - name: Semrush vs Similarweb 2026
+    url: https://www.stylefactoryproductions.com/blog/semrush-vs-similarweb
+    used_for: SEO intel platform selection
+  - name: Sensor Tower 2026 profile (post-data.ai acquisition)
+    url: https://dexteragent.ai/companies/sensor-tower-1771769454
+    used_for: competitor app intel — Sensor Tower + Apptopia + data.ai post-merger
+  - name: Slashdot Apptopia vs Sensor Tower vs data.ai 2026
+    url: https://slashdot.org/software/comparison/Apptopia-vs-Sensor-Tower-vs-data.ai-Intelligence/
+    used_for: app-intel platform selection
+  - name: Pathmatics (Sensor Tower) digital ad intel
+    url: https://sensortower.com/product/digital-advertising/pathmatics
+    used_for: cross-channel ad spend + creative tracking
+  - name: AdLibrary — Best Ad Spy API 2026
+    url: https://adlibrary.com/guides/best-ad-spy-api
+    used_for: multi-platform ad library API options
+  - name: SpyFu — competitor keyword + ad research
+    url: https://www.spyfu.com/
+    used_for: Google search ads history
+  - name: Harmonic.ai — Crunchbase alternatives 2026
+    url: https://harmonic.ai/blog/top-crunchbase-competitors-and-alternatives-in-2026
+    used_for: funding + M&A data source comparison
+  - name: Otio — Crunchbase vs PitchBook
+    url: https://otio.ai/blog/crunchbase-vs-pitchbook
+    used_for: VC / PE intel depth + pricing comparison
+  - name: LinkedIn Sales Navigator filter guide 2026
+    url: https://sbl.so/linkedin/sales-navigator-filters-guide/
+    used_for: competitor hiring intel via Sales Nav advanced filters
+  - name: DemandSense — LinkedIn Sales Nav filters
+    url: https://www.demandsense.com/blog/how-to-use-linkedin-sales-navigator
+    used_for: Department-headcount-growth filter, Technologies-Used filter
+  - name: AlphaSense (with Sentieo) — market + competitive intelligence
+    url: https://www.alpha-sense.com/
+    used_for: analyst-grade financial CI, Gartner CMI MQ Leader context
+  - name: AlphaSense × Sentieo merger
+    url: https://www.alpha-sense.com/tr-alphasense-and-sentieo/
+    used_for: financial CI consolidation context
+  - name: Pulsar Platform — Best Social Listening Tools 2026
+    url: https://www.pulsarplatform.com/blog/2025/best-social-listening-tools-2026
+    used_for: social-listening platform comparison
+  - name: Syncly — Brandwatch vs Meltwater vs Talkwalker 2026
+    url: https://syncly.app/blog/brandwatch-vs-meltwater-vs-talkwalker
+    used_for: enterprise social-listening selection
+  - name: SCIP — Ethical Intelligence (Code of Ethics)
+    url: https://www.scip.org/page/Ethical-Intelligence
+    used_for: public-source-only methodology, ethics enforcement
+  - name: SCIP — Implementing a CI Ethics Policy
+    url: https://www.scip.org/page/Implementing-Competitive-Intelligence-Ethics-Policy
+    used_for: per-deliverable provenance footer pattern
+  - name: SCIP code-of-ethics practical guide
+    url: https://www.aqute.com/blog/is-it-impossible-to-stick-to-scips-code-of-ethics
+    used_for: ToS-sensitive sources flagging (Glassdoor, gated communities)
+  - name: Gartner MQ + Forrester Wave evaluation context
+    url: https://www.mendix.com/evaluation-guide/gartner-forrester-mendix/
+    used_for: analyst-relations watching methodology
+  - name: Gartner Magic Quadrant + Critical Capabilities
+    url: https://www.gartner.com/en/research/magic-quadrant
+    used_for: MQ structure + dimension tracking
+  - name: Forrester Wave Data Quality 2026 (example)
+    url: https://www.ataccama.com/blog/the-forrester-wave-data-quality-solutions-2026-how-to-read-it-and-why-it-matters-now
+    used_for: Wave scoring methodology reference
+  - name: AutoBound — 15 CI tools compared 2026
+    url: https://www.autobound.ai/blog/top-15-competitive-intelligence-tools-2026
+    used_for: cross-platform CI tool stack reference
+  - name: Best Buyer Intent Data Platforms Enterprise Sales 2026
+    url: https://www.autobound.ai/blog/best-intent-data-platforms
+    used_for: enterprise intent-data selection

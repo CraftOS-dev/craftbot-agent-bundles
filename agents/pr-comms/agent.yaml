@@ -1,0 +1,242 @@
+# PR & Communications — CraftBot agent definition
+#
+# GENERAL TIER. Covers the earned-media surface end-to-end: media relations,
+# press releases, journalist outreach, crisis comms, executive thought
+# leadership, awards/lists, podcast tours, brand reputation, AEO/GEO citation
+# tracking, and analyst relations. Adjacent to `marketing-agent` (which owns
+# paid + SEO + email + growth) and `ceo-agent` (which owns the exec voice on
+# crisis statements).
+#
+# Every field traces back to reference/SOTA_USE_CASES.md.
+# See reference/INVENTORY.md for sources and SOURCES.md for the
+# section→source map.
+
+name: PR & Communications
+slug: pr-comms
+category: communications
+tier: general                   # general: covers earned-media surface end-to-end
+description: >
+  Senior PR + communications operator. Writes press releases (AP/PRSA format),
+  builds journalist media lists from Muck Rack + Cision + Roxhill, runs cold +
+  warm + embargoed pitches with Claude personalization, executes 24/48/72-hour
+  crisis playbooks across stakeholder groups, drafts executive thought
+  leadership (LinkedIn newsletters + Substack + op-eds + X commentary), submits
+  to Inc/Forbes/Fast Co awards via `playwright-mcp` form automation, books
+  podcast tours via PodPitch, tracks brand reputation across Brand24/Brandwatch
+  + free fallbacks, monitors AI search citation share via AthenaHQ/Profound,
+  and runs Gartner/Forrester/IDC analyst briefings. Three convictions: (1)
+  reporters owe you nothing — build relationships before you need them; (2)
+  on-record / off-record / on-background are not interchangeable; (3) crisis
+  comms start with the truth. Defers paid ads/SEO/email to `marketing-agent`,
+  exec-voice crisis decisions to `ceo-agent`, customer-facing incident comms to
+  `customer-support-agent`, and Reg-FD investor disclosure to
+  `investor-relations`.
+tags:
+  - pr
+  - communications
+  - media-relations
+  - press-release
+  - crisis-comms
+  - thought-leadership
+  - awards
+  - podcast-tours
+  - analyst-relations
+  - brand-reputation
+  - aeo
+  - geo
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/pr-comms/skills/<name>/   (bundled — Round 2 creates these)
+#   2. <repo>/skills/<name>/            (CraftBot default — already on recipient's install)
+enabled_skills:
+  # ── Bundled (19) — 2026 SOTA PR + comms skill packs (Round 2 generates) ───
+  - press-release-writing-distribution       # AP/PRSA format + PR Newswire/Business Wire/GlobeNewswire APIs
+  - media-list-muck-rack-cision              # Muck Rack API + Cision + Roxhill → Notion CRM
+  - journalist-outreach-cold-warm-embargoed  # Personalization + Smartlead/Lemlist warmup + embargo discipline
+  - media-training-spokesperson-prep         # Journalist research + Q&A doc + mcp-tts drill
+  - crisis-comms-24-48-72-hour-playbook      # Pre-drafted templates + multi-stakeholder + multi-channel
+  - executive-thought-leadership-linkedin-substack # LinkedIn Newsletters API + Substack cross-post + Vale
+  - award-list-submissions-inc-forbes-fast-co # playwright-mcp form fill from Notion criteria DB
+  - podcast-tour-booking-for-execs           # PodPitch + Podchaser + episode-cited pitches
+  - op-ed-contributed-article-placement      # Outlet-specific pitching + draft-to-spec
+  - haro-qwoted-featured-sme-quotes          # Featured.com + Qwoted + Source of Sources + #JournoRequest
+  - brand-reputation-monitoring-brandwatch-meltwater # Paid stack + free fallback wire-up
+  - online-reputation-mgmt-review-responses  # Trustpilot/G2/Glassdoor reply scaffolding
+  - conference-speaking-submission           # Sessionize/Papercall/Pretalx CFP discovery + abstract
+  - pr-campaign-measurement-share-of-voice   # Outlet-tier rubric + EMV calc + sentiment aggregate
+  - analyst-relations-gartner-forrester-idc  # Briefing program + Magic Quadrant submission
+  - embargoed-product-launches               # Embargo + NDA + break-monitoring
+  - dark-social-tracking                     # Discord/Slack/private community monitoring
+  - reddit-hn-ama-show-and-tell              # AMA scheduling + Show HN launch + comment monitoring
+  - customer-reference-program-pr            # Notion reference DB + journalist→customer match
+
+  # ── CraftBot defaults (22) — already on recipient's install ──────────────
+  # Universal verb for paid wire APIs / Muck Rack / Brand24 / Profound.
+  - cli-anything                             # paid API access + uvx tooling
+  - file-format
+  - file-organizer
+  - using-git-worktrees                      # version crisis statements + holding-statement variants
+
+  # Document output for press releases, briefing decks, media kits.
+  - docx                                     # press release exports + analyst briefing one-pagers
+  - pdf                                      # media kits, case studies, official statements
+  - pptx                                     # analyst briefing decks + investor PR decks
+
+  # Web research, CFP + award + HN form submission.
+  - playwright-mcp                           # Inc/Forbes/Fast Co awards + Sessionize/Papercall CFP + HN
+  - firecrawl                                # competitor coverage, journalist article cross-check, CFP discovery
+  - brave-search                             # free brand mention monitoring fallback
+  - duckduckgo-search                        # alt search engine
+
+  # Ideation + planning.
+  - brainstorming                            # crisis angles, op-ed hooks, AMA topics
+  - concise-planning                         # campaign brief, launch comms plan
+  - ask-questions-if-underspecified          # clarify before pitching
+  - audit-context-building                   # gather company history + prior coverage rigorously
+
+  # Second-opinion + sentence-level editing.
+  - gemini                                   # second-opinion model on crisis statement / press release
+  - humanize-ai-text                         # strip AI-detection signals from cold pitches
+  - writing-assistant                        # sentence-level edit pass on releases/op-eds
+
+  # Knowledge base + version control on statements.
+  - notion                                   # editorial calendar + media-list CRM + journalist log
+  - git-commit                               # track crisis-statement iterations
+  - github                                   # collaborative review on PRs to comms repo
+  - summarize                                # summarize coverage corpus for client report
+
+# MCP servers — every name verified in app/config/mcp_config.json
+# (157-server catalog as of June 2026).
+mcp_servers:
+  - filesystem                               # read/edit press releases, briefs, holding statements
+
+  # ── Outreach + distribution ─────────────────────────────────────────────
+  - gmail-mcp                                # journalist 1:1 pitches, embargo distribution, HARO replies
+  - outlook-mcp                              # recipients on Microsoft email infra
+  - whatsapp-mcp                             # pitch via WhatsApp (regional EU/LatAm/Asia)
+  - courier-mcp                              # multi-channel transactional fanout if needed
+
+  # ── Knowledge base / media-list CRM / journalist relationship log ───────
+  - notion-mcp                               # media list, journalist log, award deadlines, customer references, AEO citation tracker
+
+  # ── Social posting + monitoring (earned-media surface) ──────────────────
+  - twitter-mcp                              # #JournoRequest, real-time POV thread, crisis comms thread
+  - reddit-mcp                               # AMA scheduling, subreddit monitoring, mod outreach
+  - linear-mcp                               # crisis comms task tracking (optional)
+
+  # ── Internal coordination (crisis comms internal alerts, briefings) ─────
+  - slack-mcp                                # crisis alert, internal coordination
+  - ms-teams-mcp                             # recipient internal coord on Microsoft side
+  - zoom-mcp                                 # recorded analyst briefings, spokesperson prep sessions
+
+  # ── Research / monitoring / coverage gathering ──────────────────────────
+  - firecrawl-mcp                            # competitor coverage scraping, CFP discovery, analyst diff
+  - brightdata-mcp                           # SERP + structured scrape for paid sources without keys
+  - browserbase-mcp                          # automated browsing for embargo break monitoring
+
+  # ── Calendar + scheduling (analyst briefings, speaking, podcast booking) ─
+  - google-calendar-mcp                      # analyst briefing, speaking calendar, embargo timing
+  - google-drive-mcp                         # media kit storage, press release shared assets
+  - google-workspace-mcp                     # combined workspace ops
+
+  # ── Dark social + community ─────────────────────────────────────────────
+  - discord-mcp-full                         # dark social monitoring
+  - reddit-mcp-anon                          # public Reddit research without account
+
+  # ── Podcast + video research (PodPitch is paid; this covers research) ───
+  - youtube-mcp                              # find podcast appearances of journalists/competitors
+  - youtube-mcp-transcript                   # transcripts for prep + post-event repurposing
+
+  # ── Audio for spokesperson rehearsal + podcast prep ─────────────────────
+  - mcp-tts                                  # spokesperson audio drill
+  - elevenlabs-mcp                           # higher-quality voice for executive demo reels
+
+  # ── Design / press kit / social cards ───────────────────────────────────
+  - imagegen-mcp                             # press release imagery, social cards
+  - canva-mcp                                # press kit templates, social cards, briefing one-pagers
+  - stability-ai-mcp                         # alt AI image gen
+  - figma-mcp                                # brand-system asset export for press kits
+
+  # ── Multi-language press releases (international launches) ──────────────
+  - deepl-mcp                                # SOTA translation for press releases + pitches
+
+  # ── OCR for scanned print clippings / legacy media coverage ─────────────
+  - gemini-ocr-mcp                           # OCR print clippings
+  - mistral-ocr-mcp                          # alt OCR
+
+  # ── Sentiment / topic clustering on coverage corpus ─────────────────────
+  - huggingface-mcp                          # local sentiment + topic clustering when paid isn't available
+
+  # ── Predictive crisis signal: competitor disclosures, market signals ────
+  - sec-edgar-mcp                            # competitor 8-K disclosures for predictive crisis monitoring
+  - posthog-mcp                              # press release landing page conversion + AEO referrer tracking
+
+  # ── Playwright + Brave Search defaults are also in skills above ─────────
+  - playwright-mcp                           # award + CFP + HN form submission
+  - brave-search                             # free brand mention monitoring
+
+sources:
+  - name: Muck Rack API + Media Database
+    url: https://muckrack.com/pr-software/api
+    used_for: media list automation, journalist beat + recent coverage research, outlet-change detection
+  - name: PR Newswire vs Business Wire 2026 comparison
+    url: https://www.prezly.com/academy/business-wire-vs-pr-newswire
+    used_for: wire service selection + API integration for press release distribution
+  - name: Press release distribution pricing 2026
+    url: https://pressonify.ai/blog/press-release-distribution-pricing-comparison-2026
+    used_for: wire service cost framing, fallback distribution paths
+  - name: Featured.com (revived HARO) + Qwoted + Source of Sources alternatives
+    url: https://backlinko.com/haro-alternatives
+    used_for: SME pitching workflow, free + paid mix for journalist queries
+  - name: Qwoted HARO transition + verification process
+    url: https://www.qwoted.com/connectively-haro-is-going-away-heres-how-qwoted-can-help/
+    used_for: SME quote platform mechanics + spokesperson verification
+  - name: Prowly PR software + AI press release generator
+    url: https://prowly.com/ai-press-release-generator/
+    used_for: PR workflow software + AI-assisted press release draft
+  - name: Brand24 + Brandwatch + Meltwater brand monitoring 2026
+    url: https://brand24.com/blog/brand-monitoring-tools/
+    used_for: brand reputation monitoring + AI Share-of-Voice + sentiment velocity
+  - name: AI crisis comms 3.0 — Gutenberg
+    url: https://www.thegutenberg.com/blog/crisis-comms-3-0-ai-crisis-communication-strategies-for-navigating-misinformation/
+    used_for: 24/48/72-hour crisis playbook, deepfake misinformation detection, rapid response framework
+  - name: 5W PR predictive crisis communications
+    url: https://www.5wpr.com/new/predictive-crisis-communications-using-ai-and-real-time-data/
+    used_for: AI risk dashboard, sentiment velocity alerting, predictive crisis detection
+  - name: PR.co crisis communications playbook
+    url: https://pr.co/pr-resources/crisis-communications-playbook
+    used_for: contact tree, pre-drafted templates, embargo discipline
+  - name: PodPitch + podcast outreach 2026 buyer guide
+    url: https://www.castfox.net/blog/best-podcast-outreach-tools-2026
+    used_for: podcast tour booking, host research, episode-cited pitches
+  - name: LinkedIn + Substack 2026 thought leadership strategy
+    url: https://www.onlinewritingclub.com/p/the-linkedin-substack-strategy-for
+    used_for: executive newsletter mechanics, cross-post strategy, audience ownership
+  - name: LinkedIn thought leadership 2026 playbook
+    url: https://everything-pr.com/linkedin-thought-leadership-a-2026-playbook/
+    used_for: op-ed pitching, real-time X commentary, executive positioning
+  - name: Gartner Magic Quadrant submission process
+    url: https://spotlightar.com/blog/gartner-magic-quadrant-steps/
+    used_for: analyst relations briefing program, MQ + Wave submission workflow
+  - name: Gartner Magic Quadrant methodology
+    url: https://www.gartner.com/en/research/magic-quadrant
+    used_for: inclusion criteria framing, vendor briefing protocol
+  - name: Reddit AMA marketing 2025-2026 best practice
+    url: https://www.stackmatix.com/blog/reddit-ama-marketing
+    used_for: AMA mod outreach, spokesperson verification per subreddit, live execution + 24hr followup
+  - name: Inc 5000 + Forbes 30 Under 30 + Fast Company submission
+    url: https://www.inc.com/inc5000/apply
+    used_for: awards submission deadlines, eligibility, criteria framing
+  - name: Smartlead + Lemlist cold email tooling 2026
+    url: https://www.smartlead.ai/blog/ai-cold-email-outreach-tools
+    used_for: warmup infrastructure for high-volume pitching, personalization that doesn't read as AI
+  - name: PR outreach automation guide 2026
+    url: https://magicpitch.com/blog/email-outreach-for-pr-complete-automation-guide-2026
+    used_for: subject line discipline (<49 chars), pitch length (<150 words), beat relevance scoring
+  - name: AI thought leadership executive 2026 — Hispanic Executive
+    url: https://hispanicexecutive.com/executives-personal-newsletters-linkedin-substack/
+    used_for: executive newsletter strategy + LinkedIn-Substack interplay

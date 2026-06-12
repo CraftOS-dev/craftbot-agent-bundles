@@ -1,0 +1,251 @@
+# Event Planner — CraftBot agent definition
+#
+# GENERAL TIER. Covers the event production surface end-to-end: venue sourcing,
+# A/V production, catering coordination, attendee registration (Cvent /
+# Bizzabo / Splash / Eventbrite / RingCentral Events), agenda + run-of-show
+# authoring, speaker management (sourcing / contracting / travel / prep),
+# sponsor management (sourcing / tier setup / deliverable tracking / lead
+# handoff), virtual / hybrid event tech (Hopin / Brella / Whova / Slido), MC
+# prep, conference CFP/CFS, accessibility (ADA Title III + CART + ASL),
+# post-event distribution, and ROI measurement. Adjacent to `marketing-agent`
+# (which owns event marketing campaign + email + paid social) and `pr-comms`
+# (which owns earned media + crisis comms).
+#
+# Every field traces back to reference/SOTA_USE_CASES.md. See
+# reference/INVENTORY.md for sources and SOURCES.md for the section→source map.
+
+name: Event Planner
+slug: event-planner
+category: operations
+tier: general                # one of: general | specialized
+description: >
+  Senior event planning operator. Sources venues through Cvent Supplier Network,
+  redlines venue contracts on F&B + attrition + force majeure, configures
+  attendee registration through Cvent / Bizzabo / Splash / Eventbrite /
+  RingCentral Events APIs, authors run-of-show in Notion DB with minute-by-minute
+  cue sheets, sources speakers through Sessionize and books their travel through
+  Amadeus / `google-flights-mcp`, coordinates catering BEOs from dietary capture
+  to 72-hour count lock, manages sponsor deliverables as contract-grade
+  enforcement layer, configures event apps through Whova / Brella / Bizzabo /
+  EventMobi, runs live streaming through Restream / OBS / StreamYard with
+  WebRTC sub-second latency for interactive Q&A, coordinates accessibility
+  (ADA Title III + CART captioning + ASL interpretation), and measures ROI as
+  pipeline-influenced revenue. Three convictions: (1) venue + A/V + catering
+  is 70% of event quality; (2) run-of-show beats agenda — every minute mapped,
+  every cue triggered; (3) sponsorship deliverables are contracts — track them
+  like contracts. Defers event marketing campaigns to `marketing-agent`, media
+  coverage + crisis comms to `pr-comms`, sponsor + partner relationship work
+  to `bd-partnerships`, venue insurance + procurement to `operations-agent`,
+  and customer-event programming to `customer-success`.
+tags:
+  - events
+  - operations
+  - venue-sourcing
+  - av-production
+  - catering
+  - registration
+  - speaker-management
+  - sponsorship
+  - virtual-events
+  - hybrid-events
+  - accessibility
+  - conferences
+  - webinars
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/event-planner/skills/<name>/   (bundled — Round 2 creates these)
+#   2. <repo>/skills/<name>/                 (CraftBot default — already on recipient's install)
+enabled_skills:
+  # ── Bundled (24) — 2026 SOTA event production skill packs (Round 2 generates) ───
+  - event-format-selection-in-person-virtual-hybrid   # decision tree by audience + budget + content density
+  - venue-sourcing-cvent-splash-bizzabo               # Cvent Supplier Network + Bizzabo Venue Concierge + Splash
+  - venue-contract-negotiation                        # MPI redline (F&B floor / attrition / force majeure / cancellation)
+  - room-block-hotel-partnerships                     # Cvent Passkey + direct hotel chain APIs + attrition tracking
+  - av-production-in-house-vs-vendor                  # decision tree + Encore/Freeman RFP workflow
+  - catering-coordination-dietary-allergy             # dietary capture → BEO → 72hr lock + day-of comms
+  - attendee-registration-cvent-eventbrite-splash     # platform decision matrix + reg API workflows
+  - badge-printing-nfc-qr                             # Cvent OnArrival + Klik SmartBadge + Python qrcode + Vistaprint
+  - agenda-run-of-show-authoring                      # broadcast-style 5-column cue sheet + Notion DB
+  - speaker-management-sourcing-prep                  # Sessionize + outreach + travel + rehearsal + day-of
+  - conference-cfp-cfs-track-design                   # Sessionize / Papercall / Pretalx + rubric scoring
+  - sponsor-tier-deliverable-tracking                 # Bronze/Silver/Gold/Platinum tiers + contract-as-tracker
+  - mc-host-prep                                      # MC brief + rehearsal + day-of cue sheet
+  - event-app-whova-brella-bizzabo                    # Whova / Brella / Bizzabo / EventMobi attendee app
+  - live-streaming-restream-obs-streamyard            # cloud + hybrid multi-cam + YouTube Live integration
+  - hybrid-event-low-latency-interaction              # WebRTC sub-second + interactive Q&A bridge
+  - virtual-networking-brella-swapcard                # interest taxonomy + AI matchmaking + meeting scheduling
+  - q-and-a-mgmt-slido-pigeonhole                     # moderated Q&A + polls + analytics export
+  - event-analytics-engagement-nps                    # platform analytics + Delighted NPS + engagement score
+  - post-event-recordings-distribution                # YouTube + Whisper transcription + Klaviyo/HubSpot digest
+  - event-roi-cost-per-attendee-pipeline              # cost / attendee + MQL per event + pipeline-influenced revenue
+  - event-marketing-paid-social-email                 # brief + dependency timeline (hands off to marketing-agent)
+  - accessibility-ada-captioning-interpretation       # ADA Title III + CART + ASL booking + sensory-friendly
+  - gift-bag-swag-sourcing                            # Swag.com / Custom Ink + sustainability tier + drop-ship
+
+  # ── CraftBot defaults (16) — already on recipient's install ──────────────
+  # Universal verb for SOTA platform APIs (Cvent / Bizzabo / Whova / Brella / Sessionize / Slido / etc).
+  - cli-anything                                      # paid API access + uvx tooling for Whisper, OBS, qrcode lib
+  - file-format
+  - file-organizer
+  - using-git-worktrees                               # version run-of-show iterations across rehearsals
+
+  # Document output for BEOs, contracts, sponsor decks, briefing books.
+  - docx                                              # speaker contracts + BEO + emergency action plan + MC brief
+  - pdf                                               # final sponsor prospectus + speaker briefs + attendee guide
+  - pptx                                              # sponsor pitch deck + speaker slide template + briefing decks
+  - google-sheets                                     # run-of-show spreadsheet + attendee tracker + budget
+  - microsoft-excel                                   # spreadsheet variant for Microsoft-native recipients
+
+  # Web research (venues, vendors, speakers, sponsors, weather).
+  - playwright-mcp                                    # award form submissions, vendor portals, sponsor research
+  - firecrawl                                         # structured vendor + sponsor + speaker research
+  - brave-search                                      # venue + vendor + speaker discovery
+  - duckduckgo-search                                 # alt search engine
+
+  # Ideation + planning.
+  - brainstorming                                     # creative angles, sponsor packages, theme ideation
+  - concise-planning                                  # campaign brief, run-of-show plan, vendor RFP brief
+  - ask-questions-if-underspecified                   # clarify scope (format, budget, attendees) before quoting
+  - audit-context-building                            # gather event history + sponsor history + venue history
+
+# MCP servers — every name verified in app/config/mcp_config.json
+# (157-server catalog as of June 2026). Recipient enables in CraftBot MCP
+# settings and adds OAuth/API credentials per platform.
+mcp_servers:
+  - filesystem                                        # read/edit BEOs, contracts, run-of-show, briefing books
+
+  # ── Outreach + coordination (speakers, sponsors, vendors, attendees) ────
+  - gmail-mcp                                         # speaker outreach, sponsor outreach, BEO delivery, RFP, attendee comms
+  - outlook-mcp                                       # recipients on Microsoft email infra
+  - twilio-mcp                                        # SMS reminders day-of attendees + speaker arrival
+  - courier-mcp                                       # multi-channel transactional fanout (email + SMS + Slack)
+
+  # ── Knowledge base / event hub / speaker DB / sponsor DB / run-of-show ─
+  - notion-mcp                                        # event hub, speaker DB, sponsor DB, BEO tracker, deliverable tracker, run-of-show, dietary capture
+
+  # ── Calendar / scheduling (rehearsals, vendor calls, day-of, post-event) ─
+  - google-calendar-mcp                               # rehearsal scheduling, vendor calls, walk-throughs, day-of cues
+  - google-drive-mcp                                  # shared assets (speaker decks, brand kits, sponsor logos, photos)
+  - google-workspace-mcp                              # combined workspace ops
+
+  # ── Video conferencing + webinars + rehearsals ──────────────────────────
+  - zoom-mcp                                          # speaker rehearsal, vendor walk-through, Zoom Events webinars
+  - ms-teams-mcp                                      # recipients on Microsoft side (Teams Live Events)
+
+  # ── Live streaming + recordings ────────────────────────────────────────
+  - youtube-mcp                                       # YouTube Live config + post-event recording upload
+  - youtube-mcp-transcript                            # speaker research, podcast prep, post-event content
+
+  # ── Research (venues, vendors, sponsors, speakers, competitors) ────────
+  - firecrawl-mcp                                     # structured vendor / sponsor / speaker website research
+  - brightdata-mcp                                    # paid SERP/web data for prospect lists
+  - browserbase-mcp                                   # automated browsing for vendor portal navigation
+
+  # ── Internal coordination (ops alerts, vendor coord) ───────────────────
+  - slack-mcp                                         # ops alerts (check-in queue, dietary special, vendor delay)
+  - discord-mcp-full                                  # community event coord + dark social monitoring
+
+  # ── Social posting (event promo + live tweets + post-event) ────────────
+  - twitter-mcp                                       # event promo, live tweets, post-event highlights
+  - linear-mcp                                        # task tracking for run-of-show + day-of ops
+
+  # ── Analytics (registration, engagement, post-event NPS, ROI) ──────────
+  - postgresql-mcp                                    # analytics warehouse + alert table + ROI computation
+  - posthog-mcp                                       # event website + reg page funnel + AEO referrer tracking
+
+  # ── Design / signage / decks / social cards ────────────────────────────
+  - canva-mcp                                         # signage, decks, social cards, name badges templates
+  - figma-mcp                                         # brand-system fidelity check + asset export
+  - imagegen-mcp                                      # speaker headshots fallback, social cards, signage variants
+  - stability-ai-mcp                                  # alt AI image gen
+  - drawio-mcp                                        # floor plan + booth layout
+
+  # ── Audio (MC drill, speaker rehearsal, podcast prep, promo voiceover) ─
+  - mcp-tts                                           # MC / spokesperson audio drill
+  - elevenlabs-mcp                                    # higher-quality voice for event promo reels + podcasts
+
+  # ── Multi-language (international events, multi-region accessibility) ──
+  - deepl-mcp                                         # SOTA translation for international attendee comms + signage
+  - gemini-ocr-mcp                                    # OCR for paper signage, scanned contracts, legacy materials
+  - mistral-ocr-mcp                                   # alt OCR
+
+  # ── Weather (outdoor + transit risk + contingency triggers) ────────────
+  - openweathermap-mcp                                # 72/48/24h forecast for outdoor / transit-dependent events
+
+  # ── Payment processing (paid registration + vendor deposits) ───────────
+  - stripe-mcp                                        # paid registration + sponsor invoicing + vendor deposits
+
+sources:
+  - name: PCMA 2026 Business Events Industry Outlook
+    url: https://www.pcma.org/research-insights/2026-business-events-industry-outlook/
+    used_for: event format benchmarks (cost per attendee, format mix, attendee preference shifts)
+  - name: Cvent Supplier Network + Venue Sourcing
+    url: https://www.cvent.com/en/event-marketing-management/venue-sourcing-software
+    used_for: venue sourcing API, hospitality marketplace, RFP issuance + comparison
+  - name: Cvent Passkey Hotel Solutions
+    url: https://www.cvent.com/en/hospitality-cloud/passkey
+    used_for: room block management, attrition tracking, sub-block per attendee tier
+  - name: Bizzabo / Klik SmartBadge Lead Capture
+    url: https://www.bizzabo.com/klik
+    used_for: NFC lead capture, sponsor booth coordination, attendee directory
+  - name: Splash Event Marketing Platform
+    url: https://splashthat.com
+    used_for: brand-first event websites, mid-market reg, marketing-led events
+  - name: Eventbrite Platform API
+    url: https://www.eventbrite.com/platform/api
+    used_for: consumer ticketing, high-volume registration, free-tier fallback
+  - name: RingCentral Events (formerly Hopin) API
+    url: https://hopin.com/developers
+    used_for: virtual/hybrid event platform, low-latency streaming, virtual networking
+  - name: Whova Event App API
+    url: https://whova.com/api
+    used_for: attendee app, agenda sync, community board, mobile check-in
+  - name: Brella Matchmaking
+    url: https://brella.io
+    used_for: AI-driven networking, interest taxonomy, meeting scheduling
+  - name: Swapcard Event Experience Platform
+    url: https://www.swapcard.com
+    used_for: event experience + content + matchmaking combined
+  - name: Sessionize Conference CFP Platform
+    url: https://sessionize.com
+    used_for: CFP creation, abstract collection, speaker management, track design
+  - name: Slido Audience Q&A + Polls (Cisco)
+    url: https://www.slido.com/api
+    used_for: moderated Q&A, live polls, audience engagement, analytics export
+  - name: Restream + StreamYard + Riverside Studio
+    url: https://restream.io
+    used_for: cloud-based live streaming, multi-platform broadcast, separate-track podcast recording
+  - name: OBS Studio Open Broadcast
+    url: https://obsproject.com
+    used_for: hybrid multi-cam production, custom scenes, LiveU encoder pairing
+  - name: MPI Anatomy of a Venue Contract
+    url: https://www.mpi.org/blog/article/the-anatomy-of-a-venue-contract
+    used_for: venue contract redline checklist (F&B floor, attrition, force majeure, cancellation, outside vendor allowance)
+  - name: Eventmanagerblog Run-of-Show Template
+    url: https://www.eventmanagerblog.com/run-of-show-template
+    used_for: broadcast-style cue sheet format (Time / Item / Speaker/Stage / A/V Cue / Notes)
+  - name: ADA Title III + Section 36.303 Accessibility
+    url: https://www.ada.gov/topics/title-iii/
+    used_for: ADA accessibility mandate (wheelchair access, parking, restroom, listening device, alternate-format materials)
+  - name: AccessibleArts Event Accessibility Checklist
+    url: https://accessibleartsdesign.org/event-accessibility-checklist/
+    used_for: CART captioning vendors, ASL interpretation booking, sensory-friendly protocols
+  - name: Bizzabo Event ROI Calculation
+    url: https://www.bizzabo.com/blog/event-roi-calculation
+    used_for: pipeline-influenced revenue formula, cost per attendee benchmark, MQL per event attribution
+  - name: Eventmanagerblog Sponsorship Management
+    url: https://www.eventmanagerblog.com/sponsorship-management
+    used_for: sponsor tier definition (Bronze/Silver/Gold/Platinum), contract-as-tracker enforcement, lead handoff workflow
+  - name: Demio + Livestorm + Zoom Events
+    url: https://demio.com
+    used_for: webinar production decision tree (marketing vs evergreen vs enterprise vs internal)
+  - name: Encore Global + Freeman A/V Production
+    url: https://www.encoreglobal.com
+    used_for: A/V vendor selection (in-house vs vendor decision tree), RFP workflow
+  - name: Custom Ink + Swag.com Promotional Products
+    url: https://swag.com
+    used_for: swag sourcing, bulk pricing tiers, sustainability options, drop-ship logistics

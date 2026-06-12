@@ -1,0 +1,222 @@
+# Social Media Manager — CraftBot agent definition
+#
+# SPECIALIZED tier under marketing. Drills deep into the social slice:
+# cross-platform publishing, community engagement (comments + DMs),
+# social listening, influencer outreach + fraud detection, real-time
+# community management, platform-native content, hashtag strategy, social
+# trend monitoring, social commerce, link-in-bio, Reddit AMA, Discord/Slack
+# moderation, brand voice across platforms, UGC reposting, multi-platform
+# campaign coordination.
+#
+# Parent: `marketing-agent` (general). Defers to: `customer-support-agent`
+# for support escalations; `video-creator` for deep video; `marketing-agent`
+# for broader campaign + SEO + email work.
+#
+# Every field traces back to reference/. See reference/SOTA_USE_CASES.md
+# for per-use-case SOTA mapping and reference/INVENTORY.md for source notes.
+
+name: Social Media Manager
+slug: social-media-manager
+category: marketing
+tier: specialized
+description: >
+  Social media operator for solo founders, creators, and brand teams that
+  need an always-on community presence across LinkedIn, X, Instagram,
+  TikTok, Threads, Bluesky, Reddit, YouTube, Discord, Slack, WhatsApp,
+  WeChat, and LINE. Publishes platform-native content; answers comments
+  and DMs at scale; runs social listening with sentiment triage; sources
+  and vets influencers (fraud screening included); coordinates multi-
+  platform campaign launches; sets up TikTok Shop / Instagram Shop /
+  Pinterest Shop; manages link-in-bio; plans Reddit AMAs; moderates
+  Discord/Slack communities; runs UGC reposting with rights tracking;
+  flags brand-voice drift via Vale per-platform style packs. Hands off
+  long-form video to `video-creator`, support escalations to
+  `customer-support-agent`, and broad marketing strategy to
+  `marketing-agent`.
+tags:
+  - social-media
+  - community
+  - publishing
+  - influencer-marketing
+  - social-listening
+  - tiktok
+  - linkedin
+  - instagram
+  - threads
+  - bluesky
+  - reddit
+  - discord
+  - social-commerce
+  - link-in-bio
+  - hashtags
+  - trends
+  - ugc
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 22 bundled SOTA skill packs covering every documented use case +
+# 19 CraftBot defaults audited for relevance. Total: 41 enabled skills.
+# See reference/SOTA_USE_CASES.md for per-skill SOTA mapping.
+enabled_skills:
+  # ── Bundled (22) — 2026 SOTA social skill packs ──────────────────────
+  - community-engagement-comments-dms-at-scale       # Buffer MCP + Sprout/Agorapulse routing
+  - social-listening-brandwatch-mention-talkwalker   # Brand24 MCP / Talkwalker / Meltwater
+  - influencer-outreach-modash-aspire-grin           # Modash Discovery API + Aspire/GRIN CRM
+  - platform-native-content-creation                 # one-piece → fan-out per platform
+  - format-specific-reels-tiktok-shorts-x-thread     # Reels vs TikTok vs Shorts vs X thread vs LinkedIn carousel
+  - hashtag-strategy-trending-niche-branded          # 30-tag basket: 5 trending + 15 niche + 5 branded + 5 community
+  - social-trend-monitoring-tiktok-sounds-reels      # TikTok Creative Center + Tokchart daily
+  - social-commerce-tiktok-instagram-pinterest-shops # TikTok Shop / IG Shop / Pinterest Shop / Shopify hub
+  - link-in-bio-linktree-beacons-stan                # Linktree API + Playwright for Beacons/Stan
+  - influencer-fraud-detection-hypeauditor           # HypeAuditor AQS 70+ gate
+  - reddit-strategy-ama-subreddit                    # Reddit MCP + AMA playbook + subreddit health scoring
+  - discord-slack-community-moderation               # Carl-bot / MEE6 / Dyno + native MCPs
+  - brand-voice-consistency-platforms                # Vale per-platform styles/Brand/*.yml
+  - social-seo-tiktok-reddit-hashtag                 # TikTok caption SEO + Reddit title + alt-text
+  - follower-growth-organic                          # trend first-mover + cadence + collab posts
+  - social-customer-service-handoff                  # Triage + 15-min SLA + handoff to support
+  - sentiment-mention-triage                         # Brand24 contextual AI + action assignment
+  - social-crisis-comms                              # webhook → 3 draft variants → cascade
+  - account-takeovers-creator-handoff                # brief + Buffer approval + revoke tokens
+  - multi-platform-campaign-launches                 # T-7 teaser / T-0 main / T+7 amplification
+  - ugc-reposting-policy-workflow                    # rights-request DM + Notion DB + auto-attribute
+  - team-admin-coordination                          # Buffer approval + Notion status + Slack notifications
+
+  # ── CraftBot defaults (19) — already on recipient's install ──────────
+  # Content + asset production
+  - docx                                # briefs, influencer contracts
+  - pdf                                 # rate cards, brand books, partnership decks
+  - pptx                                # campaign decks, social strategy presentations
+  - file-format                         # cross-format conversion
+  - file-organizer                      # campaign asset libraries
+
+  # Web research, competitive monitoring, scraping fallback
+  - playwright-mcp                      # Beacons / Stan UI automation; LinkedIn UI gaps
+  - brave-search                        # SERP for competitor accounts + hashtag research
+  - firecrawl                           # competitor social page snapshots
+  - ai-news-collectors                  # industry + niche news for thought leadership posts
+  - tavily-search                       # alt search engine
+  - reddit-api                          # native Reddit operations
+
+  # Ideation, planning, brief construction
+  - brainstorming                       # post ideas, hooks, captions
+  - concise-planning                    # editorial calendar, AMA prep, campaign brief
+  - ask-questions-if-underspecified     # clarify brief before publishing
+  - audit-context-building              # gather brand voice + competitor + history rigorously
+
+  # Cross-check, second opinion, tool execution
+  - gemini                              # second-opinion model for copy variant rating
+  - cli-anything                        # run Buffer MCP / curl any API / Vale linter / Apify scrapers
+
+  # Versioning + governance
+  - git-commit                          # track campaign iterations + voice doc changes
+  - github                              # collaborative review on PRs (regulated brands)
+
+# MCP servers — every name verified against app/config/mcp_config.json.
+# Recipient enables in CraftBot MCP settings and adds OAuth / API keys.
+mcp_servers:
+  - filesystem                          # read/edit social assets + calendar files
+  - notion-mcp                          # editorial calendar, UGC rights DB, AMA briefs
+  - gmail-mcp                           # influencer outreach + creator coordination
+  - postgresql-mcp                      # query analytics warehouses for content performance
+
+  # ── Cross-platform publishing + engagement ──────────────────────────
+  - twitter-mcp                         # X publishing, threads, engagement
+  - insta-business-mcp                  # Instagram Business + Reels publishing + comments
+  - facebook-mcp-server                 # Facebook page publishing + groups
+  - tiktok-mcp                          # TikTok publishing + trending + Stitch/Duet
+  - reddit-mcp                          # Reddit posts, comments, AMA hosting
+  - youtube-mcp                         # YouTube Community Posts + Shorts publishing
+  - youtube-mcp-transcript              # Caption + transcript extraction for repurposing
+  - bilibili-mcp                        # China-market video publishing
+  - whatsapp-mcp                        # WhatsApp Business broadcast + catalog
+  - wechat-mcp                          # APAC reach
+  - line-mcp                            # Japan / Taiwan / Thailand reach
+
+  # ── Community moderation ────────────────────────────────────────────
+  - discord-mcp                         # Discord community moderation + announcements
+  - discord-mcp-full                    # extended Discord operations (bans, roles, audit)
+  - slack-mcp                           # Slack community moderation + team coordination
+
+  # ── Paid amplification (when organic hits ceiling) ──────────────────
+  - facebook-ads-mcp                    # Boosted posts, dark posts, Spark Ads on Meta
+  - tiktok-ads-mcp                      # TikTok Spark Ads + GMV Max (mandatory from July 2026)
+
+  # ── Listening + analytics ───────────────────────────────────────────
+  - posthog-mcp                         # social-attributed conversion, K-factor, retention
+  - mixpanel-mcp                        # alt analytics for click-through + behavioral
+  - amplitude-mcp                       # alt analytics + cohort segmentation
+
+  # ── Scraping + competitive research ─────────────────────────────────
+  - firecrawl-mcp                       # competitor social pages structured pull
+  - brightdata-mcp                      # SOTA TikTok / IG scraping fallback when official APIs gated
+
+  # ── Multi-language ─────────────────────────────────────────────────
+  - deepl-mcp                           # post translation for multi-market publishing
+
+  # ── Asset generation ───────────────────────────────────────────────
+  - canva-mcp                           # platform-native templates (Reels covers, Pinterest pins)
+  - figma-mcp                           # design system pulls for brand-consistent assets
+  - imagegen-mcp                        # AI image gen for posts + carousels
+  - stability-ai-mcp                    # alt image gen
+
+  # ── Social commerce ───────────────────────────────────────────────
+  - shopify-mcp                         # catalog hub for TikTok Shop / IG Shop / Pinterest Shop sync
+
+sources:
+  - name: Buffer — best social media APIs 2026
+    url: https://buffer.com/resources/best-social-media-apis/
+    used_for: Buffer MCP capability map; partner API status (IG / LinkedIn / Threads / FB / Bluesky / YouTube / TikTok / X); cross-platform publishing decision.
+  - name: Buffer Developers — API + MCP
+    url: https://buffer.com/developers/api
+    used_for: GraphQL + MCP endpoints, createUpdate / getEngagements / needsApproval flow.
+  - name: Sprout Social — social media scheduling tools 2026
+    url: https://sproutsocial.com/insights/social-media-scheduling-tools/
+    used_for: Inbox routing capability map; SOTA enterprise community management; collision detection rule.
+  - name: Brand24
+    url: https://brand24.com/
+    used_for: 25M+ source coverage; AI sentiment with 2026 sarcasm + regional slang model; Brand24 MCP (Jan 2026 launch).
+  - name: Brandwatch — top social listening tools 2026
+    url: https://www.brandwatch.com/blog/social-listening-tools/
+    used_for: Listening tier comparison (Brand24 / Talkwalker / Meltwater / Sprinklr); hashtag clustering capability.
+  - name: Meltwater — top 13 social listening tools 2026
+    url: https://www.meltwater.com/en/blog/top-social-listening-tools
+    used_for: Talkwalker 30+ networks + 150M web sources; Meltwater TV/radio/podcast coverage when earned-media matters.
+  - name: Modash — best influencer marketing platforms 2026
+    url: https://www.modash.io/blog/influencer-marketing-platforms
+    used_for: Influencer platform tier comparison; Modash 350M+ profile DB scope.
+  - name: Modash — Discovery API
+    url: https://www.modash.io/influencer-marketing-api/discovery
+    used_for: Documented REST API for creator discovery; agent execution path for outreach pipeline.
+  - name: HypeAuditor
+    url: https://hypeauditor.com/
+    used_for: AQS 1-100 score; 95%+ fraud detection rate; 53+ behavioral patterns; fraud gate threshold (AQS < 70 reject).
+  - name: TikTok Creative Center
+    url: https://www.tiktok.com/business/creativecenter
+    used_for: Trending sounds + hashtags + creators source; 48-hour trend-adoption 3-5x algorithmic push.
+  - name: TikTok Developer — Shop API
+    url: https://developers.tiktok.com/doc/research-api-specs-query-tiktok-shop-info?enter_method=left_navigation
+    used_for: Catalog sync + orders + inventory + GMV Max ad requirement (July 2026 onward).
+  - name: Eclincher — autonomous crisis detection 2026
+    url: https://www.eclincher.com/articles/autonomous-crisis-detection-for-brands-how-ai-monitors-reputation-risk-in-real-time-2026-guide
+    used_for: Crisis comms playbook — early detection reduces damage 40%; acknowledge <60 min / statement <4 hrs / detailed <24 hrs.
+  - name: Vale — prose linter
+    url: https://vale.sh/
+    used_for: Per-platform brand-voice enforcement; styles/Brand/<Platform>.yml YAML rule packs.
+  - name: Discord moderation bots 2026 (CommunityOne)
+    url: https://blog.communityone.io/best-discord-bots/
+    used_for: Carl-bot / MEE6 / Dyno tier comparison; YAML rule-pack template approach.
+  - name: ShowCa — UGC usage rights 2026
+    url: https://www.showca.se/post/ugc-usage-rights
+    used_for: UGC rights workflow; paid-licensing-per-campaign-window vs perpetual; FTC disclosure rule.
+  - name: Lueurexterne — social commerce 2026
+    url: https://blog.lueurexterne.com/en/blog/social-commerce-in-2026-how-to-sell-on-instagram-tiktok-pinterest/
+    used_for: Social commerce sizing ($1.2T global / 22% of e-commerce); IG / TikTok / Pinterest setup mechanics.
+  - name: ContentGrip — influencer fraud detection 2026
+    url: https://www.contentgrip.com/influencer-marketing-fraud-detection/
+    used_for: 81% of marketers encountered fraud in last 12 months — gate threshold justification.
+  - name: Stan Store vs Linktree (2026)
+    url: https://stan.store/blog/stan-store-vs-linktree/
+    used_for: Link-in-bio platform tier comparison; Stan Store monetization features; Beacons broader-platform position.

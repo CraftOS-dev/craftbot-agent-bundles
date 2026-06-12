@@ -1,0 +1,143 @@
+# Research Analyst — CraftBot agent definition
+#
+# Every field traces back to reference/ or to a default CraftBot capability.
+# See reference/INVENTORY.md for sources, SOURCES.md for section→source map.
+
+name: Research Analyst
+slug: research-analyst
+category: research
+tier: general                # one of: general | specialized
+description: >
+  Senior research analyst for comprehensive research across diverse domains.
+  Investigates topics with evidence, triangulates sources, evaluates
+  credibility, synthesizes findings, and delivers actionable insights with
+  source attribution. Switches between market research, competitive
+  intelligence, trend analysis, scientific literature review, and
+  general topic investigation as the work demands. Treats bias detection
+  and limitation transparency as non-negotiable.
+tags:
+  - research
+  - investigation
+  - source-evaluation
+  - synthesis
+  - market-research
+  - competitive-intelligence
+  - trend-analysis
+  - literature-review
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time. Build script looks up names in
+# agents/research-analyst/skills/ (bundled) first, then top-level skills/.
+enabled_skills:
+  # ── Bundled (19) — SOTA research skill packs we ship with this agent ───
+  # Original 2 from wshobson/business-analytics; 17 new packs added June 2026.
+  - data-storytelling               # Setup→Conflict→Resolution, "start with so-what", evidence/narrative/visuals
+  - kpi-dashboard-design            # SMART KPIs, 3-tier framework, 5-7 KPI limit, troubleshooting
+  - paper-search-mcp                # 20+ academic sources in one MCP (arXiv/PubMed/OpenAlex/CrossRef/etc.)
+  - perplexity-deep-research        # Sonar Pro / Sonar Deep Research (F=0.858 SimpleQA factuality)
+  - exa-neural-search               # Sub-200ms neural search with domain whitelist
+  - sec-edgar-market-sizing         # SEC EDGAR XBRL for TAM/SAM/SOM from 10-K/10-Q
+  - patents-uspto-lens              # USPTO PatentsView + Lens.org for IP positioning
+  - trend-fan-out-multi-source      # pytrends + HN Algolia + PRAW + GDELT + arXiv orchestration
+  - gdelt-news-monitoring           # GDELT 2.0 DOC API, 65 languages, 3-month rolling
+  - semantic-scholar-openalex       # Citation graph + OpenAlex filter DSL
+  - authoritative-data-fred-worldbank # FRED + World Bank + IMF + OECD + Eurostat + BLS APIs
+  - kaggle-huggingface-datasets     # Dataset discovery + download + license audit
+  - cohort-retention-lifelines      # Kaplan-Meier survival analysis + Aha Moment + N-day retention
+  - first-principles-claude-extended # Claude Opus 4.7 extended thinking + Gemini adversarial cross-check
+  - data-storytelling-plotly-altair # Plotly/Altair/matplotlib/Datawrapper + kaleido PNG export
+  - pandoc-branded-deliverables     # Pandoc --reference-doc=template for branded DOCX/PDF/PPTX
+  - competitive-intelligence-tech-stack # Wappalyzer + SEC + Lens + GitHub repo intel + pricing scrape
+  - crunchbase-market-research      # Crunchbase API + Similarweb traffic
+  - ocr-scanned-academic-papers     # Mistral OCR + Gemini OCR for image-only PDFs
+
+  # ── CraftBot defaults (21) — already on recipient's install ────────────
+  # Web research, multi-engine search, scraping, output formats, planning.
+  - playwright-mcp                  # browse + interact with real web pages (default-enabled)
+  - brave-search                    # web search (privacy-respecting)
+  - duckduckgo-search               # web search (alt engine)
+  - baidu-search                    # web search (Chinese-language coverage)
+  - ai-news-collectors              # news monitoring across sources
+  - firecrawl                       # structured web scraping
+  - gemini                          # cross-check / second-opinion model
+  - file-format                     # convert between file types
+  - docx                            # produce Word reports
+  - pdf                             # produce PDF reports
+  - pptx                            # produce slide decks for findings
+  - xlsx                            # produce data tables, cohort tables, comparison matrices
+  - cli-anything                    # run any CLI tool (data tools, scrapers, etc.)
+  - file-organizer                  # organize findings, sources, notes
+  - concise-planning                # plan research scope and methodology
+  - brainstorming                   # divergent idea generation, hypothesis enumeration
+  - audit-context-building          # gathering context rigorously
+  - ask-questions-if-underspecified # clarify research objectives before starting
+  - git-commit                      # version-control findings
+  - github                          # share research artifacts, open discussion issues
+  - github-api                      # deeper queries on public repos for code-based research
+
+# MCP servers — 2026 SOTA research stack. Each adds an authoritative
+# primary source that closes a documented gap. Recipient enables in
+# CraftBot's MCP settings and adds API keys per provider.
+mcp_servers:
+  - filesystem                      # read/edit research files
+  - google-scholar-mcp              # academic literature search
+  - postgresql-mcp                  # schema inspection when analyzing data sources
+
+  # ── Authoritative data sources (closes PubMed/patents/SEC gaps) ──────
+  - sec-edgar-mcp                   # SEC EDGAR XBRL — free 10-K/10-Q market sizing
+  - uspto-mcp                       # USPTO patents (trend signals, IP positioning)
+  - huggingface-mcp                 # HF Datasets discovery + inference
+
+  # ── Behavioral / product analytics (cohorts + retention curves) ──────
+  - posthog-mcp                     # open-source, HogQL, dedicated cohort endpoint
+  - mixpanel-mcp                    # alt product analytics
+  - amplitude-mcp                   # alt behavioral cohorts
+
+  # ── Trend / news / community signals ─────────────────────────────────
+  - reddit-mcp                      # subreddit analysis (8-source trend fan-out)
+  - youtube-mcp                     # video trend signals
+  - firecrawl-mcp                   # structured scraping for IBISWorld/Statista paywalls
+  - brightdata-mcp                  # paid SERP/web data for triangulation
+
+  # ── Cross-check + translation ────────────────────────────────────────
+  - deepl-mcp                       # high-quality translation for foreign-language sources
+  - gemini-ocr-mcp                  # OCR for PDF research papers / scanned reports
+  - mistral-ocr-mcp                 # alt OCR engine
+
+sources:
+  - name: VoltAgent — research-analyst (PRIMARY)
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/research-analyst.md
+    used_for: research methodology, info gathering, source evaluation, data synthesis, analysis techniques, research domains, report creation, quality assurance, insight generation
+  - name: VoltAgent — market-researcher
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/market-researcher.md
+    used_for: market analysis, consumer research, segmentation patterns, opportunity identification
+  - name: VoltAgent — competitive-analyst
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/competitive-analyst.md
+    used_for: competitor mapping, SWOT, benchmarking, intelligence-gathering ethics, monitoring systems
+  - name: VoltAgent — scientific-literature-researcher
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/scientific-literature-researcher.md
+    used_for: evidence-based analysis, study-quality assessment, sample-size evaluation, evidence synthesis, limitation transparency
+  - name: VoltAgent — data-researcher
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/data-researcher.md
+    used_for: data discovery and validation, statistical-significance discipline
+  - name: VoltAgent — search-specialist
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/search-specialist.md
+    used_for: Boolean and proximity searching, multi-source retrieval, precision-rate targets
+  - name: VoltAgent — first-principles-thinking
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/first-principles-thinking.md
+    used_for: 5-step first-principles method, problem reframing, 5D method for operational issues
+  - name: VoltAgent — trend-analyst
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/trend-analyst.md
+    used_for: weak-signal detection, pattern validation, scenario planning, monitoring systems
+  - name: VoltAgent — cohort-analysis
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/cohort-analysis.md
+    used_for: retention metrics (N-day, rolling), retention curve diagnosis, activation analysis, cohort table format
+  - name: wshobson — business-analyst
+    url: https://github.com/wshobson/agents/blob/main/plugins/business-analytics/agents/business-analyst.md
+    used_for: BI platforms, KPI frameworks, statistical analysis, financial modeling, customer & market analytics, response approach
+  - name: wshobson skills (bundled)
+    url: https://github.com/wshobson/agents/tree/main/plugins/business-analytics/skills
+    used_for: data-storytelling and kpi-dashboard-design skill packs bundled into this agent

@@ -1,0 +1,207 @@
+# Growth Agent — CraftBot agent definition
+#
+# GENERAL TIER. The compounding-side counterpart to marketing-agent
+# (channel breadth). Where marketing-agent goes wide (SEO, social,
+# content, ads, brand), growth-agent goes DEEP on what compounds:
+# growth loops, activation, retention, experimentation infrastructure,
+# PLG mechanics, attribution model design, behavioral cohorts.
+#
+# Distinct from marketing-agent. Pair, don't replace. Hand-offs:
+# marketing-agent for top-of-funnel channel work; seo-specialist for
+# deep SEO; email-strategist for deep lifecycle email; product-manager
+# for PLG feature shaping; data-analyst for deep warehouse/SQL; sales-agent
+# for sales-led motion.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and SOURCES.md for the section→source map. Per-use-case SOTA
+# proof in reference/SOTA_USE_CASES.md.
+
+name: Growth Agent
+slug: growth-agent
+category: growth
+tier: general                # one of: general | specialized
+description: >
+  Senior growth lead for solo founders, PLG teams, and growth orgs.
+  Covers growth loops (5 types — viral / content-SEO / paid / network /
+  sales-led), activation/aha-moment design, retention curve analysis,
+  churn prediction, time-to-value optimization, experimentation
+  infrastructure (Statsig / GrowthBook / Eppo), PLG/PQL frameworks,
+  attribution (multi-touch + MMM via Robyn/Meridian), CDP/reverse-ETL,
+  behavioral cohort design, growth model spreadsheets, North Star /
+  AARRR / HEART metric frameworks. Loops compound — funnels leak.
+  Activation predicts retention. Better data beats better intuition.
+  Defers to marketing-agent for channel breadth, seo-specialist /
+  email-strategist for channel depth, product-manager for feature
+  shaping, data-analyst for warehouse depth, sales-agent for sales-led.
+tags:
+  - growth
+  - plg
+  - activation
+  - retention
+  - experimentation
+  - cohorts
+  - attribution
+  - churn
+  - viral
+  - loops
+  - pql
+  - ltv
+  - cac
+  - nrr
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 25 bundled SOTA skill packs (Round 2 will populate SKILL.md content).
+# Each closes a documented use case from reference/SOTA_USE_CASES.md.
+enabled_skills:
+  # ── Bundled (25) — 2026 SOTA growth skill packs ───────────────────────
+  - growth-loop-design-5-types                # Reforge/Andrew Chen 5-loop taxonomy + design process
+  - viral-coefficient-k-measurement           # K = invites × acceptance via PostHog HogQL / Amplitude formula
+  - activation-funnel-aha-moment              # Cohort behavior diff to identify activation event
+  - retention-curve-churn-diagnosis-j-smile   # J/smile/decay/flat shape classification
+  - time-to-value-ttv-optimization            # TTV p25/p50/p75 + reduction experiments
+  - onboarding-userpilot-appcues-chameleon    # Onboarding platform choice + checklist spec
+  - in-app-messaging-intercom-drift-pendo     # In-app message tool choice + event-triggered design
+  - referral-program-referralcandy-friendbuy-growsurf  # Referral platform choice + incentive design
+  - loyalty-program-yotpo-smile-loyaltylion   # Loyalty platform choice + point structure design
+  - landing-page-cro-vwo-hotjar-maze          # CRO experiment design + heatmap diagnostics
+  - signup-activation-conversion-optimization # Funnel leak diagnosis + friction-reduction tests
+  - price-experimentation-van-westendorp-conjoint  # PSM + Gabor-Granger + conjoint
+  - free-to-paid-upgrade-prompts              # PQL-triggered upgrade modals + trial-end flow
+  - churn-prediction-modeling                 # lifelines Cox PH + LLM signal extraction
+  - win-back-campaigns                        # Dormant-user reactivation sequences
+  - expansion-revenue-nrr-optimization        # Cross-sell/upsell triggers + NRR math
+  - pql-product-qualified-leads-framework     # PQL scoring + CRM handoff
+  - growth-model-spreadsheet-compound-levers  # Sequoia/Reforge model + scenarios
+  - north-star-omtm-pirate-metrics-heart      # NSM + AARRR + HEART framework selection
+  - attribution-last-multi-touch-mmm-meridian-robyn  # Multi-touch + MMM via Robyn/Meridian/PyMC
+  - cdp-segment-rudderstack-mparticle         # CDP choice + event taxonomy + tracking plan
+  - reverse-etl-hightouch-census-growth       # Warehouse → growth tooling sync
+  - behavioral-cohort-design                  # Multi-attribute time-windowed cohort spec
+  - signup-to-revenue-flywheel                # HubSpot/Reforge flywheel velocity mapping
+  - plg-vs-sales-led-motion-decision          # 4-Fits + ACV/aha/buyer-count decision
+
+  # ── CraftBot defaults (18) — already on recipient's install ───────────
+  # Universal verb + plumbing.
+  - cli-anything                              # universal verb for OSS Python libs (lifelines, robyn, meridian, pymc-marketing) + REST APIs (Userpilot, Customer.io, Intercom, Klaviyo, Hightouch)
+  - file-format                               # cross-format conversion
+  - file-organizer                            # experiment doc / cohort spec organization
+
+  # Document output (growth model spreadsheets, experiment briefs, NSM decks).
+  - xlsx                                      # growth model spreadsheets (Sequoia/Reforge), NRR projection, cohort tables
+  - docx                                      # experiment briefs, growth strategy docs
+  - pptx                                      # NSM/OMTM/AARRR/HEART decks
+  - pdf                                       # client deliverables, growth reports
+  - google-sheets                             # collaborative spreadsheet (growth model, scorecards)
+  - markdown-converter                        # output conversion
+
+  # Web + competitive research, surveys.
+  - playwright-mcp                            # browse landing pages, competitive UX scan
+  - brave-search                              # competitive + research
+  - duckduckgo-search                         # alt search
+  - tavily-search                             # higher-quality web research
+  - web-search-plus                           # multi-engine search
+  - firecrawl                                 # structured competitor landing-page scrape
+  - typeform                                  # surveys (Van Westendorp PSM, Sean Ellis Test, NPS, ICP discovery)
+
+  # Ideation, planning, second-opinion cross-check.
+  - brainstorming                             # loop ideation, experiment hypotheses
+  - concise-planning                          # experimentation roadmap, growth model plan
+  - ask-questions-if-underspecified           # clarify motion / metric / cohort before building
+  - audit-context-building                    # rigorous discovery (NSM, activation, motion fit)
+  - gemini                                    # second-opinion model for hypothesis quality
+  - notion                                    # editorial calendar / growth model / cohort spec storage (skill side)
+
+# MCP servers — every name must exist in app/config/mcp_config.json.
+mcp_servers:
+  - filesystem                                # read/edit growth assets (spreadsheets, briefs)
+
+  # ── Product analytics (core — measure loops, retention, activation) ──
+  - posthog-mcp                               # PRIMARY: HogQL queries for K, retention, TTV, funnels, cohorts
+  - amplitude-mcp                             # 24-tool MCP w/ OAuth 2.0, cohort intelligence, Session Replay context
+  - mixpanel-mcp                              # cohort + funnel + retention + JQL exports
+
+  # ── Knowledge base + comms ──
+  - notion-mcp                                # growth model / NSM / cohort spec / experiment results DB
+  - gmail-mcp                                 # win-back outreach, PQL handoff alerts, NPS follow-up
+  - slack-mcp                                 # PQL handoff alerts, experiment auto-stop notifications
+
+  # ── Data warehouse + analytics ──
+  - postgresql-mcp                            # warehouse queries for NRR, LTV joins, growth model actuals
+
+  # ── Research / scraping (competitive + market signal) ──
+  - firecrawl-mcp                             # competitor landing-page diff
+  - brightdata-mcp                            # paid web data (competitor pricing, ad copy scrape)
+
+  # ── Translation (international PLG / multi-region cohorts) ──
+  - deepl-mcp                                 # multi-language survey + win-back copy
+
+  # ── Design / visualization (growth-model decks, loop diagrams) ──
+  - imagegen-mcp                              # loop diagram visualization, flywheel illustrations
+
+sources:
+  - name: VoltAgent — growth-loops
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/08-business-product/growth-loops.md
+    used_for: funnels-vs-loops principle, 5 loop types, viral coefficient K, loop design process, measurement metrics
+  - name: msitarzewski — Growth Hacker
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-growth-hacker.md
+    used_for: growth strategy (funnel + retention + LTV), experimentation framework, success metrics (Day 7/30/90 retention, CAC payback, LTV:CAC, K-factor, experiment velocity)
+  - name: Pocus — The Definitive PQL Guide
+    url: https://www.pocus.com/blog/the-definitive-pql-guide-part-1
+    used_for: PQL framework, scoring signals (limit-proximity, feature-depth, team-activity, frequency), PQL→pipeline handoff
+  - name: Aakash Gupta — Mastering Metrics for Product Managers 2026
+    url: https://www.aakashg.com/metrics-for-product-managers/
+    used_for: North Star Metric definition, AARRR / HEART selection, hybrid framework usage
+  - name: HockeyStack — PLG flips traditional GTM
+    url: https://www.hockeystack.com/blog-posts/product-led-growth-flips-the-traditional-gtm-playbook
+    used_for: PLG vs sales-led decision framework, PLG signals, attribution bridging
+  - name: Lenny's PLG Handbook — Time to Value
+    url: https://plghandbook.com/time-to-value/
+    used_for: TTV under-5-min best-in-class rule, p25/p50/p75 measurement, reduction experiments
+  - name: Stackmatix — PLG Onboarding & Activation
+    url: https://www.stackmatix.com/blog/plg-onboarding-activation
+    used_for: aha moment vs activation event distinction, checklist+progress design, onboarding patterns
+  - name: Statsig MCP Server
+    url: https://www.statsig.com/mcp
+    used_for: experimentation platform choice (Statsig SOTA with 2026 metrics tools + OAuth), feature flag automation
+  - name: GrowthBook MCP
+    url: https://blog.growthbook.io/introducing-the-first-mcp-server-for-experimentation-and-feature-management/
+    used_for: experiment automation, holdouts, statistical-significance gating, auto-stop on negative significance
+  - name: PostHog MCP
+    url: https://posthog.com/docs/model-context-protocol
+    used_for: HogQL queries for retention curves, viral coefficient, cohorts, funnel analysis, feature-flag automation
+  - name: Amplitude MCP
+    url: https://amplitude.com/docs/amplitude-ai/amplitude-mcp
+    used_for: 24-tool analytical surface, cohort intelligence, OAuth 2.0, Session Replay context, behavioral graph
+  - name: Mixpanel MCP
+    url: https://docs.mixpanel.com/docs/mcp
+    used_for: cohort + funnel + retention queries, JQL exports, raw event NDJSON export
+  - name: lifelines (CamDavidsonPilon)
+    url: https://github.com/CamDavidsonPilon/lifelines/blob/master/examples/SaaS%20churn%20and%20piecewise%20regression%20models.ipynb
+    used_for: survival-analysis churn prediction (Cox PH, AFT, Kaplan-Meier), SaaS churn modeling, time-to-churn curves
+  - name: Google Meridian + Meta Robyn (MMM)
+    url: https://www.appier.com/en/blog/what-is-marketing-mix-modeling-mmm-a-complete-guide-to-meridian-and-how-it-revolutionizes-traditional-approaches
+    used_for: marketing-mix-modeling (Meridian + Robyn + PyMC-Marketing), GeoX geo-incrementality, response curves, budget allocation
+  - name: Conjointly — Van Westendorp vs Gabor-Granger
+    url: https://conjointly.com/blog/gabor-granger-or-van-westendorp/
+    used_for: price-sensitivity methodology choice, PSM vs Gabor-Granger sequential use, conjoint when many attributes
+  - name: Hightouch + Census reverse ETL
+    url: https://www.rudderstack.com/competitors/hightouch-vs-census/
+    used_for: reverse-ETL platform choice, warehouse-native composable CDP, audience activation to Klaviyo / Customer.io / Facebook Custom Audiences
+  - name: Customer.io vs Braze (lifecycle messaging)
+    url: https://www.getvero.com/resources/braze-vs-customer-io-which-is-better-in-2026/
+    used_for: lifecycle messaging tool choice (Customer.io / Braze / Iterable / Klaviyo), channel breadth (email/push/in-app/SMS)
+  - name: Intercom + Fin AI
+    url: https://www.intercom.com/
+    used_for: in-app messaging + product tours for PLG, Fin AI for support, contextual triggers
+  - name: Userpilot / Appcues / Pendo / Chameleon
+    url: https://userpilot.com/blog/appcues-alternatives/
+    used_for: onboarding platform decision matrix, checklist+progress design, mobile vs web split, pricing tiers
+  - name: ReferralCandy / GrowSurf / Friendbuy pricing 2026
+    url: https://www.stackscored.com/pricing/referral-marketing/
+    used_for: referral platform choice (e-com vs SaaS vs enterprise), pricing comparison, integration depth (Shopify, Klaviyo)
+  - name: ProductLed.org — PLG metrics foundations
+    url: https://www.productled.org/foundations/product-led-growth-metrics
+    used_for: activation rate benchmarks, retention curves, K-factor, expansion revenue / NRR

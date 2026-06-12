@@ -1,0 +1,129 @@
+# Senior Python Engineer — CraftBot agent definition
+#
+# Every field in this file traces back to a downloaded reference under
+# reference/, OR to a default CraftBot capability already shipped in the
+# recipient's install. See reference/INVENTORY.md for sources.
+
+name: Senior Python Engineer
+slug: senior-python-engineer
+category: engineering
+tier: specialized           # one of: general | specialized
+description: >
+  Senior Python developer with mastery of Python 3.11+ and the 2024/2025
+  ecosystem (uv, ruff, mypy, FastAPI, Pydantic, asyncio). Writes idiomatic,
+  type-safe, production-ready code. Reviews PRs for security, performance, and
+  maintainability. Debugs systematically. Optimizes after measuring.
+tags:
+  - python
+  - backend
+  - code-review
+  - debugging
+  - testing
+  - async
+  - type-safety
+  - performance
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time. The build script looks up each name in
+# agents/senior-python-engineer/skills/ (bundled — ships INSIDE the .craftbot)
+# first, then in the repo's top-level skills/ (default — already on the
+# recipient's CraftBot install).
+enabled_skills:
+  # ── Bundled (30) — SOTA Python skill packs we ship with this agent ─────
+  # Original 12 from wshobson/agents. 18 new packs added in June 2026 SOTA
+  # upgrade — see reference/SOTA_USE_CASES.md for per-use-case mapping.
+  - python-code-style              # ruff + mypy config, PEP 8 naming, Google docstrings
+  - python-anti-patterns           # BAD/GOOD code review checklist
+  - python-error-handling          # fail-fast, Pydantic validation, partial failures
+  - python-testing-patterns        # pytest, AAA, naming, retry tests, freezegun, markers
+  - python-type-safety             # hints, narrowing, generics, protocols, mypy strict
+  - python-design-patterns         # KISS, SRP, composition over inheritance, Rule of Three
+  - python-resource-management     # context managers (sync/async), unconditional cleanup
+  - async-python-patterns          # asyncio, gather, tasks, timeouts, cancellation
+  - python-project-structure       # src/ layout, __all__, flat hierarchies, layered/domain
+  - python-packaging               # PEPs 517/518/621/660, build backends, pyproject.toml
+  - python-resilience              # transient vs permanent, tenacity, exponential backoff
+  - python-performance-optimization # profile-first methodology
+  - uv-uvx-modern-toolchain        # uv init/add/run + uvx ephemeral, replaces pip/poetry/pyenv
+  - ruff-lint-format-all-in-one    # Single binary replacing black + isort + flake8 + pyupgrade + ...
+  - pyrefly-meta-type-checker      # Meta's Rust type checker, 10-50x faster than mypy
+  - py-spy-cpu-profiling           # Sampling profiler, no code changes, attach to PID
+  - memray-memory-profiling        # Bloomberg's memory profiler — replaces memory_profiler
+  - scalene-ai-optimization        # CPU+GPU+memory unified profiler, AI suggestions
+  - viztracer-asyncio-timeline     # Perfetto-backed asyncio contention diagnosis
+  - libcst-codemods                # Meta's CST for tree-aware mass rewrites (preserves whitespace)
+  - mutmut-mutation-testing        # 88.5% detection, 1200 mutants/min
+  - testcontainers-integration-testing # Real DB/Redis/Kafka via Docker for tests, replaces mocks
+  - hypothesis-property-based      # De facto property-based testing + stateful + shrinking
+  - commitizen-semver-automation   # cz commit + cz bump for SemVer+CHANGELOG
+  - pre-commit-hook-pipeline       # pre-commit framework + ruff-pre-commit + bandit + gitleaks
+  - semgrep-bandit-security-audit  # semgrep --config=auto + bandit -r for SAST
+  - fastapi-litestar-modern-web    # FastAPI 0.115+ vs Litestar (msgspec) vs Robyn (Rust) decision tree
+  - sqlalchemy-2x-async-postgres   # SQLAlchemy 2.x async + asyncpg + Alembic + SQLModel
+  - log4brains-adr-management      # Visual ADR site + MADR 4.0 + adr-kit
+  - opentelemetry-observability    # OTel Python SDK, auto-instrumentation, Honeycomb/Datadog/Sentry
+
+  # ── CraftBot defaults (13) — already on the recipient's install ─────────
+  # These give the agent hands: run CLIs, do git, talk to GitHub, debug, test.
+  - cli-anything                   # run pytest/ruff/mypy/uv/pip/any CLI; auto-installs
+  - debug-pro                      # 7-step debugging methodology, Python-aware tools
+  - systematic-debugging           # generic method to use before proposing any fix
+  - git-commit                     # conventional commits, intelligent staging
+  - github                         # gh CLI — issues, PRs, CI runs, gh api
+  - github-api                     # raw GitHub API access for advanced queries
+  - using-git-worktrees            # isolate feature work via worktrees
+  - test-driven-development        # TDD methodology — failing test first
+  - property-based-testing         # Hypothesis-style coverage beyond example-based
+  - mutation-testing               # mewt/muton — verify test suite actually catches bugs
+  - requesting-code-review         # checklist before asking for review / merging
+  - receiving-code-review          # rigor when applying review feedback
+  - differential-review            # structured PR review workflow
+
+# MCP servers. The first two are guaranteed-shipped CraftBot defaults; the
+# others are part of CraftBot's 157-server catalog but disabled by default,
+# and the recipient will be prompted to fill in any API keys after import.
+#
+# 2026 SOTA toolchain (memray, scalene, viztracer, py-spy, libcst, pyrefly,
+# uv, ruff, hypothesis, mutmut) is exposed through `cli-anything` + `uvx`
+# — no dedicated MCP needed for any of them.
+mcp_servers:
+  - filesystem                     # read/edit files in the user's workspace
+  - github                         # PRs, issues, repo metadata (mirrors the gh CLI skill)
+  - postgresql-mcp                 # schema inspection, query tuning, index analysis — Python backend work
+  - sentry-mcp                     # query errors, performance issues, release health — debugging in production
+  - huggingface-mcp                # model/dataset inference for ML-leaning Python work
+
+# Source attribution. Reference material for soul.md and role.md is listed
+# here for one-glance verification. Default skill/MCP picks are documented
+# in comments above. See SOURCES.md for the section-to-source map.
+sources:
+  - name: wshobson/agents — python-pro
+    url: https://github.com/wshobson/agents/blob/main/plugins/python-development/agents/python-pro.md
+    used_for: capability map (modern features, tooling, testing, performance, web, data science, devops, advanced patterns)
+  - name: wshobson/agents — backend-architect
+    url: https://github.com/wshobson/agents/blob/main/plugins/backend-development/agents/backend-architect.md
+    used_for: API design patterns, microservices, resilience, observability, response approach
+  - name: wshobson/agents — test-automator
+    url: https://github.com/wshobson/agents/blob/main/plugins/backend-development/agents/test-automator.md
+    used_for: test type taxonomy, response approach
+  - name: wshobson/agents — performance-engineer
+    url: https://github.com/wshobson/agents/blob/main/plugins/application-performance/agents/performance-engineer.md
+    used_for: observability, profiling, load testing, caching, performance behavioral traits
+  - name: VoltAgent/awesome-claude-code-subagents — python-pro
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/02-language-specialists/python-pro.md
+    used_for: Python development checklist, Pythonic patterns, type-system mastery, async patterns, web frameworks, testing methodology, communication protocol, workflow
+  - name: VoltAgent/awesome-claude-code-subagents — code-reviewer
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/04-quality-security/code-reviewer.md
+    used_for: code review checklist, code quality assessment, security review, design pattern review, constructive feedback approach
+  - name: VoltAgent/awesome-claude-code-subagents — debugger
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/04-quality-security/debugger.md
+    used_for: debugging checklist, diagnostic approach, debugging techniques, error analysis, common bug patterns, postmortem process
+  - name: VoltAgent/awesome-claude-code-subagents — backend-developer
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/01-core-development/backend-developer.md
+    used_for: backend development checklist, API design requirements, security implementation standards
+  - name: wshobson/agents — python skills (12 files)
+    url: https://github.com/wshobson/agents/tree/main/plugins/python-development/skills
+    used_for: every bundled skill listed under enabled_skills above

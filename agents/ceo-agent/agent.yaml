@@ -1,0 +1,246 @@
+# CEO Agent — CraftBot agent definition
+#
+# GENERAL TIER. Covers the executive surface end-to-end for solo founders and
+# early-stage CEOs: strategy + vision, board management, investor relations,
+# executive hiring, OKR cascading, decision frameworks, all-hands + QBR + annual
+# planning cadence, calendar protection, KPI dashboards, M&A framing. Defers
+# to siblings (product-manager, marketing-agent, sales-agent, finance-controller,
+# finance-agent, legal-counsel, operations-agent) for deep domain work.
+#
+# Every field traces back to reference/SOTA_USE_CASES.md (per-use-case SOTA
+# research from June 2026). See SOURCES.md for the section→source map and
+# reference/INVENTORY.md for the sibling-agent shapes mirrored.
+
+name: CEO Agent
+slug: ceo-agent
+category: executive
+tier: general
+description: >
+  Senior CEO advisor for solo founders and early-stage CEOs. Covers strategy
+  + vision, board management (deck + minutes + governance), investor relations
+  (monthly updates + data room), executive hiring (role spec + scorecard),
+  OKR cascading, decision frameworks (DACI / pre-mortem / decision journal),
+  all-hands + QBR + annual planning cadence, calendar protection, KPI dashboard
+  design, crisis comms, and M&A framing. Operates on three load-bearing
+  convictions: time is the only finite resource, decisions over alignment, and
+  hire slow / fire fast. Defers to product-manager for product strategy depth,
+  marketing-agent for brand + GTM, sales-agent for pipeline + sales strategy,
+  finance-controller and finance-agent for operational + strategic finance,
+  legal-counsel for binding legal, operations-agent for hiring + vendor + HR
+  ops, customer-support-agent for customer issues, growth-agent for activation
+  experiments, and data-analyst for warehouse analytics.
+tags:
+  - executive
+  - ceo
+  - strategy
+  - board
+  - investor-relations
+  - okrs
+  - exec-hiring
+  - decision-frameworks
+  - all-hands
+  - planning
+  - capital-allocation
+  - governance
+  - operating-cadence
+  - calendar
+  - kpi-dashboard
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 20 bundled SOTA skill packs + 23 CraftBot defaults = 43 enabled skills. Each
+# bundled pack closes a use case from reference/SOTA_USE_CASES.md. Round 2
+# (runtime build) creates the SKILL.md files under
+# agents/ceo-agent/skills/<name>/.
+enabled_skills:
+  # ── Bundled (20) — 2026 SOTA CEO operator skill packs ─────────────────
+  - vision-strategy-doc-rumelt-ogsm-v2mom        # Rumelt kernel + OGSM + V2MOM templates + bad-strategy checklist
+  - wardley-mapping-competitive-landscape        # OnlineWardleyMaps text syntax + render + 12-24mo gameplay overlay
+  - board-meeting-prep-deck-minutes              # Sequoia/NVCA 12-slide template + minutes via Granola/Fathom + action sync to Linear
+  - investor-update-monthly-quarterly-visible    # Visible.vc auto-KPI sync + TL;DR/KPIs/Wins/Lowlights/Asks/Cash format
+  - investor-data-room-curation                  # DocSend tracked links + Google Drive folder template + index page
+  - exec-recruiting-greenhouse-ashby-scorecard   # Geoff Smart topgrading + outcomes-first scorecard + Ashby/Greenhouse API
+  - exec-1on1-coaching-framework                 # Lattice 1:1s API + CEO coaching question library + KR check-in
+  - okr-cascade-lattice-mooncamp-quantive        # Christina Wodtke radical-focus + Mooncamp/Lattice/WorkBoard cascade
+  - raci-daci-dri-decision-frameworks            # DACI chooser + Apple DRI + RACI execution matrix templates
+  - decision-journal-pre-mortem-klein            # Annie Duke 5-question + Gary Klein pre-mortem facilitation script
+  - weekly-monthly-all-hands-prep                # Lenny Rachitsky format + Gamma Generate API + pre-read + recap
+  - qbr-quarterly-business-review                # 5-component template + 48h pre-read + 60% decision-time rule
+  - annual-planning-cycle-cadence                # David Sacks rhythm + Wardley refresh + 2-day offsite + bottom-up plans
+  - loom-async-video-comms                       # Tella/Vidyard/Zight scripts + speaker notes + distribution
+  - ai-meeting-transcription-granola-fathom-fireflies-routing  # Per-meeting-type router + central transcript DB
+  - calendar-time-protection-motion-reclaim-sunsama  # 30-day audit + Motion/Reclaim/Sunsama rules + meeting-bloat reduction
+  - kpi-north-star-dashboard-causal-mosaic       # Causal/Mosaic/Visible + warehouse pull + daily-cash weekly-revenue rhythm
+  - crisis-communication-playbook                # 5 archetypes (breach/exec/outage/layoffs/regulatory) + holding statements + cadence
+  - ma-build-vs-buy-vs-partner-framework         # Wardley overlay + DCF + integration cost + walk-away + PitchBook sourcing
+  - ceo-operating-cadence-week-month-quarter     # David Sacks rhythm doc + cadence calendar + initiative tracking
+
+  # ── CraftBot defaults (23) — already on recipient's install ───────────
+  # Document output for strategy docs, board packs, investor updates, decks.
+  - docx                              # Word — long-form strategy docs, board memos
+  - pdf                               # PDF — board pack, investor updates, data-room docs
+  - pptx                              # decks — board, all-hands, QBR, fundraise
+  - file-format                       # cross-format conversion
+  - file-organizer                    # board folder + investor folder + planning folder
+  - markdown-converter                # markdown <-> docx/pdf for cross-tool sharing
+
+  # Diagrams + visualizations.
+  - excalidraw-diagram-generator      # org charts, Wardley sketches, RACI matrices, cadence diagrams
+
+  # Calendar + planning + execution.
+  - gcalcli-calendar                  # calendar audit + bulk operations
+  - day-planner                       # daily executive prep
+  - week-planner                      # weekly metrics review + 1:1s
+  - month-planner                     # monthly roadmap + forecast variance review
+  - task-planner                      # initiative + DRI tracking
+  - executing-plans                   # plan-to-completion through quarterly cadence
+
+  # Ideation, research, decision-support.
+  - brainstorming                     # strategy alternatives, scenario thinking
+  - concise-planning                  # board memos, investor updates, all-hands scripts
+  - ask-questions-if-underspecified   # clarify ambiguous strategic asks before composing
+  - audit-context-building            # gather stage + team + priorities before recommending
+  - verification-before-completion    # quality gate before publishing board pack / update
+  - research-assistant                # competitive intel, M&A target research
+  - ai-news-collectors                # industry + competitive-move monitoring
+  - brave-search                      # general web research
+  - tavily-search                     # alt research engine
+
+  # Cross-check + execution.
+  - gemini                            # second-opinion model for strategy critique
+  - cli-anything                      # run Visible/Mooncamp/Lattice/Causal/Ashby APIs
+
+  # Writing quality + memory.
+  - writing-skills                    # CEO prose — investor + board + all-hands
+  - writing-plans                     # long-form annual plan + strategy doc structure
+  - memory-processor                  # persist company/team/priorities context across sessions
+
+# MCP servers — 2026 SOTA executive-operator stack. Every name verified against
+# app/config/mcp_config.json on 2026-06-10. Recipient enables in CraftBot MCP
+# settings + provides OAuth/API keys per platform.
+mcp_servers:
+  - filesystem                        # read/edit strategy docs, board packs, plans
+
+  # ── Knowledge base + decision log + cadence ──────────────────────────
+  - notion-mcp                        # strategy doc, decision journal, OKR canvas, board minutes, operating rhythm
+  - linear-mcp                        # initiative + DRI tracking, action items from board / QBR
+  - jira-mcp                          # alt for Jira-using exec teams
+
+  # ── Calendar + scheduling ────────────────────────────────────────────
+  - google-calendar-mcp               # operating rhythm, offsite, 1:1s, calendar audit
+
+  # ── Comms — internal + external ──────────────────────────────────────
+  - gmail-mcp                         # investor updates, board distribution, exec outreach
+  - outlook-mcp                       # alt for MS-shop CEOs
+  - slack-mcp                         # async cascade, all-hands broadcasts, crisis channel
+  - ms-teams-mcp                      # alt for MS-shop boards
+  - zoom-mcp                          # board / QBR / all-hands hosting + transcript pull
+
+  # ── Workspace / file collaboration ──────────────────────────────────
+  - google-drive-mcp                  # data room, doc storage, shared workspaces
+  - google-workspace-mcp              # full workspace admin (Drive + Calendar + Docs)
+
+  # ── KPI dashboard — product analytics ───────────────────────────────
+  - posthog-mcp                       # KPI pull (product analytics)
+  - mixpanel-mcp                      # alt analytics (funnels, retention)
+  - amplitude-mcp                     # alt analytics (cohorts, North Star metric tracking)
+
+  # ── KPI dashboard — finance + warehouse ─────────────────────────────
+  - postgresql-mcp                    # warehouse-of-record queries
+  - stripe-mcp                        # revenue / MRR / churn for investor updates + dashboard
+  - xero-mcp                          # accounting / cash / runway pulls
+
+  # ── M&A + public-co intelligence ────────────────────────────────────
+  - sec-edgar-mcp                     # public-co target financials, comparables
+  - octagon-sec-mcp                   # alt SEC data
+
+  # ── Competitive + market intelligence ────────────────────────────────
+  - firecrawl-mcp                     # structured competitor scraping
+  - brightdata-mcp                    # paid-wall scraping fallback
+  - playwright-mcp                    # competitor portal flow capture
+
+  # ── Visual / design / org charts ────────────────────────────────────
+  - figma-mcp                         # pitch deck + brand context
+  - canva-mcp                         # visual asset gen for decks + comms
+  - drawio-mcp                        # org charts, Wardley render, RACI charts
+
+  # ── Web research backup ─────────────────────────────────────────────
+  - brave-search                      # competitive + market research
+
+# Source attribution. See reference/SOTA_USE_CASES.md for the per-use-case
+# evidence with URLs; SOURCES.md for the section→source map.
+sources:
+  - name: Rumelt — Good Strategy / Bad Strategy (kernel)
+    url: https://cutlefish.substack.com/p/tbm-332-the-last-strategy-framework
+    used_for: Strategy doc spine (diagnosis / guiding policy / coherent actions), bad-strategy checklist
+  - name: OGSM framework (MasterClass)
+    url: https://www.masterclass.com/articles/ogsm
+    used_for: Operating format for objectives / goals / strategies / measures
+  - name: Wardley Maps + OnlineWardleyMaps
+    url: https://medium.com/@haberlah/build-vs-buy-in-2026-using-wardley-mapping-to-navigate-the-agentic-ai-shift-be24d534b054
+    used_for: Competitive landscape mapping, M&A build/buy/partner overlay
+  - name: I'mBoard — 2026 board portal alternatives for startups
+    url: https://www.imboard.ai/blog/alternatives-to-diligent-boards
+    used_for: Board portal selection (I'mBoard / Boardable / OnBoard / Diligent) + startup-tier upload caveat
+  - name: Granola vs Fireflies vs Fathom vs Otter pricing
+    url: https://www.granola.ai/blog/meeting-note-tool-pricing-granola-vs-fireflies-fathom-otter
+    used_for: AI meeting transcription router by meeting type (board / strategy / customer)
+  - name: Visible.vc investor update software
+    url: https://visible.vc/blog/investor-update-software/
+    used_for: Monthly / quarterly investor update format + KPI auto-sync
+  - name: Carta — Best Cap Table Software for 2026
+    url: https://carta.com/best-cap-table-software/
+    used_for: Data room + cap table tooling guidance for Series A+
+  - name: Greenhouse vs Lever vs Ashby — Index.dev
+    url: https://www.index.dev/blog/greenhouse-vs-lever-vs-ashby-ats-comparison
+    used_for: Executive recruiting platform selection + structured-hiring scorecards
+  - name: Ashby — all-in-one recruiting
+    url: https://www.ashbyhq.com/
+    used_for: Analytics-depth ATS for data-driven exec recruiting teams
+  - name: Mooncamp — 27 Best OKR Software 2026
+    url: https://mooncamp.com/blog/best-okr-software
+    used_for: OKR platform selection (Mooncamp / Lattice / WorkBoard ex-Quantive) by team size
+  - name: Lattice pricing + alternatives
+    url: https://www.tability.io/compare/platform/lattice
+    used_for: Lattice Goals API + 1:1s API for OKR + coaching
+  - name: Atlassian DACI play
+    url: https://www.atlassian.com/team-playbook/plays/daci
+    used_for: DACI single-Approver decision framework for strategic decisions
+  - name: RACI vs DACI vs RAPID — DecTrack
+    url: https://dectrack.com/en/blog/decision-models-raci-daci-rapid
+    used_for: Decision-framework chooser (DACI for decisions, RACI for execution, DRI for ownership)
+  - name: Gary Klein pre-mortem method
+    url: https://www.gary-klein.com/premortem
+    used_for: Pre-mortem facilitation script (~30% better risk identification per Wharton study)
+  - name: Annie Duke — How to Decide
+    url: https://grahammann.net/book-notes/how-to-decide-annie-duke
+    used_for: Decision journal template separating process from outcome
+  - name: Lenny Rachitsky weekly update format
+    url: https://www.lennysnewsletter.com/p/how-to-write-a-great-weekly-update
+    used_for: All-hands + weekly update format — Wins / Lowlights / Asks / Plans / Metrics
+  - name: Stellafai — How to Run a Stellar QBR
+    url: https://www.stellafai.com/post/how-to-run-a-stellar-quarterly-business-review-meeting
+    used_for: QBR structure (5-component, 60% decision time, 48h pre-read)
+  - name: David Sacks operating cadence
+    url: https://www.capitaly.vc/blog/david-sacks-operating-cadence-weekly-metrics-okrs-ceo-dashboard
+    used_for: CEO operating rhythm (weekly metrics + 1:1, monthly variance, quarterly OKR + QBR, annual strategy + capital + hiring)
+  - name: Best AI presentation makers 2026
+    url: https://posteverywhere.ai/blog/15-best-ai-presentation-makers
+    used_for: Deck tooling — Gamma default (Tome shutdown March 2025), Beautiful.ai for PPT compatibility
+  - name: Loom alternatives 2026 — Zight
+    url: https://zight.com/blog/best-loom-alternatives-2026/
+    used_for: Async video — Tella (polished) / Vidyard (sales-CRM) / Zight (unified) / Berrycast (free)
+  - name: Motion vs Reclaim vs Clockwise vs Akiflow vs Sunsama
+    url: https://temporal.day/blog/motion-vs-reclaim-vs-clockwise-vs-akiflow-vs-sunsama
+    used_for: Calendar protection — Clockwise EOL March 2026, route by meeting load + style
+  - name: Causal vs Mosaic vs Runway FP&A
+    url: https://valueaddvc.com/blog/best-financial-modeling-tools-for-startups-excel-vs-runway-vs-causal-vs-mosaic
+    used_for: KPI / dashboard tooling — Causal Seed-Series B, Mosaic Series C+, Finmark startup-budget
+  - name: PitchBook vs CB Insights vs Crunchbase vs Tracxn
+    url: https://otio.ai/blog/cb-insights-vs-pitchbook
+    used_for: Competitive intel + M&A target sourcing — Crunchbase $29-49/mo as free-tier fallback
+  - name: Empire Magazine — CEO Playbook 2026
+    url: https://www.theempiremag.com/the-ceo-playbook-2026/
+    used_for: 2026 CEO playbook (leaner / faster organization, crisis comms, partnership evaluation)

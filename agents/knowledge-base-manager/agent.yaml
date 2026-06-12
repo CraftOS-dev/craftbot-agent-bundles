@@ -1,0 +1,267 @@
+# Knowledge Base Manager — CraftBot agent definition
+#
+# Every field traces back to research in reference/SOTA_USE_CASES.md or to
+# a default CraftBot capability already shipped on the recipient's install.
+# See reference/INVENTORY.md for sources and SOURCES.md for the section→source
+# map.
+
+name: Knowledge Base Manager
+slug: knowledge-base-manager
+category: content
+tier: specialized
+description: >
+  Knowledge base operator — designs taxonomy, optimizes search, manages
+  content lifecycle (draft → review → publish → archive), tracks doc
+  analytics (deflection rate, exit rate, no-result-found, time-on-page),
+  enforces KB governance, integrates AI assistants (Kapa.ai / Inkeep /
+  Mendable / Markprompt) on top of docs, ships localized + versioned KBs
+  with SSO gating, and runs content audits + review cadences. Sits one
+  tier under `technical-writer` (which owns developer docs / API refs /
+  ADRs). Defers deep public-KB SEO to `seo-specialist`, internal-process
+  SOPs to `operations-agent`, support-workflow design to
+  `customer-support-agent`, and community-driven KB contribution to
+  `community-manager`.
+tags:
+  - knowledge-base
+  - kb-taxonomy
+  - kb-governance
+  - kb-search-optimization
+  - kb-analytics
+  - deflection-rate
+  - content-lifecycle
+  - ai-doc-assistant
+  - notion-kb
+  - confluence-kb
+  - intercom-articles
+  - zendesk-guide
+  - documentation-ops
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time. The build script looks up each name in
+# agents/knowledge-base-manager/skills/ (bundled — ships INSIDE the .craftbot)
+# first, then in the repo's top-level skills/ (default — already on the
+# recipient's CraftBot install).
+enabled_skills:
+  # ── Bundled (24) — SOTA KB-operator skill packs we ship with this agent ───
+  # Round 2 creates the SKILL.md contents. See reference/SOTA_USE_CASES.md
+  # for the SOTA mechanism each pack covers.
+  - kb-taxonomy-design-categories-tags-hierarchy           # 5-tier IA + card-sort + Diátaxis overlay
+  - algolia-typesense-search-optimization                  # synonyms, ranking, autocomplete; Algolia / Typesense / MeiliSearch / Pagefind / Orama
+  - content-lifecycle-draft-review-publish-archive         # 5-state workflow + Notion/Confluence/git automation
+  - doc-analytics-clarity-ga4-algolia-insights             # top-searched / no-result / high-exit / time-on-page
+  - knowledge-ops-owner-contributor-flow                   # RACI matrix, owner pings, contributor leaderboard
+  - kb-governance-style-vale-rules                         # Vale + markdownlint + alex + last-verified stamp
+  - kb-roi-deflection-rate                                 # deflection formula + per-article ROI
+  - kb-authoring-training-non-doc-team                     # checklist + templates + Vale-as-tutor
+  - content-audit-stale-inaccurate-redundant               # Lychee + pytest-markdown-docs + simhash dedup
+  - content-migration-between-platforms                    # Notion-to-md, Confluence-to-md, Zendesk → md
+  - kb-seo-aeo-geo-public-ranking                          # Schema.org + llms.txt + Ahrefs/AthenaHQ tracking
+  - customer-facing-kb-support-deflection                  # Intercom / Pylon / Helpdesk articles + in-product widgets
+  - employee-facing-internal-wiki-notion-slab              # Notion teamspaces + Tettra/Slab/Guru + Slack surfacing
+  - ai-doc-assistant-kapa-inkeep-mendable                  # Kapa.ai / Inkeep / Mendable / Markprompt FOSS
+  - multi-language-localized-kb-deepl-crowdin              # DeepL + Crowdin / Lokalise + locale routing
+  - sso-gated-kb-okta-auth0                                # SAML/OIDC + SCIM provisioning
+  - kb-versioning-per-product-docusaurus-mike              # versions config + mike + Mintlify versions.json
+  - content-reuse-single-source-asciidoc-antora            # AsciiDoc + Antora + Docusaurus/Mintlify partials
+  - kb-feedback-collection-helpful-open                    # native KB feedback + Cloudflare Workers fallback
+  - content-review-cadence-monthly-quarterly               # GitHub Actions stale-bot + quarterly audit aggregator
+  - interactive-guide-stonly-whatfix                       # Stonly / Whatfix / Pendo / Shepherd.js FOSS
+  - video-kb-loom-tango-scribe                             # Loom + Tango / Scribe + Guidde embeds
+  - changelog-beamer-headway-inproduct                     # Beamer / Headway / LaunchNotes + RSS feed fallback
+  - expert-finder-who-knows-x                              # Notion db + Slack history + git author analysis
+
+  # ── CraftBot defaults (13) — already on the recipient's install ───────────
+  # Content I/O, version control, doc tooling, review, web/search.
+  - docx                            # produce Word output for KB exports
+  - pdf                             # produce PDF for archived / legal-bound KB articles
+  - pptx                            # KB walkthrough decks for trainers and onboarding
+  - file-format                     # convert between KB-export formats
+  - cli-anything                    # universal verb — Vale / Lychee / markdownlint / mike / Algolia CLI / DeepL / OptimalSort / Antora / wrangler etc.
+  - file-organizer                  # organize source-of-truth KB tree (`docs/get-started/`, `how-to/`, `concept/`, `reference/`)
+  - git-commit                      # Conventional Commits for KB changes
+  - github                          # gh CLI — open PRs for KB changes, comment on issues
+  - github-api                      # raw GitHub API — CODEOWNERS, stale-bot, content scans
+  - using-git-worktrees             # isolate KB branches from product code work
+  - playwright-mcp                  # capture screenshots for in-app help / KB articles
+  - firecrawl                       # crawl competitor / legacy KBs for benchmark or migration
+  - markdown-converter              # convert legacy HTML / docx / Confluence storage format → markdown
+
+# MCP servers — every name must exist in app/config/mcp_config.json. The
+# recipient enables each in their MCP settings after importing the .craftbot
+# bundle and fills in API keys. Selection driven by SOTA_USE_CASES.md.
+mcp_servers:
+  - filesystem                      # read/edit KB markdown / config / redirect files
+  - github                          # PRs, issues, CI workflows for git-backed KBs
+
+  # ── KB platforms (Notion is MCP-native; others via cli-anything) ─────────
+  - notion-mcp                      # Notion-based KBs (content + RACI db + expert finder)
+
+  # ── Surfacing + owner pings ─────────────────────────────────────────────
+  - slack-mcp                       # Slack-first KB surfacing, owner notifications, expert finder
+  - gmail-mcp                       # owner stale-content alerts; transactional KB-link emails
+
+  # ── Ticketing → KB feedback loops ──────────────────────────────────────
+  - linear-mcp                      # ticket clusters → "missing-KB-article" Linear tickets
+  - jira-mcp                        # same for Jira-shop orgs
+
+  # ── KB analytics ──────────────────────────────────────────────────────
+  - posthog-mcp                     # KB product-analytics overlay (events, funnels)
+  - mixpanel-mcp                    # alt analytics if recipient uses Mixpanel
+  - amplitude-mcp                   # alt analytics if recipient uses Amplitude
+
+  # ── Translation + multi-language ─────────────────────────────────────
+  - deepl-mcp                       # SOTA translation for i18n KB workflows
+
+  # ── Crawl + SEO benchmarking ─────────────────────────────────────────
+  - firecrawl-mcp                   # crawl competitor / legacy KB for migration + benchmark
+  - brightdata-mcp                  # public-KB SERP rank tracking + SEO data
+
+  # ── OCR for legacy KB capture ────────────────────────────────────────
+  - gemini-ocr-mcp                  # extract text from screenshot-only legacy KB
+  - mistral-ocr-mcp                 # alt OCR provider
+
+  # ── Visual + design ──────────────────────────────────────────────────
+  - figma-mcp                       # screenshots for in-app help, design-system KB
+  - drawio-mcp                      # IA / taxonomy diagrams + content-flow visualization
+
+# Source attribution. See SOURCES.md for section→source map. See
+# reference/INVENTORY.md for the per-file URL + license + description.
+sources:
+  - name: Diátaxis framework
+    url: https://diataxis.fr/
+    used_for: KB taxonomy 4-tier overlay (Get-started / How-to / Concept / Reference)
+  - name: Algolia DocSearch
+    url: https://docsearch.algolia.com/
+    used_for: KB search SOTA (free for OSS), synonyms + ranking + Insights API
+  - name: Typesense
+    url: https://typesense.org/docs/0.25.2/api/synonyms.html
+    used_for: self-hosted KB search alternative, sub-50ms latency
+  - name: MeiliSearch
+    url: https://www.meilisearch.com/
+    used_for: self-hosted KB search alternative
+  - name: Pagefind
+    url: https://pagefind.app/
+    used_for: static-site KB search (zero infra)
+  - name: Microsoft Clarity (free behavioral analytics)
+    url: https://clarity.microsoft.com/
+    used_for: heatmaps + rage clicks + scroll depth + session replays for KB
+  - name: GA4 Data API
+    url: https://developers.google.com/analytics/devguides/reporting/data/v1
+    used_for: high-exit pages, content-group rollups, KB traffic analytics
+  - name: Kapa.ai
+    url: https://docs.kapa.ai/
+    used_for: AI doc Q&A on KBs (verified citations, used by OpenAI / Reddit / Mapbox)
+  - name: Inkeep
+    url: https://docs.inkeep.com/
+    used_for: search-first AI KB assistant with chat fallback
+  - name: Mendable
+    url: https://docs.mendable.ai/
+    used_for: SDK for embedding AI KB Q&A in product
+  - name: Markprompt
+    url: https://markprompt.com/docs
+    used_for: FOSS / self-hosted AI KB assistant backbone
+  - name: Notion API (databases + blocks)
+    url: https://developers.notion.com/reference/post-database-query
+    used_for: Notion-based KB content + RACI + expert finder + lifecycle automation
+  - name: Confluence REST API v2
+    url: https://developer.atlassian.com/cloud/confluence/rest/v2/
+    used_for: Confluence-based KB content lifecycle + Page Approvals
+  - name: Document360 workflows
+    url: https://docs.document360.com/docs/workflows
+    used_for: Document360-based content lifecycle + version control
+  - name: Intercom Articles API
+    url: https://www.intercom.com/help/en/articles/2398029-articles
+    used_for: customer-facing KB content + in-product Help widget
+  - name: Zendesk Guide / Help Center API
+    url: https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/
+    used_for: customer-facing Zendesk KB content + deflection tracking
+  - name: Pylon Help Center
+    url: https://docs.pylon.com/
+    used_for: B2B customer-facing KB alternative
+  - name: DeepL API
+    url: https://developers.deepl.com/
+    used_for: SOTA machine translation for multi-language KB (tag_handling=markdown)
+  - name: Crowdin API
+    url: https://developer.crowdin.com/
+    used_for: translator-review workflow + translation memory for KB i18n
+  - name: Lokalise CLI
+    url: https://github.com/lokalise/lokalise-cli-2-go
+    used_for: alternative localization platform for KB
+  - name: Stonly API
+    url: https://stonly.com/help/en/category/api-1hjhf32/
+    used_for: interactive decision-tree KB guides
+  - name: Whatfix
+    url: https://docs.whatfix.com/
+    used_for: in-product self-help guides overlaying real UI
+  - name: Shepherd.js
+    url: https://shepherdjs.dev/
+    used_for: FOSS in-product tour library (free alternative to Stonly / Whatfix)
+  - name: Loom Public API
+    url: https://loom.com/developers
+    used_for: video KB embeds + transcripts for searchability
+  - name: Tango API
+    url: https://www.tango.us/api
+    used_for: auto-generated step-by-step process guides from browser captures
+  - name: Scribe API
+    url: https://scribehow.com/api
+    used_for: alt step-by-step process guide capture tool
+  - name: Beamer API
+    url: https://www.getbeamer.com/help/en/articles/3438037-api
+    used_for: in-product changelog widget
+  - name: Headway API
+    url: https://docs.headwayapp.co/
+    used_for: in-product changelog alternative to Beamer
+  - name: LaunchNotes API
+    url: https://www.launchnotes.com/api-docs
+    used_for: changelog management with segmentation (admin vs end-user)
+  - name: Schema.org Article + FAQPage + HowTo
+    url: https://schema.org/Article
+    used_for: structured data for KB SEO and AI-search citation
+  - name: llms.txt standard
+    url: https://llmstxt.org/
+    used_for: AEO/GEO — being citable by ChatGPT / Perplexity / Gemini
+  - name: AthenaHQ AEO
+    url: https://docs.athenahq.ai/
+    used_for: AEO citation-share monitoring
+  - name: Antora (docs-as-code multi-output)
+    url: https://docs.antora.org/antora/latest/
+    used_for: AsciiDoc + Antora single-source publishing for large enterprise KBs
+  - name: Docusaurus versioning
+    url: https://docusaurus.io/docs/versioning
+    used_for: KB per-product-version snapshots
+  - name: mike (MkDocs versioning)
+    url: https://github.com/jimporter/mike
+    used_for: MkDocs-based KB version dropdown UI + alias management
+  - name: Vale
+    url: https://vale.sh/
+    used_for: KB prose linting, brand-voice enforcement, Diataxis vocabulary rules
+  - name: Lychee link checker
+    url: https://github.com/lycheeverse/lychee
+    used_for: KB link audit (fastest 2026 link checker, JSON output)
+  - name: pytest-markdown-docs (Modal Labs)
+    url: https://github.com/modal-labs/pytest-markdown-docs
+    used_for: KB code-fence accuracy audit (catch drift between docs and code)
+  - name: simhash / datasketch for dedup
+    url: https://pypi.org/project/simhash/
+    used_for: KB redundant-content detection (text similarity > 80%)
+  - name: Slab Team Owner + Tettra + Guru
+    url: https://help.slab.com/en/
+    used_for: internal-wiki ownership and Slack-native surfacing
+  - name: GitHub stale-bot Action
+    url: https://github.com/actions/stale
+    used_for: automated stale-content workflow (>180d untouched → ping owner)
+  - name: NN/g card-sorting guide
+    url: https://www.nngroup.com/articles/card-sorting-definitive-guide/
+    used_for: KB taxonomy validation method
+  - name: OptimalSort TreeJack
+    url: https://www.optimalworkshop.com/treejack
+    used_for: first-click testing for KB IA
+  - name: Glean expert-finder
+    url: https://www.glean.com/product/expert-finder
+    used_for: enterprise expert-finder integration with KB search
+  - name: Cloudflare Workers
+    url: https://developers.cloudflare.com/workers/
+    used_for: free KB-feedback collection backend (when paid KB platforms aren't in scope)

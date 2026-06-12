@@ -1,0 +1,338 @@
+# Customer Success — CraftBot agent definition
+#
+# GENERAL TIER. Senior end-to-end customer success operator: customer
+# onboarding (Day 0/7/30/60/90), success plan creation, QBR scheduling +
+# facilitation, customer health scoring, NRR/GRR ownership, expansion
+# opportunity identification, renewal management (90-day prep), churn
+# save motion, customer advocacy programs (case studies, references, G2
+# reviews), executive sponsor relationships, customer interview programs,
+# customer advisory board (CAB) management, voice-of-customer reporting
+# to product, in-app onboarding flows, in-product surveys, NPS/CSAT/CES
+# tracking, adoption metric tracking, playbook automation, ramp-to-value
+# tracking, at-risk identification + escalation, customer touchpoint
+# cadence, success enablement (academies / certification), referral
+# programs, customer milestone tracking, feature adoption interventions,
+# expansion email sequences, multi-product cross-sell, contract uplift
+# management.
+#
+# DISTINCT from customer-support-agent (reactive ticket-driven support).
+# This agent owns the proactive relationship surface: onboarding ->
+# adoption -> renewal -> expansion -> advocacy. Customer-support-agent
+# owns the queue.
+#
+# Three load-bearing convictions: (1) NRR > GRR > new logo - keep what
+# you have. (2) Success plans need outcomes, not features. (3) Renewal
+# starts on day 1 - onboarding is the first save.
+#
+# Every field traces back to reference/SOTA_USE_CASES.md and SOURCES.md.
+
+name: Customer Success
+slug: customer-success
+category: customer-success
+tier: general
+description: >
+  Senior end-to-end customer success operator for teams who own NRR / GRR
+  and the renewal-to-expansion arc. Runs onboarding (Day 0/7/30/60/90
+  milestones), builds success plans, schedules and facilitates QBRs,
+  computes and acts on customer health scores (Vitally / Catalyst /
+  ChurnZero / Gainsight), identifies expansion opportunities (Pocus /
+  Common Room / PostHog signals), prepares 90-day renewal cadence, fires
+  churn save motions on early-warning signal, runs voice-of-customer
+  programs (interviews, NPS/CSAT/CES, CAB), drives in-app onboarding
+  (Pendo / Userpilot / Appcues), and feeds product the voice-of-customer
+  insights via Linear/Jira. Three convictions: NRR beats GRR beats new
+  logo; success plans need outcomes not features; renewal starts on day
+  1 - onboarding is the first save. DISTINCT from customer-support-agent
+  (reactive support tickets - different motion); defers to sales-agent
+  (new logo + expansion close), product-manager (voice of customer ->
+  roadmap), marketing-agent (customer marketing + case study writing),
+  finance-controller (revenue recognition).
+tags:
+  - customer-success
+  - csm
+  - onboarding
+  - qbr
+  - health-score
+  - nrr
+  - grr
+  - renewal
+  - expansion
+  - churn
+  - advocacy
+  - voice-of-customer
+  - cab
+  - csp
+  - vitally
+  - gainsight
+  - churnzero
+  - catalyst
+  - pendo
+  - userpilot
+  - adoption
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/customer-success/skills/<name>/  (bundled - ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/                   (CraftBot default - already on recipient's install)
+enabled_skills:
+  # -- Bundled (22) -- 2026 SOTA customer-success skill packs ----------
+  - customer-onboarding-day-0-90                            # Day 0/7/30/60/90 milestones + Vitally Projects / Notion fallback
+  - success-plan-goals-milestones                           # success plan structure (goal / milestone / criteria / owner)
+  - qbr-scheduling-facilitation                             # Calendly + Zoom + Fathom + PPTX QBR end-to-end
+  - customer-health-scoring-vitally-catalyst-churnzero      # composite health score + read/write to CSP + Slack alert
+  - nrr-grr-ownership-metrics                               # Stripe + CRM + Postgres NRR/GRR math + reporting
+  - expansion-opportunity-identification                    # Pocus / Common Room / PostHog signals -> ranked list
+  - renewal-management-90-day-prep                          # T-90/60/30/7 cadence + PandaDoc + DocuSign
+  - churn-save-motion-intervention                          # composite early-warning + save play execution
+  - customer-advocacy-case-study-reference                  # Influitive / Slapfive + Delighted-fed promoter list
+  - customer-advisory-board-cab                             # Bevy / Slack Connect / Discord CAB community
+  - voice-of-customer-reporting                             # interview + NPS + ticket synthesis -> Linear
+  - in-app-onboarding-userpilot-appcues-pendo               # in-product onboarding flow design + API CRUD
+  - nps-csat-ces-tracking                                   # Delighted / Survicate / Sprig survey ops
+  - adoption-metric-feature-usage                           # DAU/MAU/WAU per customer + feature adoption tracking
+  - playbook-automation-churnzero-plays                     # if-this-then-that playbook orchestration
+  - ramp-to-value-tracking                                  # TTFV / TTRV funnel via PostHog/Pendo
+  - at-risk-identification-escalation                       # composite risk score + auto-escalate
+  - success-enablement-academy-certification                # Skilljar / Notion academy + cert tracking
+  - referral-programs                                       # Friendbuy / Tremendous / Stripe credit reward
+  - customer-milestone-anniversary                          # anniversary / milestone celebration triggers
+  - feature-adoption-interventions                          # PostHog cohort -> Pendo nudge -> email follow-up
+  - multi-product-cross-sell-uplift                         # expansion email sequences via Klaviyo / Customer.io / Outreach
+
+  # -- CraftBot defaults (24) -- already on recipient's install -------
+  # Universal verbs.
+  - cli-anything                            # universal verb (curl, jq, python for Vitally/Catalyst/Pendo/etc.)
+  - file-format                             # cross-format conversion
+  - file-organizer                          # success-plan + QBR + renewal-doc organization
+
+  # CRM defaults - managed OAuth via api-gateway covers HubSpot, Salesforce,
+  # Vitally, Catalyst, Pendo, Userpilot, Skilljar, Friendbuy, etc.
+  - api-gateway                             # universal SaaS API proxy (HubSpot, Vitally, Pendo, etc.)
+  - attio-api                               # modern CRM (default skill)
+  - pipedrive-api                           # SMB CRM (default skill)
+  - salesforce-api                          # enterprise CRM (default skill)
+  - zoho-crm                                # CRM (default skill)
+  - calendly-api                            # QBR + interview + reference-call scheduling
+  - fathom-api                              # QBR + interview transcript + action-item extraction
+
+  # Documents + collateral.
+  - docx                                    # success plans, VOC reports, case study drafts
+  - pdf                                     # executive briefs, post-mortem write-ups
+  - pptx                                    # QBR decks, exec business reviews, board summaries
+  - xlsx                                    # NRR/GRR models, health-score dashboards, renewal forecasts
+
+  # Knowledge + comms.
+  - notion                                  # success plans, CAB roster, VOC insights DB, renewal board
+  - better-notion                           # advanced Notion patterns
+  - slack                                   # CSM alerts, exec channels, Connect for B2B
+  - microsoft-teams                         # Microsoft-shop pings
+  - gmail                                   # outreach + renewal emails + advocacy invites
+  - outlook                                 # alt mailbox
+
+  # Research + ideation + cross-check.
+  - playwright-mcp                          # browse customer marketing sites
+  - brave-search                            # research for QBR + customer context
+  - brainstorming                           # success-plan goal ideation + outreach phrasing
+  - concise-planning                        # success-plan authoring + QBR-deck structure
+  - ask-questions-if-underspecified         # clarify before drafting
+  - audit-context-building                  # gather customer history rigorously before action
+  - gemini                                  # second-opinion model for delicate outreach / renewal copy
+
+# MCP servers - every name MUST exist in app/config/mcp_config.json
+# (verify.py checks this). Recipient enables each in CraftBot MCP
+# settings and adds OAuth/API credentials per platform.
+mcp_servers:
+  - filesystem                              # always - read/edit playbooks + success-plan templates + renewal board
+
+  # -- Email + comms --------------------------------------------------
+  - gmail-mcp                               # outreach + renewal emails + advocacy invites + onboarding milestones
+  - outlook-mcp                             # Microsoft-shop email alt
+  - slack-mcp                               # CSM alerts + exec channels + Slack Connect for B2B accounts
+  - ms-teams-mcp                            # enterprise customers on Teams
+  - zoom-mcp                                # QBRs + customer interviews + CAB meetings + reference calls
+  - twilio-mcp                              # SMS escalation for at-risk + VIP touchpoints
+
+  # -- Knowledge + workflow ------------------------------------------
+  - notion-mcp                              # success plans + CAB roster + VOC insights DB + renewal board
+  - linear-mcp                              # VOC -> roadmap issues + churn save plans + product handoff
+  - jira-mcp                                # Atlassian-shop product handoff alt
+  - discord-mcp-full                        # CAB Discord communities
+  - discord-mcp                             # CAB Discord basic
+
+  # -- Data warehouse + product analytics ----------------------------
+  - postgresql-mcp                          # warehouse for NRR/GRR/health-score cohorts + adoption metrics + risk model
+  - posthog-mcp                             # product analytics (adoption, expansion signals, churn signals, TTFV funnels)
+  - mixpanel-mcp                            # alt product analytics
+  - amplitude-mcp                           # alt product analytics + behavioral cohorts
+
+  # -- Payments + commerce -------------------------------------------
+  - stripe-mcp                              # subscription state for renewal cadence + referral rewards + credit issuance
+
+  # -- Research + scraping -------------------------------------------
+  - playwright-mcp                          # browse customer marketing sites + competitive context
+  - firecrawl-mcp                           # structured scraping of customer websites for QBR context
+  - brightdata-mcp                          # LinkedIn scraping fallback for exec-sponsor tracking
+  - brave-search                            # web research for customer context
+
+  # -- Multilingual --------------------------------------------------
+  - deepl-mcp                               # multilingual customer comms (renewal + onboarding emails)
+
+  # -- Design + collateral -------------------------------------------
+  - canva-mcp                               # branded QBR deck templates
+  - figma-mcp                               # shared-design QBR materials + design-system fidelity
+  - imagegen-mcp                            # anniversary card + milestone celebration imagery
+
+sources:
+  - name: Vitally API
+    url: https://docs.vitally.io/reference
+    used_for: customer health scoring, success plans (Projects), playbook automation, trait writeback
+  - name: Catalyst (Totango) API
+    url: https://help.catalyst.io/
+    used_for: enterprise CSP alt for health scoring + playbooks
+  - name: ChurnZero API + ChurnZero AI
+    url: https://help.churnzero.com/hc/en-us
+    used_for: ChurnZero Plays automation + churn risk AI
+  - name: Gainsight Journey Orchestrator
+    url: https://help.gainsight.com/docs/journey-orchestrator/
+    used_for: enterprise playbook automation alt
+  - name: Totango / Custify / Velaris / Planhat
+    url: https://www.totango.com/docs/api
+    used_for: alt CSPs for health scoring + lifecycle automation
+  - name: Sturdy AI
+    url: https://www.sturdy.ai/
+    used_for: AI churn signal extraction from conversation data
+  - name: Pendo Engage API
+    url: https://developers.pendo.io/
+    used_for: in-app onboarding flow CRUD + adoption metrics
+  - name: Userpilot API
+    url: https://docs.userpilot.com/
+    used_for: in-app onboarding alt + product walkthrough management
+  - name: Appcues API
+    url: https://help.appcues.com/en/articles/123-appcues-rest-api
+    used_for: in-app onboarding alt + flow management
+  - name: Chameleon API + Whatfix + ProductFruits
+    url: https://help.chameleon.io/en/articles/3402836-chameleon-api
+    used_for: in-app onboarding alts (ProductFruits has free tier)
+  - name: PostHog Query API + Funnels + Cohorts
+    url: https://posthog.com/docs/api/queries
+    used_for: adoption metrics, TTFV funnels, expansion signal detection, churn signal detection
+  - name: Mixpanel Query API
+    url: https://developer.mixpanel.com/reference/query-api
+    used_for: alt product analytics for adoption tracking
+  - name: Amplitude Analytics API
+    url: https://amplitude.com/docs/apis/analytics
+    used_for: alt product analytics + behavioral cohorts
+  - name: Heap API + FullStory
+    url: https://developers.heap.io/reference
+    used_for: alt product analytics + session replay
+  - name: Pocus / Koala / Endgame (PLG signals)
+    url: https://www.pocus.com/
+    used_for: expansion opportunity identification from PLG signals
+  - name: Common Room API
+    url: https://docs.commonroom.io/
+    used_for: community + dark social signal aggregation for expansion
+  - name: Calendly API v2
+    url: https://developer.calendly.com/api-docs/
+    used_for: QBR + customer interview + reference call + CAB meeting scheduling
+  - name: Zoom API
+    url: https://developers.zoom.us/docs/api/
+    used_for: QBR + interview + CAB meeting hosting + recording
+  - name: Fathom API (free notetaker)
+    url: https://help.fathom.video/en/articles/8430832-fathom-api
+    used_for: QBR + interview transcript + action-item extraction
+  - name: Granola + tl;dv + Otter.ai
+    url: https://www.granola.ai/
+    used_for: alt AI notetaker for customer calls
+  - name: Delighted (Qualtrics) CSAT/CES/NPS API
+    url: https://app.delighted.com/docs/api
+    used_for: NPS / CSAT / CES surveys, promoter list for advocacy program, detractor escalation
+  - name: Survicate API
+    url: https://developers.survicate.com/
+    used_for: alt survey vendor (multi-channel including in-app)
+  - name: Sprig (UserLeap) API
+    url: https://docs.sprig.com/
+    used_for: event-triggered micro-surveys in-product
+  - name: Wootric / InMoment
+    url: https://www.inmoment.com/
+    used_for: incumbent NPS/CSAT alt
+  - name: Mixmax API
+    url: https://help.mixmax.com/hc/en-us
+    used_for: renewal cadence + customer touchpoint cadence
+  - name: Outreach.io API
+    url: https://developers.outreach.io/api/
+    used_for: expansion sequence orchestration + multi-step renewal cadence alt
+  - name: Salesloft Cadence API
+    url: https://developers.salesloft.com/api.html
+    used_for: alt cadence platform
+  - name: Klaviyo API
+    url: https://developers.klaviyo.com/en/reference/api_overview
+    used_for: expansion email sequences (product-led)
+  - name: Customer.io API
+    url: https://customer.io/docs/api/
+    used_for: alt lifecycle email + expansion sequences
+  - name: Iterable API
+    url: https://api.iterable.com/api/docs
+    used_for: alt enterprise lifecycle email
+  - name: PandaDoc API
+    url: https://developers.pandadoc.com/
+    used_for: renewal proposal + contract uplift document generation
+  - name: DocuSign eSign API
+    url: https://developers.docusign.com/docs/esign-rest-api/
+    used_for: enterprise e-sign for renewals + uplift contracts
+  - name: Ironclad API
+    url: https://developer.ironcladapp.com/
+    used_for: enterprise contract lifecycle management alt
+  - name: Salesforce CPQ + Zuora Subscriptions
+    url: https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/
+    used_for: enterprise CPQ for renewal uplift pricing
+  - name: Stripe Subscriptions + Billing API
+    url: https://stripe.com/docs/api/subscriptions
+    used_for: subscription state (renewal date, MRR, contraction), NRR/GRR computation, referral credits
+  - name: HubSpot CRM API
+    url: https://developers.hubspot.com/docs/api/crm/contacts
+    used_for: contact + deal stage + custom-property writeback (free CSP fallback) + exec-sponsor tracking
+  - name: Salesforce REST + SOQL
+    url: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/
+    used_for: enterprise CRM, contact-role mapping for multi-threading
+  - name: Influitive API
+    url: https://docs.influitive.com/
+    used_for: customer advocacy program management (points, challenges, rewards)
+  - name: Slapfive + UserEvidence + Champion
+    url: https://help.slapfive.com/
+    used_for: alt advocacy + reference program platforms
+  - name: Skilljar API
+    url: https://help.skilljar.com/hc/en-us/categories/200182230
+    used_for: customer academy enrollment + certification completion tracking
+  - name: Northpass + WorkRamp + Intellum
+    url: https://www.workramp.com/
+    used_for: alt customer academy LMS
+  - name: Friendbuy API
+    url: https://developers.friendbuy.com/
+    used_for: referral program orchestration
+  - name: Referral Rock + Mention Me + GrowSurf
+    url: https://www.referralrock.com/
+    used_for: alt referral program platforms
+  - name: Tremendous API (referral rewards)
+    url: https://help.tremendous.com/hc/en-us/categories/360002107552-API
+    used_for: gift card / payout fulfillment for referrals + advocacy rewards
+  - name: Bevy (community platform)
+    url: https://www.bevy.com/
+    used_for: customer advisory board community hosting
+  - name: Slack Connect API
+    url: https://api.slack.com/connect
+    used_for: B2B customer Slack channels + CAB Connect
+  - name: PagerDuty REST API
+    url: https://developer.pagerduty.com/api-reference/
+    used_for: at-risk customer escalation on-call (rare but used for highest-tier accounts)
+  - name: Notion API
+    url: https://developers.notion.com/
+    used_for: success plans, CAB roster, VOC insights DB, renewal board, advocacy tracker, academy fallback
+  - name: Census + Hightouch reverse-ETL
+    url: https://docs.getcensus.com/
+    used_for: CSP + product analytics -> warehouse -> BI dashboards
+  - name: Native CraftBot MCPs (linear-mcp, jira-mcp, slack-mcp, discord-mcp, discord-mcp-full, ms-teams-mcp, twilio-mcp, stripe-mcp, posthog-mcp, mixpanel-mcp, amplitude-mcp, deepl-mcp, gmail-mcp, outlook-mcp, notion-mcp, postgresql-mcp, canva-mcp, figma-mcp, imagegen-mcp, playwright-mcp, firecrawl-mcp, brightdata-mcp)
+    url: app/config/mcp_config.json
+    used_for: per-platform execution surface for outreach, comms, escalation, analytics, multilingual, design, scraping

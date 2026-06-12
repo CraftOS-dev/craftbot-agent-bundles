@@ -1,0 +1,282 @@
+# Data Analyst — CraftBot agent definition
+#
+# Depth specialist under `research-analyst`. Where research-analyst is broad
+# (literature, market, trend, competitive), data-analyst is warehouse-grounded:
+# SQL + dbt + BI dashboards + cohort analysis + A/B test math + attribution
+# + anomaly detection + statistical hypothesis testing.
+#
+# Every field traces back to reference/ or to a default CraftBot capability.
+# See reference/INVENTORY.md for sources, SOURCES.md for section→source map.
+
+name: Data Analyst
+slug: data-analyst
+category: analytics
+tier: specialized                  # depth specialist under research-analyst
+description: >
+  SQL + dbt + dashboards + cohort analysis depth specialist. Handles A/B test
+  significance and sample-size math, attribution modeling (last-touch through
+  marketing mix modeling), anomaly detection, statistical hypothesis testing,
+  forecasting, causal inference, and warehouse cost optimization — work where
+  `research-analyst` is too broad. Versions the query as the artifact, names
+  assumptions when correlation might be mistaken for causation, and treats
+  data quality as upstream (fix the pipeline, not the dashboard). Defers
+  general topic research, market sizing, and competitive intelligence back
+  to `research-analyst`; defers pipeline engineering at scale to
+  `senior-python-engineer` and warehouse infra ops to `devops-engineer`.
+tags:
+  - data-analytics
+  - sql
+  - dbt
+  - cohort-analysis
+  - ab-testing
+  - attribution
+  - forecasting
+  - causal-inference
+  - statistical-testing
+  - data-quality
+  - dashboard-design
+  - warehouse-optimization
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time. Build script looks up names in
+# agents/data-analyst/skills/ (bundled — created in Round 2) first, then
+# top-level skills/ (already shipped on recipient's install).
+enabled_skills:
+  # ── Bundled (22) — SOTA analytics skill packs we ship with this agent ───
+  # Round 2 creates the SKILL.md content; Round 1 reserves the names.
+  - dbt-modeling-staging-marts             # dbt project structure (staging→intermediate→marts), materializations
+  - dbt-test-authoring-utils-expectations  # dbt tests + dbt-utils + dbt-expectations + freshness
+  - snowflake-bigquery-databricks-warehousing # warehouse-dialect SDKs, EXPLAIN, partitioning, clustering
+  - duckdb-motherduck-local-olap           # DuckDB/MotherDuck local-first analytics + Parquet
+  - polars-pandas-modern-dataframes        # Polars (Rust), pandas 2.x, Ibis universal df API
+  - hex-notebooks-apps                     # Hex notebooks-as-products + magic cells + apps
+  - metabase-self-serve-dashboards         # Metabase OSS dashboards + governance + embedding
+  - looker-lookml-modeling                 # Looker / LookML modeling + governed metrics layer
+  - evidence-streamlit-marimo-reports      # Evidence.dev markdown reports + Streamlit + Marimo reactive notebooks
+  - ab-test-significance-mde-sequential    # A/B math, MDE, sample size, sequential testing, peeking penalty
+  - cohort-retention-deep-survival         # N-day + rolling retention + Kaplan-Meier + Cox PH + Aha Moment
+  - attribution-multi-touch-mmm            # Last-touch through Bayesian MMM (Meridian / lightweight_mmm)
+  - forecasting-prophet-darts-neural       # Prophet + Darts + skforecast + statsmodels (ARIMA/STL)
+  - causal-inference-dag-iv-rdd            # DoWhy + linearmodels (2SLS) + RDD + CausalImpact + EconML
+  - bayesian-pymc-numpyro-ab-testing       # PyMC + NumPyro Bayesian A/B + hierarchical priors
+  - anomaly-detection-statistical-ml       # PyOD + ADTK + Prophet outlier + IsolationForest
+  - great-expectations-soda-data-quality   # GE expectations + Soda Core + dbt tests + CI integration
+  - reverse-etl-census-hightouch           # Census + Hightouch + Polytomic + dlt-based custom sync
+  - dlt-fivetran-airbyte-elt               # dlt (Python OSS) + Airbyte + Fivetran ELT
+  - warehouse-cost-optimization-snowflake-bq # Credit/slot cost optimization patterns
+  - customer-segmentation-rfm-behavioral-ml # RFM quintiles + k-means / HDBSCAN behavioral clustering
+  - data-storytelling-analytics-narrative  # Setup→Conflict→Resolution + "so-what first" for analytics deliverables
+
+  # ── CraftBot defaults (22) — already on recipient's install ────────────
+  # Analytics-relevant defaults. Excludes engineering-only / content-only.
+  - cli-anything                    # universal verb for installing pandas/dbt/sqlfluff/lifelines/prophet/etc.
+  - postgres                        # postgres-flavored warehouse access (Redshift, Postgres, etc.)
+  - mysql                           # MySQL warehouse / metadata DB access
+  - google-sheets                   # read/write to Google Sheets as data source / output
+  - microsoft-excel                 # read/write Excel for finance/ops handoffs
+  - xlsx                            # produce data tables, cohort tables, comparison matrices
+  - docx                            # produce executive briefings + research reports
+  - pdf                             # produce final PDF reports
+  - pptx                            # produce slide decks for findings
+  - file-format                     # convert between CSV/Parquet/JSON/etc.
+  - file-organizer                  # organize SQL files, dbt models, deliverables
+  - markdown-converter              # markdown → DOCX/PDF/HTML for reports
+  - concise-planning                # plan analytics scope and methodology
+  - brainstorming                   # divergent generation of metric / segment hypotheses
+  - audit-context-building          # gather schema / data dictionary / business context rigorously
+  - ask-questions-if-underspecified # clarify "what's the question" before SQL
+  - verification-before-completion  # double-check results before delivering
+  - task-planner                    # decompose multi-step analytics tasks
+  - playwright-mcp                  # scrape BI dashboards when no API exists
+  - firecrawl                       # structured web scraping for external benchmarks
+  - git-commit                      # version SQL / dbt models / notebooks
+  - github                          # share analytics artifacts / open PRs against dbt repo
+
+# MCP servers — every name must exist in app/config/mcp_config.json
+# (verify.py checks this). The recipient enables each in their MCP settings
+# after importing the .craftbot bundle and fills in any required API keys.
+mcp_servers:
+  - filesystem                      # read/write SQL, dbt YAML, notebooks
+  - postgresql-mcp                  # schema inspection + query for Postgres-family warehouses
+  - github                          # version-control SQL + dbt models, open analytics PRs
+
+  # ── Product analytics (cohorts + funnels + retention curves) ─────────
+  - posthog-mcp                     # HogQL, cohort endpoint, funnel API
+  - mixpanel-mcp                    # alt product analytics
+  - amplitude-mcp                   # alt behavioral cohorts
+
+  # ── Authoritative data (closes external benchmarks gap) ──────────────
+  - sec-edgar-mcp                   # when analytics touches public financials (e.g., comp/benchmark)
+  - huggingface-mcp                 # dataset discovery for ML segmentation / benchmark sets
+
+  # ── Web / scraping (for external benchmarks + BI screen-scrape) ──────
+  - firecrawl-mcp                   # structured public-web scraping
+  - brightdata-mcp                  # paid SERP / proxy when needed
+  - playwright-mcp                  # JS-rendered BI dashboards / cookie-protected pages
+
+  # ── OCR + translation (for scanned external reports + multilingual data) ─
+  - gemini-ocr-mcp                  # extract data from scanned PDFs / image-only reports
+  - mistral-ocr-mcp                 # alt OCR engine
+  - deepl-mcp                       # multilingual narrative / foreign-language data sources
+
+  # ── Adjacent finance / market data (cross-references research-analyst) ─
+  - alpha-vantage-mcp               # public-equity time series for market-touching analytics
+  - yahoo-finance-mcp               # alt market-data backstop
+
+sources:
+  - name: dbt Labs — How we structure dbt projects
+    url: https://docs.getdbt.com/best-practices/how-we-structure/1-guide-overview
+    used_for: dbt project structure (staging / intermediate / marts), materialization choices, testing patterns
+  - name: dbt Labs — Data tests
+    url: https://docs.getdbt.com/docs/build/data-tests
+    used_for: dbt test authoring (generic + singular), uniqueness / not-null / freshness / dbt-expectations
+  - name: dbt MetricFlow
+    url: https://docs.getdbt.com/docs/build/metricflow
+    used_for: governed metric layer for self-serve dashboard governance
+  - name: Sqlfluff
+    url: https://docs.sqlfluff.com/
+    used_for: SQL linting + auto-fix across warehouse dialects
+  - name: Sqlglot
+    url: https://sqlglot.com/sqlglot.html
+    used_for: SQL parsing + transpilation across dialects, query optimizer
+  - name: DuckDB docs
+    url: https://duckdb.org/docs/
+    used_for: local-first OLAP for prototyping before warehouse promotion
+  - name: Polars
+    url: https://pola.rs/
+    used_for: modern Rust-backed dataframe library, lazy execution
+  - name: Ibis
+    url: https://ibis-project.org/
+    used_for: universal dataframe API across warehouses
+  - name: lifelines (Kaplan-Meier + Cox PH)
+    url: https://lifelines.readthedocs.io/
+    used_for: survival analysis for retention curves with confidence intervals, log-rank cohort comparison, Cox hazard regression
+  - name: scipy.stats
+    url: https://docs.scipy.org/doc/scipy/reference/stats.html
+    used_for: t-test, chi-square, ANOVA, non-parametric tests for A/B and hypothesis testing
+  - name: statsmodels (power + GLM + time-series)
+    url: https://www.statsmodels.org/stable/
+    used_for: power analysis, sample-size calculation, ARIMA / SARIMA, seasonal decomposition
+  - name: pingouin
+    url: https://pingouin-stats.org/
+    used_for: cleaner stats API with effect sizes + confidence intervals, Bayesian variants
+  - name: PyMC + NumPyro
+    url: https://www.pymc.io/ · https://num.pyro.ai/
+    used_for: Bayesian A/B testing with full posteriors, hierarchical priors, MMM backend
+  - name: Prophet (Meta)
+    url: https://facebook.github.io/prophet/
+    used_for: additive trend + seasonality + holidays forecasting
+  - name: Darts (Unit8)
+    url: https://unit8co.github.io/darts/
+    used_for: unified forecasting API (Exponential Smoothing → N-BEATS → TFT)
+  - name: skforecast
+    url: https://skforecast.org/
+    used_for: scikit-learn-style ML regressors as forecasters
+  - name: pmdarima
+    url: https://alkaline-ml.com/pmdarima/
+    used_for: auto-ARIMA order selection
+  - name: DoWhy (PyWhy)
+    url: https://www.pywhy.org/dowhy/
+    used_for: DAG-based causal identification + estimation
+  - name: linearmodels (Bashtage)
+    url: https://bashtage.github.io/linearmodels/
+    used_for: 2SLS instrumental variables, Panel OLS for difference-in-differences
+  - name: CausalImpact (Google)
+    url: https://google.github.io/CausalImpact/
+    used_for: synthetic control for time-series causal inference
+  - name: EconML (Microsoft)
+    url: https://econml.azurewebsites.net/
+    used_for: heterogeneous treatment effect estimation, double ML
+  - name: PyOD
+    url: https://pyod.readthedocs.io/
+    used_for: 40+ outlier detection algorithms (Isolation Forest, AutoEncoder, etc.)
+  - name: ADTK (Arundo)
+    url: https://adtk.readthedocs.io/
+    used_for: time-series anomaly detection toolkit
+  - name: Great Expectations
+    url: https://docs.greatexpectations.io/
+    used_for: declarative data quality expectations + Data Docs HTML
+  - name: Soda Core
+    url: https://docs.soda.io/soda-core/overview-main.html
+    used_for: SodaCL YAML data quality checks in CI
+  - name: Google Meridian (MMM)
+    url: https://developers.google.com/meridian
+    used_for: SOTA Bayesian marketing mix modeling on NumPyro/JAX
+  - name: lightweight_mmm (Google)
+    url: https://github.com/google/lightweight_mmm
+    used_for: earlier Google Bayesian MMM (still supported for smaller datasets)
+  - name: Statsig docs
+    url: https://docs.statsig.com/
+    used_for: experimentation platform integration, sequential testing
+  - name: GrowthBook
+    url: https://docs.growthbook.io/
+    used_for: OSS experimentation platform alternative to Statsig
+  - name: Census reverse-ETL API
+    url: https://docs.getcensus.com/api
+    used_for: warehouse → SaaS reverse ETL platform integration
+  - name: Hightouch
+    url: https://hightouch.com/docs
+    used_for: alternative reverse-ETL platform
+  - name: dlt (Data Load Tool)
+    url: https://dlthub.com/docs
+    used_for: code-first Python ELT (modern OSS alternative to Fivetran)
+  - name: Airbyte
+    url: https://docs.airbyte.com/
+    used_for: OSS connectors for self-hosted ELT
+  - name: Hex docs
+    url: https://hex.tech/docs/
+    used_for: cloud-collaborative notebook + app platform
+  - name: Metabase
+    url: https://www.metabase.com/docs/
+    used_for: OSS self-serve BI tool + embedded analytics
+  - name: Looker / LookML
+    url: https://cloud.google.com/looker/docs
+    used_for: governed metrics + enterprise BI
+  - name: Lightdash
+    url: https://docs.lightdash.com/
+    used_for: OSS Looker alternative on top of dbt
+  - name: Sigma Computing
+    url: https://help.sigmacomputing.com/docs
+    used_for: spreadsheet-style power-user BI tool
+  - name: Evidence.dev
+    url: https://docs.evidence.dev/
+    used_for: markdown + SQL → web report generator
+  - name: Marimo
+    url: https://docs.marimo.io/
+    used_for: reactive notebooks with no hidden state (modern Jupyter alternative)
+  - name: Streamlit
+    url: https://docs.streamlit.io/
+    used_for: Python-only data apps
+  - name: Quarto
+    url: https://quarto.org/
+    used_for: academic-grade reproducible reports
+  - name: Snowflake SQL API
+    url: https://docs.snowflake.com/en/developer-guide/sql-api/
+    used_for: Snowflake REST execution + QUERY_HISTORY for cost analytics
+  - name: BigQuery REST API
+    url: https://cloud.google.com/bigquery/docs/reference/rest
+    used_for: BigQuery query + INFORMATION_SCHEMA.JOBS_BY_PROJECT for slot analysis
+  - name: Databricks SQL API
+    url: https://docs.databricks.com/sql/index.html
+    used_for: Databricks SQL Warehouse execution + Query Profile
+  - name: PostHog (HogQL + cohorts)
+    url: https://posthog.com/docs/product-analytics/cohorts · https://posthog.com/docs/hogql
+    used_for: product-analytics cohort + funnel + retention with HogQL
+  - name: Mixpanel API
+    url: https://developer.mixpanel.com/
+    used_for: alt product analytics + behavioral cohort fetch
+  - name: Amplitude API
+    url: https://amplitude.com/docs
+    used_for: alt behavioral cohort + retention API
+  - name: Storytelling with Data (Knaflic)
+    url: https://www.storytellingwithdata.com/
+    used_for: data narrative principles (so-what first, ruthless curation, visuals reveal not decorate)
+  - name: wshobson — business-analyst (sibling)
+    url: https://github.com/wshobson/agents/blob/main/plugins/business-analytics/agents/business-analyst.md
+    used_for: KPI framework, BI platforms, statistical analysis foundation (also informs research-analyst)
+  - name: VoltAgent — cohort-analysis (sibling)
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/10-research-analysis/cohort-analysis.md
+    used_for: cohort taxonomy (acquisition / behavioral / segment), retention metrics (N-day / rolling), curve diagnosis, Aha Moment

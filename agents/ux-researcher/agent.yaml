@@ -1,0 +1,296 @@
+# UX Researcher — CraftBot agent definition
+#
+# SPECIALIZED TIER. Sits under product-manager (parent — general PM).
+# Drills into UX research craft: research planning, screener design,
+# recruitment, moderated/unmoderated usability, IA card sorts + tree tests,
+# contextual inquiry, diary studies, JTBD interviews, persona authoring,
+# Dovetail synthesis, accessibility research, ResearchOps. Defers to
+# product-manager for roadmap decisions, data-analyst for quantitative
+# product analytics, growth-agent for in-product experimentation,
+# frontend-engineer for prototype build.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+
+name: UX Researcher
+slug: ux-researcher
+category: product
+tier: specialized
+description: >
+  Senior UX research operator. Plans studies against research questions,
+  designs screeners + recruits from User Interviews / Respondent / dscout /
+  Prolific, runs moderated + unmoderated usability tests, executes JTBD
+  interviews, ships IA tree tests + card sorts via Optimal Workshop,
+  synthesizes in Dovetail, authors personas + journey maps + service
+  blueprints, runs heuristic evaluations + cognitive walkthroughs, conducts
+  accessibility research with users with disabilities, builds + maintains
+  ResearchOps panels. Operates on three load-bearing convictions: talk to
+  5 users and ship; behavior beats stated intent; recruitment quality
+  beats sample size. Defers roadmap decisions to product-manager, deep
+  product analytics to data-analyst, in-product experiments to growth-agent,
+  prototype build to frontend-engineer.
+tags:
+  - ux-research
+  - user-research
+  - usability-testing
+  - jtbd
+  - persona
+  - journey-map
+  - card-sort
+  - tree-test
+  - dovetail
+  - maze
+  - moderated-research
+  - unmoderated-research
+  - accessibility
+  - diary-study
+  - contextual-inquiry
+  - heuristic-evaluation
+  - research-ops
+  - product
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 22 bundled SOTA skill packs + 32 CraftBot defaults = 54 enabled skills.
+# Each bundled pack closes a documented capability from
+# reference/SOTA_USE_CASES.md. Round 2 (runtime build) creates the SKILL.md
+# files under agents/ux-researcher/skills/<name>/.
+enabled_skills:
+  # ── Bundled (22) — 2026 SOTA UX-research skill packs ───────────────────
+  - research-planning-objectives-hypotheses   # NN/g method matrix + Erika Hall + Notion plan
+  - screener-design-recruitment-criteria      # screener generation + anti-screen + bias hygiene
+  - recruit-user-interviews-respondent-dscout # 4-platform recruit routing (UI / Respondent / dscout / Prolific)
+  - moderated-1on1-usability-think-aloud      # Lookback or Zoom + Otter + Dovetail pipeline
+  - unmoderated-maze-usertesting-lyssna       # Maze / UserTesting / Lyssna routing by use case
+  - tree-testing-card-sort-optimal-workshop   # Treejack + OptimalSort + Chalkmark
+  - first-click-5-second-tests                # Chalkmark + Lyssna 5-second
+  - jtbd-interview-script-execution           # Moesta switch interview + Ulwick + Fitzpatrick Mom Test
+  - customer-journey-service-blueprint        # NN/g + Holtzblatt; Excalidraw visual + Notion narrative
+  - persona-authoring-dovetail                # Behavioral personas grounded in Dovetail tag counts
+  - accessibility-research-with-disabilities  # Fable panel + axe-core / pa11y automated baseline
+  - diary-studies-dscout-7-30-day             # dscout missions for longitudinal context
+  - contextual-inquiry-in-context-observation # Holtzblatt 4-principles + work models
+  - heuristic-evaluation-nielsen-10           # NN/g 10 heuristics + severity-rated report
+  - cognitive-walkthrough                     # Wharton-Lewis-Polson 4-question per-step
+  - nps-verbatim-thematic-coding              # pull + cluster + per-segment promoter/passive/detractor themes
+  - support-ticket-thematic-analysis          # Intercom / Zendesk → Dovetail tagging
+  - dovetail-research-repository              # Atomic UX research model + tag taxonomy + insight library
+  - research-democratization-training         # Notion wiki + cheat sheets + pptx kickoff deck
+  - research-ops-panel-budget                 # Kate Towsey "Research That Scales" playbook
+  - opportunity-solution-tree-jtbd-outcomes   # Teresa Torres OST living map
+  - ai-prototype-testing-claude-chatgpt       # Maze unmoderated + hallucination + trust calibration gates
+
+  # ── CraftBot defaults (20) — already on recipient's install ───────────
+  # Document output for research repo entries, plans, briefs, training decks.
+  - docx                              # Word — long-form research reports
+  - pdf                               # PDF — exec briefs, stakeholder packs
+  - pptx                              # decks — research readouts, training kickoff
+  - file-format                       # cross-format conversion
+  - file-organizer                    # research repo + transcript + asset organization
+  - markdown-converter                # markdown <-> docx/pdf/html
+
+  # Recruit + transcript + research-adjacent.
+  - calendly-api                      # interview scheduling
+  - openai-whisper-api                # cloud transcription
+  - openai-whisper                    # local + privacy-sensitive transcription
+  - user-profile-interview            # JTBD-style discovery interview structure
+  - playwright-mcp                    # interactive flow capture for heuristic eval + cognitive walkthrough
+  - firecrawl                         # competitor / market context scraping
+  - brave-search                      # web research backup
+  - duckduckgo-search                 # alt search engine
+  - web-search-plus                   # enhanced search with snippet extraction
+
+  # Ideation + planning + framing.
+  - brainstorming                     # research-question framing, opportunity mining
+  - concise-planning                  # research-plan briefs, study schedules
+  - ask-questions-if-underspecified   # clarify research request before drafting plan
+  - audit-context-building            # gather product/strategy context rigorously
+  - verification-before-completion    # quality gate before publishing plan/readout
+
+  # Diagrams + visualizations.
+  - excalidraw-diagram-generator      # journey map, service blueprint, opportunity tree
+
+  # Workspace integrations.
+  - notion                            # research repo, plans, personas, ResearchOps wiki
+  - better-notion                     # higher-fidelity Notion operations
+  - linear-api                        # opportunity-solution-tree leaf tracking; PM handoff
+  - gmail                             # recruit comms, office hours, stakeholder briefs
+
+  # Cross-check + tool execution.
+  - gemini                            # second-opinion model for synthesis critique
+  - cli-anything                      # run Dovetail / Maze / Optimal Workshop / User Interviews / Respondent / dscout / Lookback / Otter / Sprig / Survicate / Typeform / FullStory / LogRocket / Hotjar / Clarity / Fable / Ethnio APIs
+
+  # Writing quality.
+  - writing-skills                    # readout + insight + persona prose quality
+  - writing-assistant                 # general editing
+  - memory-processor                  # persist participant context across sessions
+
+  # Version control + collaboration.
+  - git-commit                        # version research artifacts
+  - using-git-worktrees               # isolate parallel study workflows
+
+# MCP servers — 2026 SOTA UX-research stack. Each platform MCP backs at
+# least one use case from reference/SOTA_USE_CASES.md. Recipient enables
+# in CraftBot MCP settings + provides OAuth/API keys per platform.
+mcp_servers:
+  - filesystem                        # read/edit research plans, transcripts, reports
+
+  # ── Research repo + collaboration ─────────────────────────────────────
+  - notion-mcp                        # research repo, plans, personas, ResearchOps wiki, journey maps
+  - figma-mcp                         # Figma prototype review for cognitive walkthrough / heuristic eval
+  - figma-context-mcp                 # alt high-fidelity design system access
+
+  # ── Behavioral analytics (cohort define for survey targeting) ─────────
+  - posthog-mcp                       # event-triggered survey targeting, behavioral cohort define
+  - mixpanel-mcp                      # alt behavioral cohort
+  - amplitude-mcp                     # alt behavioral cohort
+
+  # ── Capture + competitive context ─────────────────────────────────────
+  - playwright-mcp                    # interactive flow capture for heuristic eval + cognitive walkthrough
+  - firecrawl-mcp                     # structured competitor scraping for landscape
+  - brightdata-mcp                    # paid-wall content scraping
+
+  # ── Stakeholder comms ─────────────────────────────────────────────────
+  - gmail-mcp                         # recruit comms + office-hours invites + readout broadcasts
+  - slack-mcp                         # #user-research broadcasts + recruit channel
+  - google-calendar-mcp               # interview scheduling
+
+  # ── PM handoff + opportunity tree ─────────────────────────────────────
+  - linear-mcp                        # opportunity-solution-tree leaf tracking; handoff to product-manager
+
+  # ── Embedding-based clustering (NPS + ticket thematic) ────────────────
+  - huggingface-mcp                   # embedding-based clustering for NPS + support ticket thematic
+
+  # ── OCR for contextual inquiry artifacts ──────────────────────────────
+  - openai-ocr-mcp                    # scan / receipt / sticky-note OCR from field studies
+  - mistral-ocr-mcp                   # alt OCR
+
+  # ── Web research ──────────────────────────────────────────────────────
+  - brave-search                      # general web research backup
+
+sources:
+  - name: Nielsen Norman Group — When to Use Which UX Research Method
+    url: https://www.nngroup.com/articles/which-ux-research-methods/
+    used_for: Research-planning method-picker matrix; 10 heuristics; severity scale; 5-user discount usability rule
+  - name: Nielsen Norman Group — 10 Usability Heuristics
+    url: https://www.nngroup.com/articles/ten-usability-heuristics/
+    used_for: Heuristic evaluation skill pack — Nielsen's 10 + severity 0-4
+  - name: Erika Hall — Just Enough Research
+    url: https://abookapart.com/products/just-enough-research
+    used_for: Research-planning question-first hierarchy; recruitment hygiene; stakeholder alignment
+  - name: Rob Fitzpatrick — The Mom Test
+    url: https://www.momtestbook.com
+    used_for: JTBD interview rules — ask about life not opinion; avoid leading questions
+  - name: Bob Moesta — switch interview method
+    url: https://www.demand-side.com/switch-interview
+    used_for: JTBD switch-interview timeline + push/pull/anxiety/habit forces
+  - name: Tony Ulwick — Outcome Statements
+    url: https://jtbd.info/outcome-statements
+    used_for: JTBD outcome statement format — direction + unit + object + context
+  - name: Teresa Torres — Continuous Discovery + Opportunity Solution Tree
+    url: https://www.producttalk.org/opportunity-solution-tree
+    used_for: Opportunity-solution-tree skill pack — outcome → opportunities → solutions → experiments
+  - name: Holtzblatt + Beyer — Contextual Design
+    url: https://www.amazon.com/Contextual-Design-Customer-Centered-Interactive-Technologies/dp/1558604111
+    used_for: Contextual inquiry 4 principles + work models (flow/sequence/artifact/cultural/physical)
+  - name: Jeff Patton — User Story Mapping
+    url: https://www.jpattonassociates.com/the-new-backlog
+    used_for: Journey map adjacent reference; story-map structure for research-to-delivery handoff
+  - name: Daniel Pidcock — Atomic UX Research
+    url: https://www.atomicresearch.co
+    used_for: Dovetail repository curation model (Experiments → Facts → Insights → Conclusions)
+  - name: Kate Towsey — Research That Scales (ResearchOps Community)
+    url: https://researchops.community
+    used_for: ResearchOps panel + budget + tool stack playbook
+  - name: Wharton-Lewis-Polson — Cognitive Walkthrough
+    url: https://en.wikipedia.org/wiki/Cognitive_walkthrough
+    used_for: Cognitive walkthrough skill pack — 4-question per-step matrix
+  - name: WCAG 2.2 + W3C WAI Involving Users with Disabilities
+    url: https://www.w3.org/WAI/test-evaluate/involving-users/
+    used_for: Accessibility research with disabilities — recruitment + assistive tech protocols
+  - name: Dovetail v3 API
+    url: https://dovetail.com/help/api
+    used_for: Research repository synthesis — transcripts, tags, highlights, insights, atomic UX research
+  - name: Notably (free research repo alt)
+    url: https://notably.ai
+    used_for: Dovetail-equivalent synthesis for users without Dovetail budget
+  - name: Marvin AI research repo
+    url: https://heymarvin.com
+    used_for: AI-first synthesis alt — auto-tagging + insight extraction
+  - name: Maze API
+    url: https://help.maze.co/hc/en-us/articles/maze-api
+    used_for: Unmoderated usability + AI prototype testing + Kano + SUS + UMUX-Lite + Van Westendorp
+  - name: UserTesting API
+    url: https://www.usertesting.com/api
+    used_for: Unmoderated usability (largest panel + video annotation) — enterprise default
+  - name: Lyssna (formerly UsabilityHub) API
+    url: https://help.lyssna.com/api
+    used_for: 5-second tests + design-first unmoderated tests
+  - name: User Interviews API
+    url: https://www.userinterviews.com/api
+    used_for: Panel recruitment — B2B + B2C, fastest setup
+  - name: Respondent API
+    url: https://respondent.io/help
+    used_for: B2B specialist panel recruitment — IT, finance, healthcare professionals
+  - name: dscout API + diary study template
+    url: https://dscout.com/api
+    used_for: Diary studies (7-30 day mobile-first longitudinal) + Missions
+  - name: Prolific API
+    url: https://docs.prolific.com
+    used_for: Academic + behavioral science panel for survey + experimental tasks
+  - name: Optimal Workshop API (Treejack, OptimalSort, Chalkmark)
+    url: https://help.optimalworkshop.com/en/articles/2079834-treejack-api
+    used_for: Tree testing, card sorting, first-click testing
+  - name: UXtweak API (alt to Optimal Workshop)
+    url: https://www.uxtweak.com/docs/api
+    used_for: Tree test + card sort fallback when Optimal Workshop budget unavailable
+  - name: Lookback API
+    url: https://www.lookback.com/docs/api
+    used_for: "Moderated 1:1 usability (purpose-built: screen + face cam + observer notes)"
+  - name: Otter.ai API
+    url: https://help.otter.ai/hc/en-us/articles/360062075953-Otter-API
+    used_for: Live transcription with speaker diarization for moderated interviews
+  - name: tl;dv API
+    url: https://tldv.io/integrations
+    used_for: Zoom-native transcription + AI summarization
+  - name: Granola
+    url: https://www.granola.ai
+    used_for: Mac-native low-friction transcription for in-person + Zoom
+  - name: OpenAI Whisper
+    url: https://github.com/openai/whisper
+    used_for: Local + privacy-sensitive transcription (default skill pack)
+  - name: Sprig API
+    url: https://help.sprig.com/hc/en-us/articles/sprig-api
+    used_for: In-product event-triggered micro-surveys + AI summary
+  - name: Survicate API
+    url: https://survicate.com/api
+    used_for: Multi-channel surveys (email + in-product + link)
+  - name: Typeform Create API
+    url: https://www.typeform.com/developers/create
+    used_for: Long-form survey with branching logic; free intercept fallback
+  - name: FullStory Server API
+    url: https://developer.fullstory.com/server/v1
+    used_for: Session replay — friction-signal filtered sessions
+  - name: LogRocket API
+    url: https://docs.logrocket.com/reference
+    used_for: Session replay alt — rage-click + error event filter
+  - name: Microsoft Clarity (free)
+    url: https://clarity.microsoft.com/
+    used_for: Session replay free fallback
+  - name: Hotjar API
+    url: https://help.hotjar.com/hc/en-us/articles/hotjar-api
+    used_for: Cheap session replay + heatmaps + feedback widget
+  - name: Ethnio API
+    url: https://ethn.io/api
+    used_for: In-product intercept recruitment (banner → screener → session)
+  - name: Fable Engineering panel
+    url: https://makeitfable.com
+    used_for: Accessibility research recruitment — users with disabilities + assistive tech
+  - name: Intercom + Zendesk APIs
+    url: https://developers.intercom.com/intercom-api-reference
+    used_for: Support ticket thematic analysis — pull tickets, cluster by tag/body
+  - name: axe-core + pa11y CLIs
+    url: https://www.deque.com/axe/devtools/
+    used_for: Automated WCAG baseline accessibility audits (free, cli-anything route)

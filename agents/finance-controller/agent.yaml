@@ -1,0 +1,214 @@
+# Finance Controller — CraftBot agent definition
+#
+# Every field traces back to reference/SOTA_USE_CASES.md or to a default
+# CraftBot capability already shipped on the recipient's install. See
+# reference/INVENTORY.md for sources and SOURCES.md for the section→source map.
+
+name: Finance Controller
+slug: finance-controller
+category: finance
+tier: general
+description: >
+  End-to-end finance operator for solo founders and small finance teams.
+  Owns the books (Xero / QuickBooks), runs monthly close, projects runway
+  on a 13-week rolling cash forecast, computes SaaS unit economics (CAC /
+  LTV / NRR / Rule of 40 / Magic Number / Burn Multiple), administers cap
+  table + 409A + equity grants, manages AR / AP, runs ASC 606 revenue
+  recognition, audits SaaS spend, prepares investor updates and data rooms,
+  and gates audits. Hard rules: reconcile weekly, close monthly, never run
+  on stale data; cash is the only number that matters until runway > 18
+  months; conservative on revenue, aggressive on COGS. Always discloses
+  "consult a licensed CPA / CFO for binding decisions" — the agent computes,
+  models, and surfaces; humans approve binding actions.
+tags:
+  - finance
+  - accounting
+  - bookkeeping
+  - controller
+  - cfo
+  - fpa
+  - asc-606
+  - cap-table
+  - saas-metrics
+  - investor-reporting
+  - cash-flow
+  - runway
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time. Build script looks up names in
+# agents/finance-controller/skills/ (bundled — Round 2 creates the contents)
+# first, then top-level skills/ (CraftBot defaults — already on recipient).
+enabled_skills:
+  # ── Bundled (20) — SOTA finance skill packs we ship with this agent ────
+  # Round 2 creates each skills/<name>/SKILL.md.
+  - xero-quickbooks-bookkeeping             # Xero MCP + Intuit QBO MCP; CoA, reconciliation, reports
+  - stripe-revenue-recognition-asc606       # ASC 606 five-step; deferred revenue waterfall
+  - chargebee-maxio-paddle-billing          # Chargebee / Maxio / Paddle / Recurly subscription alts
+  - ramp-brex-expense-management            # Ramp + Brex APIs; policy, receipt match, AP automation
+  - mercury-modern-treasury-banking         # Mercury API + Modern Treasury + Plaid + treasury sweep
+  - carta-pulley-cap-table                  # Carta + Pulley; 409A tracking; ASC 718; SAFE modeling
+  - causal-mosaic-financial-modeling        # Causal / Mosaic / Cube / Runway driver-based FP&A
+  - monthly-close-procedure                 # 5-10 day checklist; accruals; journal naming; tie-outs
+  - runway-burn-analysis                    # Net burn; runway months; Default-Alive vs Default-Dead
+  - cash-flow-forecasting-13-week           # Rolling 13-week template; weekly update cadence
+  - ar-ap-aging-collections                 # Aging buckets; dunning cadence; early-pay discount math
+  - unit-economics-saas-metrics             # CAC/LTV/Payback/NRR/Rule-of-40/Magic-Number/Burn-Multiple
+  - anrok-stripe-tax-sales-tax-compliance   # Multi-state nexus; SaaS taxability; Anrok/Stripe Tax
+  - equity-grant-83b-isos-rsus              # ISO/NSO/RSU/SAFE; 83(b) 30-day; AMT $100K; ASC 718
+  - investor-update-monthly-quarterly       # Visible.vc Standard + YC templates; metric pack
+  - fundraising-data-room                   # Section-by-section outline; YC SAFE; term sheet review
+  - vendor-procurement-saas-spend-audit     # Vendr / Tropic / Spendflo benchmark; duplicate detection
+  - audit-prep-big4-checklist               # PBC list; T-90 timeline; supporting schedules library
+  - headcount-planning-hiring-budget        # Driver-based; 1.3-1.4x fully loaded; Rule-of-40 discipline
+  - cogs-margin-improvement-analysis        # Hosting + support + payment fees + LLM inference
+
+  # ── CraftBot defaults (24) — already on recipient's install ────────────
+  # Always evaluate (per METHODOLOGY.md default skills audit checklist):
+  - cli-anything                            # universal verb for Ramp/Brex/Mercury/Carta/Anrok REST + Intuit MCP
+  - file-format                             # convert receipts / statements between formats
+  - file-organizer                          # organize audit binder, data room
+  - using-git-worktrees                     # isolated worktree per period (e.g., Q2-2026-close)
+
+  # Content / comms (controller delivers a lot of docs + emails):
+  - docx                                    # P&L narrative, investor letters, audit memos
+  - pdf                                     # Board deck export, investor update PDFs
+  - pptx                                    # Board deck, fundraising deck financials section
+  - xlsx                                    # 13-week cash flow, budget, cap table, scenarios, BvA
+  - google-sheet                            # Live shared models for team collaboration
+  - microsoft-excel                         # Local Excel for sensitive cap-table work
+  - gmail                                   # Dunning emails, investor updates, vendor outreach
+  - notion                                  # Finance ops wiki / SOPs / month-end runbook
+  - obsidian                                # Alt local-first notes for sensitive financial drafts
+
+  # Existing finance / accounting defaults that ship:
+  - xero                                    # Xero via Maton-managed OAuth (no per-recipient OAuth setup)
+  - stripe-api                              # Stripe via Maton gateway (Stripe MCP also enabled)
+  - invoice-organizer                       # Invoice / receipt classification + tracking
+  - stock-forecast                          # Public-comp / peer multiples / market read
+  - stock-market-pro                        # Alt market data layer
+
+  # Research + planning (controller spends substantial time researching):
+  - brainstorming                           # Hypothesis generation for variance investigation
+  - concise-planning                        # Plan close / audit / fundraise timelines
+  - ask-questions-if-underspecified         # Clarify quarter / company stage / instruments before computing
+  - audit-context-building                  # Gather context rigorously before stating numbers
+  - verification-before-completion          # Tie out before delivering
+
+  # Versioning / collaboration:
+  - git-commit                              # Version-control models + close packages
+  - markdown-converter                      # Convert finance docs across formats
+
+# MCP servers — every name must exist in app/config/mcp_config.json
+# (verify.py checks this). The recipient enables each in their MCP settings
+# after importing the .craftbot bundle and fills in any required API keys.
+mcp_servers:
+  - filesystem                              # always
+
+  # ── Accounting + billing core ────────────────────────────────────────
+  - xero-mcp                                # bookkeeping CRUD + reports (P&L, BS, CF, aging)
+  - stripe-mcp                              # billing, ASC 606, AR, Radar, Sigma queries
+
+  # ── Cap-table / SEC / public-market reference ────────────────────────
+  - sec-edgar-mcp                           # peer benchmarks, IPO prep comparables
+  - octagon-sec-mcp                         # alt SEC research / private-market comparables
+  - yahoo-finance-mcp                       # public-comp stock data
+  - alpha-vantage-mcp                       # alt market data
+  - mcp-finance                             # multi-source finance data aggregator
+
+  # ── Product analytics (for SaaS metrics: NRR, churn, cohort) ─────────
+  - posthog-mcp                             # cohort + NRR + churn fetch
+  - mixpanel-mcp                            # alt product analytics
+  - amplitude-mcp                           # alt behavioral cohorts
+
+  # ── Database / GL access ─────────────────────────────────────────────
+  - postgresql-mcp                          # raw GL queries when accounting DB exposed; cohort joins
+
+  # ── Comms (dunning, investor updates, vendor outreach, board comms) ──
+  - gmail-mcp                               # send dunning + investor updates + vendor emails
+  - outlook-mcp                             # alt for recipients on Outlook
+  - notion-mcp                              # finance ops docs, SOPs, runbooks
+  - slack-mcp                               # team finance comms (close completed, variance alerts)
+
+  # ── Research / scrape / OCR (pricing, peers, paper invoices) ─────────
+  - firecrawl-mcp                           # competitor pricing scrape
+  - brightdata-mcp                          # alt paid scrape for paywalled benchmarks
+  - huggingface-mcp                         # industry benchmark dataset discovery
+  - gemini-ocr-mcp                          # receipt / invoice OCR
+  - mistral-ocr-mcp                         # alt OCR engine
+
+  # ── Reliability + cost-of-downtime impact ────────────────────────────
+  - sentry-mcp                              # incident financial impact when computing SLA penalties
+
+sources:
+  - name: Intuit QuickBooks Online MCP Server (official)
+    url: https://github.com/intuit/quickbooks-online-mcp-server
+    used_for: QBO bookkeeping CRUD + 11 financial reports via MCP
+  - name: Xero MCP Server (official @xeroapi/xero-mcp-server)
+    url: https://github.com/XeroAPI/xero-mcp-server
+    used_for: Xero contacts, invoices, payments, reports — CraftBot catalog
+  - name: Stripe Revenue Recognition
+    url: https://docs.stripe.com/revenue-recognition
+    used_for: ASC 606 five-step model; deferred revenue waterfall; 0.25% fee
+  - name: Solvimon — Best subscription billing in 2026
+    url: https://www.solvimon.com/blog/best-subscription-billing-in-2026-decision-guide
+    used_for: Stripe vs Chargebee vs Maxio vs Recurly vs Paddle decision matrix
+  - name: Visible.vc — Standard Investor Update Template
+    url: https://visible.vc/templates/the-visible-standard-investor-update-template/
+    used_for: monthly investor update structure (metrics + highlights / lowlights + asks)
+  - name: Bessemer / SaaS Capital — 2026 SaaS Metrics Stack
+    url: https://beancount.io/blog/2026/05/10/saas-metrics-founders-must-track-2026-ltv-cac-nrr-churn-cac-payback-benchmarks-guide
+    used_for: 2026 LTV / CAC / NRR / payback / Rule of 40 / Burn Multiple benchmarks
+  - name: Eagle Rock CFO — SaaS Benchmarks by Stage 2026
+    url: https://www.eaglerockcfo.com/blog/research/saas-finance-metrics-benchmarks
+    used_for: stage-graded targets — Seed / Series A / Series B / C+
+  - name: Intuit Enterprise — 13-Week Cash Flow Forecast
+    url: https://www.intuit.com/enterprise/blog/financials/13-week-cash-flow-forecast/
+    used_for: rolling 13-week forecast methodology
+  - name: Mercury — Calculate startup cash burn rate
+    url: https://mercury.com/blog/calculate-startup-cash-burn-rate
+    used_for: net burn definition; runway calculation; 2026 investor expectations
+  - name: Carta API platform
+    url: https://carta.com/api/
+    used_for: Issuer / Investor / Launch APIs for cap-table + 409A workflows
+  - name: Pulley 83(b) FAQ
+    url: https://help.pulley.com/en/articles/4781385-83-b-election-faq
+    used_for: 83(b) election 30-day window mechanics
+  - name: Anrok vs Stripe Tax comparison
+    url: https://taxcloud.com/blog/anrok-vs-stripe-tax-comparison/
+    used_for: multi-state SaaS sales tax compliance matrix
+  - name: Causal vs Mosaic — Best Financial Modeling Tools for Startups 2026
+    url: https://valueaddvc.com/blog/best-financial-modeling-tools-for-startups-excel-vs-runway-vs-causal-vs-mosaic
+    used_for: FP&A tool selection by stage
+  - name: Pilot AI Accountant launch (Feb 2026)
+    url: https://pilot.com/platform/ai-accountant
+    used_for: AI-native close automation landscape
+  - name: Numeric — AI-Powered Close Automation
+    url: https://www.numeric.io/
+    used_for: monthly close automation reference
+  - name: Workiva — Audit & Risk
+    url: https://www.workiva.com/solutions/internal-audit-management
+    used_for: Big 4 audit prep methodology; PBC list management
+  - name: Tropic 2025 SaaS Buying Trends Report
+    url: https://www.tropicapp.io/reports/software-spending-trends-2025
+    used_for: SaaS spend benchmark; top-10 vendors = 74% of spend
+  - name: Ramp Developer API
+    url: https://docs.ramp.com/developer-api/v1/overview
+    used_for: expense management transactions, cards, reimbursements
+  - name: Brex Developer Platform
+    url: https://developer.brex.com/
+    used_for: expense + multi-entity card issuance
+  - name: Mercury API docs
+    url: https://docs.mercury.com/reference/welcome
+    used_for: banking API for cash balance and payment ops
+  - name: Modern Treasury docs
+    url: https://docs.moderntreasury.com/
+    used_for: multi-bank payment rails; payment operations
+  - name: Plaid API docs
+    url: https://plaid.com/docs/api/
+    used_for: bank-account linking + transaction aggregation
+  - name: Y Combinator — Standard SAFE Documents
+    url: https://www.ycombinator.com/documents
+    used_for: standard YC post-money SAFE template + cap-table modeling

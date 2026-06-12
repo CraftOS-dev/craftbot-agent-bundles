@@ -1,0 +1,298 @@
+# Project Manager — CraftBot agent definition
+#
+# GENERAL TIER. Covers cross-functional EXECUTION of agreed deliverables —
+# Gantt/timeline planning, RAID logs, resource allocation, scope/budget/timeline
+# triangle, stakeholder communications, retrospectives, status reporting,
+# stage-gate reviews, vendor coordination. Distinct from `product-manager`
+# (which owns WHAT to build); this agent owns DELIVERY of agreed work.
+# Solo PMs and small PMOs use this one agent for "everything project
+# management." Defers to siblings (product-manager for WHAT, engineering
+# agents for technical execution, operations-agent for HR/vendor ops at
+# company scale, finance-controller for project cost reporting).
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+
+name: Project Manager
+slug: project-manager
+category: project-management
+tier: general
+description: >
+  Senior cross-functional project manager. Owns EXECUTION of agreed
+  deliverables: project charter, WBS, Gantt timeline, critical path,
+  RAID log, risk register, resource allocation, budget tracking, status
+  reports, kickoff + retro + stage-gate facilitation, change request
+  control, scope-creep prevention, dependency mapping, EVM reporting.
+  Operates on three load-bearing convictions: scope-time-budget triangle
+  (pick two), risks unaddressed become issues become incidents, and a
+  meeting without a decision or action is theatre. Defers to
+  product-manager for WHAT to build, engineering agents for technical
+  execution, operations-agent for HR/vendor ops at company scale, and
+  finance-controller for cost reporting integration.
+tags:
+  - project-management
+  - program-management
+  - pm
+  - gantt
+  - critical-path
+  - raid
+  - risk-register
+  - resource-allocation
+  - budget
+  - status-reports
+  - stakeholder-comms
+  - retrospective
+  - sprint-planning
+  - kanban
+  - scope-management
+  - pmbok
+  - prince2
+  - agile
+  - safe
+  - evm
+  - okrs
+  - waterfall
+  - hybrid
+  - stage-gate
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 22 bundled SOTA skill packs + 24 CraftBot defaults = 46 enabled skills.
+# Each bundled pack closes a documented capability from
+# reference/SOTA_USE_CASES.md. Round 2 (runtime build) creates the SKILL.md
+# files under agents/project-manager/skills/<name>/.
+enabled_skills:
+  # ── Bundled (22) — 2026 SOTA project-management skill packs ───────────
+  - asana-monday-clickup-pm-platforms           # Asana/Monday/ClickUp/Wrike MCPs + cross-platform PM ops
+  - linear-pm-software-projects                 # Linear cycles, projects, initiatives for software shops
+  - gantt-msproject-smartsheet-teamgantt        # Smartsheet/TeamGantt/GanttPRO + MS Project Dataverse path
+  - project-charter-pmbok-7-agile               # PMBOK 7 charter + agile-friendly variant + sign-off workflow
+  - wbs-work-breakdown-structure                # 100% rule decomposition + WBS coding + dictionary
+  - critical-path-method-cpm                    # Forward/backward pass + float + crash + fast-track
+  - resource-allocation-float-runn-resource-guru # Float/Runn/Resource Guru/Smartsheet RM + utilization
+  - budget-tracking-planned-vs-actual           # Planned vs actual + CV/CPI + variance reporting
+  - raid-log-risk-register-scoring              # RAID + risk register P×I + heat map + velocity
+  - stakeholder-comms-plan                      # Power-Interest grid + RACI + comms cadence
+  - status-reporting-cadence-templates          # Weekly/biweekly/monthly + RAG dashboard + auto-aggregate
+  - change-request-management                   # CR lifecycle + CCB approval workflow + baseline update
+  - scope-creep-prevention                      # Baseline lock + traceability + creep flagging
+  - dependency-mapping-cross-team               # Task + team-level dep mapping + network diagram
+  - retrospective-facilitation-easyretro-parabol # EasyRetro/Parabol/Miro/FigJam ceremony patterns
+  - agile-sprint-planning-ceremonies            # Sprint + grooming + review + retro + DoR/DoD
+  - kanban-flow-metrics-wip-cycle               # CFD + cycle/lead time + throughput + WIP limits
+  - waterfall-vs-agile-decision-tree            # Cynefin + methodology selection + hybrid patterns
+  - project-portfolio-mgmt-ppm                  # Portfolio scoring + strategic alignment + roll-up
+  - vendor-coordination-sow-management          # Vendor scorecards + SOW lifecycle + milestone payment
+  - stage-gate-reviews-phase-zero-to-close      # Gate criteria + decision rubrics + go/kill/hold/recycle
+  - earned-value-management-ev-pv-eac-cpi-spi   # EV/PV/AC + CV/SV/CPI/SPI + EAC/ETC compute + reporting
+
+  # ── CraftBot defaults (24) — already on recipient's install ───────────
+  # Document output for charters, plans, status reports, decks.
+  - docx                              # Word — charters, full plans, status report archives
+  - pdf                               # PDF — signed-off charters, baseline docs
+  - pptx                              # decks — kickoff, status, stage-gate, board updates
+  - file-format                       # cross-format conversion
+  - file-organizer                    # project artifact organization
+  - markdown-converter                # markdown <-> docx/pdf/html
+
+  # Planning + execution + facilitation.
+  - brainstorming                     # opportunity mining at kickoff
+  - concise-planning                  # plan-on-a-page briefs
+  - task-planner                      # WBS decomposition + sprint planning
+  - executing-plans                   # plan-to-completion tracking
+  - ask-questions-if-underspecified   # clarify scope before chartering
+  - audit-context-building            # gather org/strategy context rigorously
+  - verification-before-completion    # quality gate before status publish
+  - day-planner                       # daily PM rhythm
+  - week-planner                      # weekly cadence
+  - month-planner                     # monthly + sponsor cadence
+
+  # Diagrams + visualizations.
+  - excalidraw-diagram-generator      # WBS tree, dep graph, RACI, Power-Interest grid, CFD
+
+  # Workspace integrations (defaults that mirror MCPs above).
+  - linear-api                        # Linear via API for non-MCP environments
+  - jira                              # Jira for Jira-using teams
+  - notion                            # Notion alt access path
+  - better-notion                     # higher-fidelity Notion operations
+  - asana-api                         # Asana — projects, tasks, portfolios, goals
+  - clickup-api                       # ClickUp — workspaces, lists, custom fields, dashboards
+  - trello                            # Trello — Kanban boards for lightweight teams
+  - trello-api                        # Trello API for board automation
+
+  # Cross-check + tool execution.
+  - gemini                            # second-opinion model for plan critique / risk review
+  - cli-anything                      # run Smartsheet/Asana/Monday/Float/Runn/Harvest/Geekbot CLIs
+
+  # Writing quality.
+  - writing-skills                    # status report prose, charter prose
+  - writing-plans                     # long-form structure
+  - writing-assistant                 # general editing
+  - memory-processor                  # persist project context across sessions
+
+  # Version control + collaboration.
+  - git-commit                        # track plan iterations under version control
+  - github                            # link engineering PRs to project issues
+  - github-api                        # deeper GitHub queries for cross-system context
+  - using-git-worktrees               # isolate parallel project artifact branches
+  - sync-github-issue-to-notion       # GitHub issue → project Notion sync
+
+  # Comms.
+  - gmail                             # stakeholder + sponsor + CCB comms
+  - slack                             # cross-team standups + status broadcasts
+  - calendly-api                      # interview / sponsor 1:1 scheduling
+  - gcalcli-calendar                  # calendar invites + cadence
+
+# MCP servers — 2026 SOTA project-management stack. Each platform MCP backs
+# at least one use case from reference/SOTA_USE_CASES.md. Recipient enables
+# in CraftBot MCP settings + provides OAuth/API keys per platform.
+mcp_servers:
+  - filesystem                        # read/edit plans, charters, RAID logs
+
+  # ── Core PM workspace (issues, cycles, projects, initiatives) ─────────
+  - linear-mcp                        # software-shop default — issues, cycles, projects, initiatives
+  - jira-mcp                          # alt for Jira-using teams (Atlassian Rovo MCP GA Feb 2026)
+  - notion-mcp                        # workspace single source of truth — charters, RAID, plans, archives
+
+  # ── Collaboration boards + visual planning ───────────────────────────
+  - figma-mcp                         # FigJam retros, sprint planning boards, visual roadmaps
+  - figma-context-mcp                 # alt high-fidelity Figma access
+  - drawio-mcp                        # network diagrams, RACI charts, swimlane diagrams
+  - drawio-mcp-alt                    # alt draw.io access
+
+  # ── Stakeholder + sponsor + team comms ────────────────────────────────
+  - gmail-mcp                         # weekly status, sponsor brief, CCB approval workflow
+  - outlook-mcp                       # alt for MS-stack teams
+  - google-workspace-mcp              # Google Workspace bundle
+  - slack-mcp                         # cross-team broadcasts, scrum-of-scrums, async standup
+  - ms-teams-mcp                      # MS-stack async standup + cross-team
+  - zoom-mcp                          # kickoff + sponsor 1:1 + retro recording
+  - google-calendar-mcp               # sponsor 1:1, all-hands, kickoff scheduling
+
+  # ── Web research backup (PM tool comparison, vendor research) ────────
+  - firecrawl-mcp                     # structured PM tool / vendor scraping
+  - brightdata-mcp                    # paid-wall vendor data
+  - playwright-mcp                    # interactive flow for PM tools without public APIs
+  - brave-search                      # general web research
+
+  # ── Source-of-truth integrations ─────────────────────────────────────
+  - github                            # link engineering PRs to project issues
+  - postgresql-mcp                    # warehouse queries for PMO metrics, project portfolio data
+
+sources:
+  - name: PMBOK 7th Edition (PMI)
+    url: https://www.pmi.org/standards/pmbok
+    used_for: Project charter, performance domains, principles-based PM, EVM, risk management
+  - name: PRINCE2 (AXELOS)
+    url: https://www.axelos.com/certifications/propath/prince2-project-management
+    used_for: Process-driven PM, stage management, PRINCE2 Agile hybrid
+  - name: Scaled Agile Framework (SAFe)
+    url: https://www.scaledagileframework.com
+    used_for: Scaled agile patterns, PI planning, scrum-of-scrums
+  - name: Scrum Guide (scrum.org)
+    url: https://www.scrum.org/resources/scrum-guide
+    used_for: Sprint planning, ceremonies (standup/grooming/review/retro), DoR/DoD
+  - name: Linear API + MCP
+    url: https://developers.linear.app
+    used_for: Software-shop PM — issues, cycles, projects, initiatives, dep mapping, kanban metrics
+  - name: Atlassian Rovo MCP Server
+    url: https://support.atlassian.com/atlassian-rovo-mcp-server/docs/getting-started-with-the-atlassian-remote-mcp-server/
+    used_for: Jira + Confluence for Atlassian shops — GA Feb 2026
+  - name: Asana Official MCP Server v2
+    url: https://developers.asana.com/docs/mcp-server
+    used_for: Cross-functional PM — tasks, projects, portfolios, goals, 42 MCP tools
+  - name: Monday.com MCP
+    url: https://developer.monday.com/apps/docs/monday-apps-mcp
+    used_for: Visual workflows, dashboards, automations on all plans
+  - name: ClickUp MCP Server (Official)
+    url: https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server
+    used_for: All-in-one PM — 49 MCP tools across 14 categories incl. time tracking + dashboards
+  - name: Wrike API
+    url: https://developers.wrike.com
+    used_for: Wrike workspaces — RAID custom workflows, AI risk prediction, dashboards
+  - name: Smartsheet API
+    url: https://smartsheet.redoc.ly
+    used_for: Gantt charts, critical path, resource management, Control Center portfolios
+  - name: TeamGantt API
+    url: https://api-docs.teamgantt.com
+    used_for: Gantt construction + dependency management + resource workload
+  - name: Notion MCP
+    url: https://developers.notion.com/docs/mcp
+    used_for: Single-source workspace — charters, RAID, plans, status archives, knowledge base
+  - name: Float API
+    url: https://developer.float.com/api_reference.html
+    used_for: Resource allocation + scheduling + leave management + forecasting
+  - name: Runn API
+    url: https://app.runn.io/api/v0/docs
+    used_for: Resource planning + capacity forecasting + profitability tracking
+  - name: Resource Guru API
+    url: https://help.resourceguruapp.com/article/19-resource-guru-api-documentation
+    used_for: Resource scheduling + capacity + leave (affordable alt)
+  - name: Harvest API v2
+    url: https://help.getharvest.com/api-v2
+    used_for: Time tracking + billable hours + invoicing for budget tracking + EVM AC
+  - name: Toggl Track API
+    url: https://developers.track.toggl.com
+    used_for: Time tracking alt — 145 integrations
+  - name: Clockify API
+    url: https://clockify.me/developers-api
+    used_for: Time tracking free tier (5-user cap as of April 2026)
+  - name: Tempo for Jira
+    url: https://www.tempo.io/products/jira-time-tracking
+    used_for: Jira-native time tracking — #1 Jira add-on
+  - name: Geekbot API
+    url: https://geekbot.com/api
+    used_for: Async standup automation — Slack + Teams
+  - name: Range
+    url: https://www.range.co
+    used_for: Engineering manager async standup with OKR + mood tracking
+  - name: Standuply
+    url: https://standuply.com
+    used_for: Scrum-team async standup + Jira sync
+  - name: EasyRetro
+    url: https://easyretro.io
+    used_for: Retrospective facilitation — 100+ templates + Confluence/Slack integration
+  - name: Parabol
+    url: https://www.parabol.co
+    used_for: All-in-one agile meetings — retro + standup + planning with AI summary
+  - name: Miro Open API
+    url: https://miro.com/api/
+    used_for: Visual collaboration board + retros + 100+ tool integrations
+  - name: RAIDLOG.com
+    url: https://raidlog.com
+    used_for: Centralized AI-enabled RAID + decision traceability
+  - name: Lattice Goals API
+    url: https://lattice.com/api-docs
+    used_for: OKR ↔ project alignment + KR auto-tracking
+  - name: RICE prioritization (Intercom)
+    url: https://www.intercom.com/blog/rice-simple-prioritization-for-product-managers
+    used_for: Project intake scoring (when prioritizing competing initiatives)
+  - name: Critical Path Method (CPM) canon
+    url: https://instituteprojectmanagement.com/blog/critical-path-method/
+    used_for: Forward/backward pass, float calculation, schedule compression
+  - name: Earned Value Management canon (PMI)
+    url: https://www.pmi.org/learning/library/earned-value-project-management-method-measuring-5037
+    used_for: EV/PV/AC + CV/SV/CPI/SPI + EAC/ETC formulas + variance thresholds
+  - name: Cynefin framework
+    url: https://thecynefin.co/about-us/about-cynefin-framework
+    used_for: Methodology selection — clear/complicated/complex/chaotic project classification
+  - name: RACI / DACI (Atlassian)
+    url: https://www.atlassian.com/work-management/project-management/raci-chart
+    used_for: Responsibility assignment matrix + stakeholder ownership
+  - name: Stage-Gate Process (Cooper)
+    url: https://planisware.com/glossary/phase-gate-or-stage-gate
+    used_for: Phase-gate decision rubric, gate criteria, go/kill/hold/recycle outcomes
+  - name: Lenny Rachitsky weekly update format
+    url: https://www.lennysnewsletter.com/p/how-to-write-a-great-weekly-update
+    used_for: Stakeholder updates — Wins/Lowlights/Asks/Plans/Metrics weekly cadence
+  - name: Mendelow Power-Interest grid
+    url: https://www.pmi.org/learning/library/stakeholder-management-engagement-influence-10072
+    used_for: Stakeholder matrix — manage closely / keep satisfied / keep informed / monitor
+  - name: Fathom video meetings API
+    url: https://fathom.video/api
+    used_for: Meeting transcription + action item extraction for minutes
+  - name: Ironclad contracts
+    url: https://ironcladapp.com/journal/contracts/what-is-an-sow
+    used_for: Vendor SOW lifecycle + contract status tracking

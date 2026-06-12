@@ -1,0 +1,223 @@
+# Legal Counsel — CraftBot agent definition
+#
+# Every field traces back to web-sourced SOTA research summarized in
+# reference/SOTA_USE_CASES.md (per-use-case mapping) and SOURCES.md
+# (section-to-source map). Upstream reference agents have not been
+# downloaded in v1; see reference/INVENTORY.md.
+
+name: Legal Counsel
+slug: legal-counsel
+category: legal
+tier: general
+description: >
+  Senior in-house counsel for solo founders and small teams. Covers contract
+  review (MSA / NDA / employment / vendor / SaaS), T&C drafting, IP basics
+  (trademark / patent / copyright / DMCA), GDPR / CCPA / SOC2 readiness,
+  equity grants (ISO / NSO / RSU / 83(b)), SAFE / convertible-note review,
+  and term-sheet analysis. Operates on the load-bearing conviction that it
+  is NOT the final lawyer — every binding output carries a consult-an-attorney
+  disclaimer. Defers to licensed counsel for anything that will be signed,
+  filed, or executed.
+
+tags:
+  - legal
+  - contracts
+  - nda
+  - msa
+  - privacy
+  - gdpr
+  - ccpa
+  - soc2
+  - trademark
+  - patent
+  - equity
+  - safe
+  - term-sheet
+  - compliance
+  - ip
+  - open-source-licensing
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/legal-counsel/skills/<name>/  (bundled — ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/                (CraftBot default — already on recipient's install)
+#   A missing skill (in neither location) causes a build error.
+enabled_skills:
+  # ── Bundled (20) — SOTA legal skill packs we ship with this agent ──────
+  # Round 2 will populate each folder under agents/legal-counsel/skills/<name>/
+  # with a SKILL.md. The names below are reserved and referenced from soul.md
+  # / role.md / SOTA_USE_CASES.md.
+  - contract-review-msa-nda-employment              # MSA / NDA / employment / contractor / vendor playbook
+  - robin-spellbook-harvey-ai-contract-review       # AI-assisted contract review (Robin AI, Spellbook, Harvey)
+  - terms-of-service-tos-drafting                   # Customer T&C, marketplace ToS, AUP
+  - privacy-policy-gdpr-ccpa                        # Privacy policy across jurisdictions
+  - iubenda-termly-privacy-policy-generators        # Iubenda + Termly auto-generators
+  - cookie-consent-management-cookiebot-onetrust    # Cookiebot, OneTrust, Iubenda Cookie Solution
+  - gdpr-readiness-audit                            # Art. 6 lawful basis, DPIA, SAR/DSAR, ROPA, DPO
+  - ccpa-cpra-readiness-audit                       # CCPA / CPRA + Cal AG enforcement focus
+  - drata-vanta-secureframe-soc2-readiness          # SOC2 Type I / II prep, AICPA TSP 100
+  - dpa-data-processing-agreement                   # GDPR Art. 28 DPA + EU SCC drafting
+  - trademark-search-uspto-tess-wipo                # USPTO TESS + WIPO + Trademarkia clearance + filing prep
+  - patent-search-uspto-lens-google                 # USPTO PPS + Google Patents + Lens.org prior-art search
+  - equity-grants-isos-rsus-83b-election            # ISOs, NSOs, RSUs, 409A FMV, 83(b) election prep
+  - safe-convertible-note-yc-template               # YC Post-Money SAFE + convertible-note review
+  - term-sheet-review-series-a-typical-terms        # NVCA model + market-deviation memo
+  - founders-agreement-vesting-ip-assignment        # 4-yr/1-yr vesting, single/double trigger, IP assignment
+  - open-source-license-mit-apache-gpl-agpl         # SPDX + OSS Review Toolkit + SBOM + obligation memo
+  - dmca-takedown-process                           # 17 USC §512 notice + counter-notice + DMCA agent
+  - ironclad-contractworks-clm                      # CLM platform workflows (Ironclad, ContractWorks, Lexion)
+  - non-compete-non-solicit-state-enforceability    # State-by-state map + FTC rule status
+
+  # ── CraftBot defaults (16) — already on recipient's install ────────────
+  # Document I/O, file ops, research, writing assistance, review discipline.
+  - cli-anything                                    # universal verb — install Robin AI CLI, Spellbook, Iubenda exporters, OSS Review Toolkit, curl regulator pages
+  - file-format                                     # convert .docx / .pdf / .md / .txt for contract intake
+  - file-organizer                                  # organize a workspace of contracts, redlines, audit reports
+  - docx                                            # produce Word output (default for contracts + memos)
+  - pdf                                             # produce PDF for signature pipelines
+  - pptx                                            # produce slide decks for board / investor compliance briefs
+  - markdown-converter                              # cross-convert markdown for memos + redlines
+  - writing-skills                                  # general writing discipline for memos + summaries
+  - writing-plans                                   # structured drafting plans for long-form contracts
+  - writing-assistant                               # collaborative drafting flow
+  - brainstorming                                   # use-case exploration before clause drafting
+  - concise-planning                                # plan multi-step compliance audits
+  - research-assistant                              # case + statute + secondary-source research
+  - web-search-plus                                 # broad regulator + comparison-blog search
+  - tavily-search                                   # high-quality search for legal source material
+  - firecrawl                                       # scrape regulator pages (FTC, ICO, EDPB, USPTO, HHS)
+  - verification-before-completion                  # quality-gate every memo / contract before delivery
+  - prompt-engineering-expert                       # structure prompts to Robin AI / Spellbook / Harvey
+  - github                                          # OSS license compliance scans against user's repos
+  - github-api                                      # raw GitHub API for SBOM + dependency-license queries
+  - using-git-worktrees                             # isolate contract-review branches in versioned doc repos
+  - differential-review                             # structured review of contract redlines / audit PRs
+
+# MCP servers — every name verified against app/config/mcp_config.json.
+# The recipient enables each in MCP settings after import and fills in any
+# required API keys.
+mcp_servers:
+  - filesystem                                      # read/edit contracts, redlines, audit reports
+  - sec-edgar-mcp                                   # public-company contract precedent search, SEC enforcement actions
+  - uspto-mcp                                       # trademark TESS + patent search direct queries
+  - firecrawl-mcp                                   # fetch frequently-changing regulator pages (FTC, ICO, EDPB)
+  - gemini-ocr-mcp                                  # extract text from scanned contracts, image-only legal exhibits
+  - mistral-ocr-mcp                                 # alt OCR for redundancy
+  - notion-mcp                                      # write memos / audit reports into user's workspace
+  - gmail-mcp                                       # send draft contracts to counterparties; collect signed copies
+  - google-drive-mcp                                # read/write contract drafts in user's drive
+  - google-workspace-mcp                            # Docs + Sheets for cap-table modeling
+  - deepl-mcp                                       # translate multi-jurisdiction contracts (EU + US)
+  - github                                          # OSS license compliance scans
+
+# Source attribution. See SOURCES.md for section→source map. See
+# reference/INVENTORY.md for the per-file URL + license + description.
+sources:
+  - name: Common Paper — Standardized Templates
+    url: https://commonpaper.com/standards/
+    used_for: NDA, Cloud Service Agreement, DPA, AUP standardized clauses across contract-review playbooks
+  - name: Bonterms — Open Template Library
+    url: https://bonterms.com/
+    used_for: Cloud Terms, AUP, DPA, SLA module templates; benchmark for market terms
+  - name: Y Combinator — SAFE Documents
+    url: https://www.ycombinator.com/documents
+    used_for: Post-Money SAFE (default since 2018), MFN side letter, pro-rata mechanics
+  - name: Cooley GO — Equity + Founder Documents
+    url: https://www.cooleygo.com/documents/
+    used_for: Equity compensation templates (ISO/NSO/RSU), founders stock, contractor agreements
+  - name: NVCA — Model Legal Documents
+    url: https://nvca.org/model-legal-documents/
+    used_for: Series A term sheet, stock purchase agreement, investor rights agreement benchmark
+  - name: Iubenda — Privacy Policy Generator
+    url: https://www.iubenda.com/en/privacy-policy-generator
+    used_for: Auto-generated privacy policies with jurisdiction detection
+  - name: Termly — Privacy Policy + Cookie Consent
+    url: https://termly.io/
+    used_for: Alternative privacy generator + CMP
+  - name: Cookiebot — Consent Management Platform
+    url: https://www.cookiebot.com/
+    used_for: Cookie scanner + CMP + IAB TCF v2.2 compliance
+  - name: OneTrust — Consent + Privacy Management
+    url: https://www.onetrust.com/products/cookie-consent/
+    used_for: Enterprise-tier consent + privacy mgmt
+  - name: GDPR.eu + ICO Guidance
+    url: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/
+    used_for: Art. 6 lawful basis, DPIA, SAR/DSAR, ROPA, DPO designation
+  - name: EDPB — European Data Protection Board
+    url: https://edpb.europa.eu/
+    used_for: GDPR enforcement guidance + SCC clarifications
+  - name: California AG + CPPA
+    url: https://oag.ca.gov/privacy/ccpa
+    used_for: CCPA / CPRA regulations + enforcement focus areas
+  - name: Drata — SOC2 Automation
+    url: https://drata.com/
+    used_for: SOC2 Type I/II readiness with automated evidence collection
+  - name: Vanta — SOC2 Automation
+    url: https://www.vanta.com/
+    used_for: Alternative SOC2 platform
+  - name: SecureFrame — SOC2 Automation
+    url: https://secureframe.com/
+    used_for: Alternative SOC2 platform
+  - name: AICPA — Trust Services Criteria
+    url: https://us.aicpa.org/interestareas/frc/assuranceadvisoryservices/sorhome
+    used_for: TSP 100 framework underpinning SOC2 audits
+  - name: USPTO — Trademarks + Patents
+    url: https://www.uspto.gov/
+    used_for: TESS trademark search, Patent Public Search, application filing
+  - name: WIPO — Global Brand Database
+    url: https://www.wipo.int/branddb/en/
+    used_for: International trademark clearance (50+ jurisdictions)
+  - name: Lens.org
+    url: https://www.lens.org/
+    used_for: Free patent prior-art search alongside Google Patents + USPTO PPS
+  - name: US Copyright Office
+    url: https://www.copyright.gov/
+    used_for: Copyright registration prep, DMCA Designated Agent registration
+  - name: IRS — 83(b) Election + Equity Tax
+    url: https://www.irs.gov/forms-pubs/about-form-15620
+    used_for: 83(b) election content + Treasury Reg §1.83-2(e); ISO §422 rules
+  - name: Robin AI — Contract Review
+    url: https://www.robinai.com/
+    used_for: AI-assisted first-pass redlines on MSAs / NDAs / employment
+  - name: Spellbook — AI Legal Copilot for Word
+    url: https://www.spellbook.legal/
+    used_for: Word-integrated AI markup for contract drafting
+  - name: Harvey AI — Legal-Specialized LLM
+    url: https://www.harvey.ai/
+    used_for: Reference for AI-legal SOTA in 2026
+  - name: Ironclad — CLM
+    url: https://ironcladapp.com/
+    used_for: Enterprise CLM workflows; benchmark when user uses Ironclad
+  - name: PCI Security Standards Council
+    url: https://www.pcisecuritystandards.org/
+    used_for: PCI DSS v4.0 scope analysis + SAQ determination
+  - name: HHS — HIPAA Sample BAA
+    url: https://www.hhs.gov/hipaa/for-professionals/covered-entities/sample-business-associate-agreement-provisions/
+    used_for: HIPAA Business Associate Agreement template
+  - name: FTC Non-Compete Rule
+    url: https://www.ftc.gov/legal-library/browse/rules/noncompete-rule
+    used_for: Non-compete enforceability status tracking
+  - name: NCSL Non-Compete State Map
+    url: https://www.ncsl.org/labor-and-employment/non-compete-agreements
+    used_for: State-by-state non-compete enforceability
+  - name: SPDX License List
+    url: https://spdx.org/licenses/
+    used_for: OSS license identification + SBOM generation
+  - name: OSS Review Toolkit (ORT)
+    url: https://github.com/oss-review-toolkit/ort
+    used_for: Automated OSS license + vulnerability scanning
+  - name: Cornell LII (Legal Information Institute)
+    url: https://www.law.cornell.edu/
+    used_for: Free statute + regulation + case-law lookup
+  - name: CourtListener (RECAP)
+    url: https://www.courtlistener.com/
+    used_for: Free case law + federal court docket lookup
+  - name: Justia
+    url: https://www.justia.com/
+    used_for: Free secondary-source legal research
+  - name: AAA + JAMS Arbitration Rules
+    url: https://www.adr.org/Rules
+    used_for: Arbitration clause drafting + venue selection

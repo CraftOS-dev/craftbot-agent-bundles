@@ -1,0 +1,276 @@
+# QA / Test Engineer — CraftBot agent definition
+#
+# Every field traces back to web-researched SOTA references (cited in
+# reference/SOTA_USE_CASES.md and SOURCES.md) OR to a default CraftBot capability
+# already shipped on the recipient's install. See reference/INVENTORY.md for
+# provenance and reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+
+name: QA / Test Engineer
+slug: qa-engineer
+category: engineering
+tier: specialized
+description: >
+  QA / test engineer for the 2026 stack. Authors test plans (ISO 29119 + HTSM),
+  curates regression suites (Playwright + pytest), runs accessibility (axe-core /
+  pa11y / Lighthouse WCAG 2.2 AA), performance (k6 / Locust / Artillery), API
+  (Bruno / Postman / Newman), contract (Pact + can-i-deploy), and security
+  (OWASP ZAP / Snyk) tests; manages flaky-test quarantine, mutation testing
+  (Stryker / mutmut), visual regression (Playwright native / Applitools /
+  Chromatic), cross-browser (Playwright + BrowserStack/Sauce), and mobile
+  (Maestro / Detox / Appium). Owns quality KPIs (escape rate, MTTR, flakiness)
+  and the release-readiness checklist. Defers to `senior-python-engineer` for
+  app-code unit tests, `frontend-engineer` for component tests, and
+  `devops-engineer` for CI infrastructure.
+tags:
+  - qa
+  - testing
+  - e2e
+  - playwright
+  - cypress
+  - pytest
+  - jest
+  - vitest
+  - accessibility
+  - wcag
+  - performance
+  - k6
+  - locust
+  - api-testing
+  - bruno
+  - postman
+  - contract-testing
+  - pact
+  - security-testing
+  - owasp-zap
+  - visual-regression
+  - flaky-tests
+  - mutation-testing
+  - stryker
+  - mutmut
+  - test-data
+  - quality-gates
+  - shift-left
+  - release-readiness
+  - dora
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/qa-engineer/skills/<name>/  (bundled — ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/              (CraftBot default — already on recipient's install)
+enabled_skills:
+  # ── Bundled (23) — SOTA QA skill packs we ship with this agent ─────────
+  # Round 2 creates each folder's SKILL.md. Bundle scope drawn from
+  # reference/SOTA_USE_CASES.md SOTA tooling per use case.
+  - test-plan-authoring-pmbok-iso           # ISO 29119-3 plan + HTSM risk model
+  - test-case-authoring-bdd-gherkin         # Cucumber / pytest-bdd / Playwright-bdd
+  - exploratory-testing-charters-session-based  # Bach/Bolton SBTM
+  - regression-suite-curation-smoke-critical    # smoke / critical / extended pyramid
+  - accessibility-testing-wcag-22-aa-axe    # axe-core + pa11y + Lighthouse + NVDA/JAWS/VoiceOver
+  - performance-testing-k6-locust-artillery # k6 (JS), Locust (Py), Artillery; Gatling fallback
+  - api-testing-postman-bruno-newman        # Bruno (Git-native) + Postman + Newman + Insomnia
+  - contract-testing-pact                   # Pact + Pact Broker + can-i-deploy
+  - security-testing-owasp-zap-burp         # ZAP CI (SARIF) + Burp Pro + Snyk/pip-audit
+  - uat-coordination                        # acceptance criteria + sign-off + Loom evidence
+  - test-data-management-synthetic          # Faker + Mockaroo + Tonic.ai GDPR-safe
+  - defect-triage-severity-priority         # S1-S4 x P0-P3 matrix + SLA
+  - cross-browser-browserstack-saucelabs-lambdatest  # Playwright native + cloud grids
+  - mobile-testing-real-devices-emulators   # Maestro + Detox + Appium + WebdriverIO
+  - visual-regression-percy-chromatic-applitools  # Playwright toHaveScreenshot + Eyes/Chromatic/Percy
+  - test-pyramid-governance                 # Pyramid vs Trophy + suite-size SLOs
+  - flaky-test-quarantine-root-cause        # detect / quarantine / heal / 2-week fix-or-remove
+  - ci-cd-test-integration-parallelization  # GH Actions matrix + Playwright sharding + pytest-xdist
+  - test-reporting-dashboards               # Allure + ReportPortal + Playwright HTML + Grafana k6
+  - release-readiness-checklists            # DORA gate + branch protection + go/no-go
+  - mutation-testing-stryker-mutmut         # Stryker (JS/.NET) + mutmut (Py) + Pitest (JVM)
+  - qa-dev-shift-left                       # 3-amigo + TDD/BDD in PR + retro KPI review
+  - quality-kpis-escape-rate-mttr           # escape rate + MTTR + flakiness + coverage trends
+
+  # ── CraftBot defaults (12) — already on recipient's install ─────────────
+  - cli-anything                            # universal verb — runs k6, axe, ZAP, mutmut, allure, etc.
+  - file-format                             # convert reports (JUnit XML, JSON, HTML)
+  - file-organizer                          # tidy fixtures / reports / artifacts trees
+  - using-git-worktrees                     # isolate suite work / quarantine branches
+  - git-commit                              # conventional commits on test-suite changes
+  - github                                  # gh CLI — issues, PRs, CI runs
+  - github-api                              # raw API for SARIF uploads + status checks + branch rules
+  - debug-pro                               # 7-step debugging — repro flaky / failing tests
+  - systematic-debugging                    # generic method before naming a "fix"
+  - test-driven-development                 # red/green/refactor + name-the-test-that-would-have-caught-it
+  - property-based-testing                  # Hypothesis-style coverage beyond examples
+  - mutation-testing                        # complements bundled `mutation-testing-stryker-mutmut`
+  - playwright-mcp                          # Playwright orchestration for E2E + a11y + visual + cross-browser
+  - verification-before-completion          # release-readiness self-check before signing off
+
+# MCP servers — every name verified against app/config/mcp_config.json.
+# Recipient enables each in their MCP settings after importing the bundle
+# and provides any required API keys.
+mcp_servers:
+  - filesystem                              # always — read/edit test files, configs, reports
+  - github                                  # PRs, status checks, SARIF, branch protection
+  - playwright-mcp                          # browser orchestration for E2E + a11y + visual + cross-browser
+  - postgresql-mcp                          # test DB inspection, fixture seeding, schema diff
+  - sentry-mcp                              # prod errors + escape-rate correlation + flaky source signals
+  - kubernetes-mcp                          # ephemeral test environments (namespace per PR)
+  - jira-mcp                                # defect triage, ticket lifecycle, UAT scenarios
+  - linear-mcp                              # same purpose for Linear shops
+  - notion-mcp                              # UAT sign-off, test plans, retros, KPI digests
+  - slack-mcp                               # smoke failure alerts, escape-rate weekly digest
+  - posthog-mcp                             # product-side defect signals + escape-rate correlation
+
+# Source attribution. Reference material for soul.md / role.md is listed here
+# for one-glance verification. See SOURCES.md for the section→source map and
+# reference/INVENTORY.md for the per-file URL.
+sources:
+  - name: Cucumber BDD docs
+    url: https://cucumber.io/docs/bdd/
+    used_for: BDD/Gherkin test-case authoring (use case 2)
+  - name: pytest-bdd
+    url: https://pytest-bdd.readthedocs.io/
+    used_for: BDD/Gherkin in Python suites (use case 2)
+  - name: ISO/IEC/IEEE 29119-3 (Test Documentation)
+    url: https://www.iso.org/standard/79428.html
+    used_for: test plan / test case authoring (use cases 1, 2)
+  - name: Heuristic Test Strategy Model (Bach)
+    url: https://www.satisfice.com/download/heuristic-test-strategy-model
+    used_for: risk-based test plan (use case 1)
+  - name: Session-Based Test Management (Bach/Bolton)
+    url: https://www.satisfice.com/download/session-based-test-management
+    used_for: exploratory testing charters (use case 3)
+  - name: Practical Test Pyramid (Martin Fowler)
+    url: https://martinfowler.com/articles/practical-test-pyramid.html
+    used_for: regression suite tiers + pyramid governance (use cases 4, 19)
+  - name: The Testing Trophy (Kent C. Dodds)
+    url: https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications
+    used_for: pyramid vs trophy debate (use case 19)
+  - name: axe-core (Deque)
+    url: https://www.deque.com/axe/axe-core/
+    used_for: accessibility automation (use case 6)
+  - name: pa11y
+    url: https://pa11y.org/
+    used_for: accessibility CI gates (use case 6)
+  - name: WCAG 2.2 quick reference
+    url: https://www.w3.org/WAI/WCAG22/quickref/
+    used_for: accessibility compliance level (use case 6)
+  - name: k6 docs
+    url: https://k6.io/docs/
+    used_for: performance load testing (use case 7)
+  - name: Locust docs
+    url: https://docs.locust.io/
+    used_for: Python-team performance testing (use case 7)
+  - name: Artillery docs
+    url: https://www.artillery.io/docs
+    used_for: Node.js performance testing (use case 7)
+  - name: Bruno (open-source API client)
+    url: https://docs.usebruno.com/
+    used_for: Git-native API testing (use case 8)
+  - name: Postman / Newman
+    url: https://learning.postman.com/docs/running-collections/using-newman-cli/running-collections-on-the-command-line/
+    used_for: Postman collections in CI (use case 8)
+  - name: Pact contract testing
+    url: https://docs.pact.io/
+    used_for: consumer-driven contracts (use case 9)
+  - name: PactFlow
+    url: https://pactflow.io/
+    used_for: managed Pact Broker (use case 9)
+  - name: OWASP ZAP
+    url: https://www.zaproxy.org/
+    used_for: DAST in CI (use case 10)
+  - name: ZAP GitHub Actions
+    url: https://github.com/zaproxy/action-baseline
+    used_for: official ZAP CI integration (use case 10)
+  - name: Burp Suite
+    url: https://portswigger.net/burp
+    used_for: manual pentest (use case 10)
+  - name: Faker.js
+    url: https://fakerjs.dev/
+    used_for: synthetic test data JS (use case 12)
+  - name: Faker (Python)
+    url: https://faker.readthedocs.io/
+    used_for: synthetic test data Python (use case 12)
+  - name: Mockaroo
+    url: https://mockaroo.com/
+    used_for: schema-based mock data (use case 12)
+  - name: Tonic.ai
+    url: https://www.tonic.ai/
+    used_for: production-like masked synthetic data (use case 12)
+  - name: Testcontainers
+    url: https://testcontainers.com/
+    used_for: real-backend integration tests (use case 15)
+  - name: Playwright cross-browser
+    url: https://playwright.dev/docs/browsers
+    used_for: cross-browser strategy (use case 16)
+  - name: BrowserStack Automate
+    url: https://www.browserstack.com/automate
+    used_for: cloud cross-browser (use case 16)
+  - name: Sauce Labs automated testing
+    url: https://saucelabs.com/products/automated-testing
+    used_for: cloud cross-browser + analytics (use case 16)
+  - name: Maestro mobile testing
+    url: https://maestro.dev/docs
+    used_for: mobile E2E (use case 17)
+  - name: Detox React Native testing
+    url: https://wix.github.io/Detox/
+    used_for: React Native E2E (use case 17)
+  - name: Appium
+    url: https://appium.io/
+    used_for: cross-platform mobile automation (use case 17)
+  - name: Applitools Eyes
+    url: https://applitools.com/
+    used_for: AI visual regression (use case 18)
+  - name: Chromatic
+    url: https://www.chromatic.com/
+    used_for: Storybook-first visual regression (use case 18)
+  - name: Percy
+    url: https://percy.io/
+    used_for: BrowserStack-integrated visual regression (use case 18)
+  - name: Playwright test snapshots
+    url: https://playwright.dev/docs/test-snapshots
+    used_for: free local visual regression (use case 18)
+  - name: TestDino flaky test guide
+    url: https://testdino.com/blog/flaky-tests
+    used_for: flaky-test taxonomy + quarantine (use case 20)
+  - name: Trunk.io flaky test detection
+    url: https://trunk.io/flaky-tests
+    used_for: AI-driven flaky-test management (use case 20)
+  - name: Playwright sharding
+    url: https://playwright.dev/docs/test-sharding
+    used_for: CI parallelization (use case 21)
+  - name: pytest-xdist
+    url: https://pytest-xdist.readthedocs.io/
+    used_for: pytest parallelization (use case 21)
+  - name: GitHub Actions matrix
+    url: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
+    used_for: matrix runs (use case 21)
+  - name: Allure Report
+    url: https://allurereport.org/
+    used_for: test reporting (use case 22)
+  - name: ReportPortal
+    url: https://reportportal.io/
+    used_for: AI-driven test reporting (use case 22)
+  - name: DORA research
+    url: https://dora.dev/research/
+    used_for: release readiness + KPIs + shift-left correlation (use cases 14, 23, 27, 28)
+  - name: Stryker Mutator
+    url: https://stryker-mutator.io/
+    used_for: JS/.NET mutation testing (use case 25)
+  - name: mutmut
+    url: https://github.com/boxed/mutmut
+    used_for: Python mutation testing (use case 25)
+  - name: Pitest
+    url: https://pitest.org/
+    used_for: Java/JVM mutation testing (use case 25)
+  - name: SonarQube quality gates
+    url: https://docs.sonarsource.com/sonarqube-server/
+    used_for: code quality gates (use case 26)
+  - name: CodeClimate
+    url: https://codeclimate.com/quality
+    used_for: maintainability gates (use case 26)
+  - name: 3-amigo collaboration
+    url: https://www.atlassian.com/agile/software-development/3-amigos
+    used_for: QA-Dev shift-left (use case 27)
+  - name: Quality Metrics (Fowler)
+    url: https://martinfowler.com/articles/qualityMetrics.html
+    used_for: quality KPIs (use case 28)

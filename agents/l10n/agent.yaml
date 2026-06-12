@@ -1,0 +1,195 @@
+# Localization (L10n) — CraftBot agent definition
+#
+# Every field traces back to web-researched SOTA in reference/SOTA_USE_CASES.md
+# OR to a default CraftBot capability already shipped on the recipient's
+# install. See reference/INVENTORY.md for provenance notes and SOURCES.md for
+# the section→source map.
+
+name: Localization (L10n)
+slug: l10n
+category: content
+tier: specialized
+description: >
+  Localization operator. Sets up TMS (Crowdin / Lokalise / Phrase) and CAT
+  pipelines (memoQ / Trados / Phrase TMS); manages translation memory and
+  termbases as load-bearing assets; ships ICU MessageFormat catalogs through
+  i18next / react-intl / next-intl / paraglide-js; runs pseudo-localization
+  + RTL/CJK Playwright diffs; orchestrates DeepL Pro + adaptive MT (Lilt /
+  ModernMT) post-editing workflows; reviews source content for translatability;
+  scores translator quality with MQM 2.0; localizes email templates, subtitles,
+  and brand voice. Defers to `technical-writer` for docs authoring, to
+  `marketing-agent` for final creative call on transcreation, to `seo-specialist`
+  for deep hreflang strategy, to `frontend-engineer` for production i18n library
+  integration + RTL CSS migration, and to `video-creator` for dubbing.
+tags:
+  - localization
+  - l10n
+  - i18n
+  - translation
+  - tms
+  - cat-tool
+  - icu-messageformat
+  - rtl
+  - cjk
+  - hreflang
+  - pseudo-localization
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time. The build script looks up each name in
+# agents/l10n/skills/ (bundled — ships INSIDE the .craftbot) first, then in
+# the repo's top-level skills/ (default — already on the recipient's
+# CraftBot install).
+enabled_skills:
+  # ── Bundled (22) — SOTA localization skill packs we ship with this agent ─
+  # Round 2 (runtime build) creates each SKILL.md. Names match the entries in
+  # reference/SOTA_USE_CASES.md → "Recommended agent.yaml additions" section.
+  - tms-setup-crowdin-lokalise-phrase       # Crowdin / Lokalise / Phrase CLI + GitHub Actions + OTA
+  - tm-management-leverage-optimization     # TM leverage analysis, per-domain split, Okapi alignment
+  - cat-tool-memoq-trados-phrase            # memoQ AGT + Trados + Phrase TMS setup + adaptive MT
+  - glossary-termbase-multiterm             # MultiTerm + TBX interchange + IATE + per-domain glossaries
+  - in-context-editor-setup                 # Crowdin In-Context + Lokalise LiveEdit + Phrase
+  - locale-qa-linguistic-functional         # Xbench + Okapi Checkmate + Vale + Playwright screenshot diff
+  - rtl-cjk-layout-testing                  # CSS Logical Properties + dir="rtl" + Playwright LTR/RTL/CJK diff
+  - pseudo-localization                     # pseudo-l10n npm + Crowdin ach locale + 30-40% expansion
+  - transcreation-cultural-adaptation       # Brief + persona + in-market reviewer + Lilt/Smartcat dispatch
+  - locale-routing-subdomain-subdirectory   # Subdirectory + hreflang + Next.js/Astro/Docusaurus i18n
+  - icu-messageformat-pluralization         # ICU MF 1 plurals/gender/select + CLDR rules + FormatJS
+  - gender-name-address-currency-localization # Intl.* APIs + CLDR + name order + address format
+  - ai-mt-deepl-pro-post-editing            # DeepL Pro + Google + Amazon + ModernMT + Lilt adaptive
+  - lsp-vendor-management                   # Acclaro / TransPerfect / Welocalize + Smartcat + MQM RFP
+  - translator-quality-scoring              # MQM 2.0 + DQF + per-translator aggregation
+  - in-app-message-i18next-react-intl       # i18next + react-intl + next-intl + paraglide-js (compiler)
+  - email-localization-multi-locale         # MJML + react-email + ICU + locale-aware preheader/subject
+  - font-selection-cjk-rtl                  # Noto Sans CJK/Arabic + glyphhanger + pyftsubset subsetting
+  - bcp-47-language-tags                    # RFC 5646 + IANA registry + Intl.getCanonicalLocales()
+  - transliteration-romanization            # ICU Transliterator + PyICU + Pinyin/Romaji/RR
+  - source-content-translatability-review   # Pre-translation rubric + Vale custom L10n style pack
+  - subtitle-audio-video-localization       # Subtitle Edit + Aegisub + Subly + Whisper + CPS limits
+
+  # ── CraftBot defaults (18) — already on the recipient's install ──────────
+  # Document I/O, version control, doc-build, automation, and i18n-adjacent.
+  - cli-anything                            # universal verb — run every TMS / CAT / MT / i18n CLI
+  - file-format                             # convert between JSON / XLIFF / PO / YAML / ARB / TMX / TBX
+  - file-organizer                          # manage locale tree (de/, fr/, ja/, ar/, zh-Hans/...)
+  - using-git-worktrees                     # isolate locale-branches from main code work
+  - git-commit                              # Conventional Commits for locale additions
+  - github                                  # gh CLI — open PRs for Crowdin/Lokalise sync, comment
+  - github-api                              # raw GitHub API — scan repo for hardcoded strings
+  - playwright-mcp                          # RTL + CJK + pseudo-loc screenshot diff via browser
+  - docx                                    # Word import/export when LSP returns DOCX bilingual files
+  - pdf                                     # PDF source extraction for legacy doc translation
+  - markdown-converter                      # MD ↔ XLIFF for doc-source localization
+  - excalidraw-diagram-generator            # localization workflow diagrams + locale routing maps
+  - brainstorming                           # transcreation brainstorm + brand voice tone matrix
+  - writing-skills                          # source content translatability rewrites
+  - find-skills                             # discover ad-hoc helper skills mid-task
+  - dispatching-parallel-agents             # parallel locale-wave testing across 20+ languages
+  - ask-questions-if-underspecified         # locale / target market / content type clarifying questions
+
+# MCP servers — every name must exist in app/config/mcp_config.json
+# (verify.py checks this). The recipient enables each in their MCP settings
+# after importing the .craftbot bundle and fills in any required API keys.
+mcp_servers:
+  - filesystem                              # always — read/edit locale catalogs in workspace
+  - deepl-mcp                               # primary MT engine — highest quality for European pairs
+  - github                                  # write Crowdin / Lokalise GitHub Action workflows + repo scans
+
+  # ── Design / source-side string sync ─────────────────────────────────
+  - figma-mcp                               # design-side string sync (Lokalise Figma plugin)
+  - figma-context-mcp                       # design-system locale token lookup
+
+  # ── OCR for legacy screenshot-only translation catalogs ──────────────
+  - gemini-ocr-mcp                          # primary OCR for image-only legacy locale archives
+  - mistral-ocr-mcp                         # OCR fallback / cross-check
+
+  # ── Multi-locale market intelligence + competitor crawls ──────────────
+  - firecrawl-mcp                           # competitor multi-locale crawl for market sizing
+  - brightdata-mcp                          # geo-targeted scraping for in-market reference content
+
+  # ── Workflow + translator coordination ─────────────────────────────────
+  - notion-mcp                              # translator workflow tracking + per-locale status boards
+  - gmail-mcp                               # translator + LSP communication
+  - google-workspace-mcp                    # Sheets-based glossary management for non-TMS workflows
+  - linear-mcp                              # localization sprint tracking + per-locale issue ownership
+
+# Source attribution. See SOURCES.md for section→source map. See
+# reference/INVENTORY.md for the per-file URL + provenance description.
+sources:
+  - name: Crowdin CLI + GitHub Action
+    url: https://github.com/crowdin/crowdin-cli
+    used_for: TMS setup automation, GitHub Actions integration, over-the-air delivery to iOS/Android/React Native
+  - name: Lokalise vs Phrase vs Crowdin 2026 comparison
+    url: https://intlpull.com/blog/lokalise-vs-phrase-vs-crowdin-2026
+    used_for: TMS selection matrix (mobile vs developer vs enterprise), AI translation pricing, OTA support comparison
+  - name: best Translation Management Systems 2026
+    url: https://better-i18n.com/en/i18n/best-tms/
+    used_for: TMS market landscape, pricing tiers, enterprise vs OSS positioning
+  - name: ICU MessageFormat practical guide (Phrase)
+    url: https://phrase.com/blog/posts/guide-to-the-icu-message-format/
+    used_for: ICU plurals / gender / select syntax, CLDR plural rules, framework integration
+  - name: paraglide-js compiler-based i18n
+    url: https://github.com/opral/paraglide-js
+    used_for: type-safe compiler-based i18n, 70% bundle reduction, LocalizedString branded type
+  - name: react-i18next vs react-intl vs LinguiJS 2026
+    url: https://www.auto18n.com/en/blog/react-i18n-2026
+    used_for: React i18n library selection matrix, ICU compliance, bundle size comparison
+  - name: Definitive Guide to i18n Libraries for Next.js & React in 2026
+    url: https://gundogmuseray.medium.com/the-definitive-guide-to-i18n-libraries-for-next-js-react-in-2026-8102c7f68a77
+    used_for: next-intl + paraglide-js + i18next + react-intl framework-specific recommendations
+  - name: pseudo-localization for automated i18n testing
+    url: https://dev.to/anton_antonov/pseudo-localization-for-automated-i18n-testing-31
+    used_for: pseudo-l10n npm package, 30-40% expansion factor, bracket-marker pattern, screenshot diff
+  - name: i18n SEO hreflang locale URLs guide
+    url: https://better-i18n.com/en/blog/i18n-seo-hreflang-locale-urls-guide/
+    used_for: subdirectory vs subdomain vs ccTLD trade-offs, hreflang self-reference + symmetry + x-default rules
+  - name: Google managing multi-regional sites
+    url: https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites
+    used_for: canonical Google guidance on hreflang implementation, ISO 639-1 + 3166-1 codes
+  - name: Evil Martians — 600M people write RTL
+    url: https://evilmartians.com/chronicles/600-million-people-write-right-to-left-2-fixes-your-app-needs
+    used_for: dir="rtl" + lang attribute pairing, CSS Logical Properties migration playbook, direction === 'rtl' check pattern
+  - name: Complete Guide to RTL Layout Testing
+    url: https://placeholdertext.org/blog/the-complete-guide-to-rtl-right-to-left-layout-testing-arabic-hebrew-more/
+    used_for: Flexbox + Grid auto-reverse behavior, RTL screenshot diff strategy, common pitfalls catalog
+  - name: Noto CJK fonts
+    url: https://github.com/notofonts/noto-cjk
+    used_for: regional Noto subset selection (SC ≠ TC ≠ JP ≠ KR), Unicode 16.0 alignment
+  - name: CJK font optimization guide
+    url: https://font-converters.com/languages/cjk-font-optimization
+    used_for: subsetting strategy 5-20 MB → 100-500 KB, glyphhanger + pyftsubset usage
+  - name: best AI translation tools 2026 (DeepL vs Google vs Amazon vs ModernMT)
+    url: https://www.techno-pulse.com/2026/04/best-ai-translation-tools-in-2026-deepl.html
+    used_for: per-engine quality + breadth + pricing matrix, language coverage, use case recommendations
+  - name: Lilt adaptive MT enterprise translation
+    url: https://lilt.com/blog/ai-translation-automation-how-enterprise-translation-systems-work
+    used_for: adaptive MT vs PEMT shift (71% linguist preference), real-time learning loop
+  - name: memoQ TMS + AGT
+    url: https://www.memoq.com/product/memoq-agt/
+    used_for: adaptive generative translation, TM leverage workflow, concordance capabilities
+  - name: Xbench terminology + QA
+    url: https://docs.xbench.net/user-guide/overview/
+    used_for: bilingual format QA checks, terminology mismatch detection, XLIFF support
+  - name: Okapi Framework Checkmate
+    url: https://okapiframework.org/
+    used_for: cross-platform QA fallback to Xbench, XLIFF/TTX/TMX support, Linux/macOS coverage
+  - name: IATE (EU terminology database)
+    url: https://iate.europa.eu/
+    used_for: open multilingual termbase for legal/regulatory translation, public bulk export
+  - name: Unicode CLDR
+    url: https://cldr.unicode.org/
+    used_for: locale data foundation, BCP 47 extension u, plural rules, name order, address format
+  - name: BCP 47 / RFC 5646 language tags
+    url: https://www.iana.org/assignments/language-subtag-registry
+    used_for: language-Script-Region-Variant tag selection, canonical registry
+  - name: Subtitle Edit
+    url: https://github.com/SubtitleEdit/subtitleedit
+    used_for: 200+ format support, OpenAI Whisper integration, SRT/VTT/ASS workflow
+  - name: Subly subtitle translator
+    url: https://www.getsubly.com/features/subtitle-translator
+    used_for: 255-language AI subtitle translation with timing preservation, SRT/VTT/TTML/XML export
+  - name: i18n testing internationalization 2026 (BrowserStack)
+    url: https://www.browserstack.com/guide/internationalization-testing-of-websites-and-apps
+    used_for: i18n testing strategy, locale grid coverage, automated screenshot diffing

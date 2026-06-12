@@ -1,0 +1,154 @@
+# Frontend Engineer — CraftBot agent definition
+#
+# Every field traces back to web research (cited in reference/SOTA_USE_CASES.md
+# and SOURCES.md) OR to a default CraftBot capability already shipped on the
+# recipient's install. Bundled skill packs listed under `enabled_skills:` are
+# RESERVED here in Round 1; their SKILL.md contents are created in Round 2.
+
+name: Frontend Engineer
+slug: frontend-engineer
+category: engineering
+tier: specialized                       # specialist sibling to senior-python-engineer (backend)
+description: >
+  Senior frontend engineer. Builds production React 19 / Next 15 / Svelte 5 /
+  Vue 3 / Astro applications in TypeScript. Owns the full frontend stack —
+  components, state, data, routing, CSS, accessibility (WCAG 2.2 AA), Core Web
+  Vitals (LCP / INP / CLS), bundle size, testing (Vitest + Playwright), visual
+  regression (Chromatic), and deployment to Vercel / Cloudflare / Netlify.
+  Defers backend / server-side language work to senior-python-engineer and
+  build infrastructure / hosting to devops-engineer.
+tags:
+  - frontend
+  - react
+  - nextjs
+  - svelte
+  - vue
+  - astro
+  - typescript
+  - tailwind
+  - accessibility
+  - performance
+  - core-web-vitals
+  - testing
+  - playwright
+  - storybook
+  - design-system
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/frontend-engineer/skills/<name>/  (bundled — ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/                    (CraftBot default — already on recipient)
+# Bundled skill folders are RESERVED here; Round 2 creates SKILL.md contents.
+enabled_skills:
+  # ── Bundled (23) — SOTA frontend skill packs (Round 2 populates) ────────
+  - react-19-server-components-actions     # RSC + Server Actions + use() promises
+  - next-15-app-router-ppr                 # App Router, PPR, Turbopack, async APIs
+  - svelte-5-runes-sveltekit               # $state, $derived, $effect, $props, SvelteKit
+  - vue-3-composition-api-composables      # Vue 3.5 + defineModel + Nuxt 3
+  - astro-islands-content-first            # Islands + Content Collections v2 + Server Islands
+  - vite-vitest-modern-toolchain           # Vite 5/6 + Vitest 2 + browser-mode
+  - typescript-5-advanced-patterns         # satisfies, const generics, type-fest, ts-reset
+  - tanstack-query-router-store            # Query 5 + Router 1 + Form + Store
+  - zustand-jotai-state-management         # decision tree for client UI state
+  - tailwind-4-css-architecture            # Tailwind 4 + Panda + vanilla-extract + UnoCSS
+  - shadcn-radix-headless-components       # shadcn/ui + Radix + react-aria primitives
+  - react-hook-form-zod-valibot-forms      # RHF + zod / Conform / valibot decision
+  - accessibility-wcag-22-aa-axe-core      # axe-core + pa11y + Lighthouse + manual a11y
+  - core-web-vitals-lcp-inp-cls            # LCP/INP/CLS fixes + web-vitals + Million.js
+  - bundle-size-code-splitting-tree-shaking # size-limit + Knip + bundle-analyzer
+  - playwright-e2e-stability               # auto-waiting + traces + fixtures + sharding
+  - storybook-chromatic-design-system      # Storybook 8 + Chromatic visual regression CI
+  - biome-eslint-prettier-lint-format      # Biome migration + Oxlint + ESLint 9 flat config
+  - cloudflare-workers-edge-functions      # Workers + Pages + Hono + PartyKit
+  - i18n-next-intl-paraglide               # next-intl + Paraglide JS + ICU MessageFormat
+  - framer-motion-view-transitions-api     # motion (Framer rebrand) + View Transitions
+  - auth-clerk-authjs-lucia                # auth decision tree + sample integrations
+  - payments-stripe-elements-checkout      # Stripe Elements + Checkout + webhook verify
+
+  # ── CraftBot defaults (15) — already on the recipient's install ─────────
+  # Bookkeeping, design, deploy, debug, review, and the universal CLI verb.
+  - cli-anything                           # universal verb for pnpm/bun/npm/npx — every SOTA tool runs through this
+  - file-format                            # convert between file formats (md / json / yaml / svg / png)
+  - file-organizer                         # organize component trees, manage workspace
+  - using-git-worktrees                    # isolate refactor / migration branches
+  - git-commit                             # Conventional Commits for frontend changes
+  - github                                 # gh CLI — PRs, CI runs, deployment previews
+  - github-api                             # raw GitHub API — visual regression PR comments, status checks
+  - debug-pro                              # systematic frontend debugging methodology
+  - systematic-debugging                   # generic problem-solving framework (a11y, perf, rendering bugs)
+  - test-driven-development                # TDD for components — failing test first
+  - differential-review                    # structured PR review (a11y / perf / UX flagging)
+  - requesting-code-review                 # checklist before merging a frontend PR
+  - receiving-code-review                  # apply UX/a11y/perf feedback with rigor
+  - frontend-design                        # Anthropic's official frontend design skill (visual/UX guidance)
+  - web-design-guidelines                  # design principles for web UI work
+
+# MCP servers — every name must exist in app/config/mcp_config.json.
+# Audited against the 197-server catalog as of June 2026.
+mcp_servers:
+  - filesystem                             # read/edit component, config, style files
+  - github                                 # PRs, deployment previews, CI status
+  - playwright-mcp                         # E2E test execution, a11y audit, perf measurement
+  - figma-mcp                              # design handoff, design-system extraction
+  - figma-context-mcp                      # code-from-Figma, design-token sync
+  - sentry-mcp                             # frontend errors, release health, RUM correlation
+  - posthog-mcp                            # product analytics, session replay, RUM, feature flags
+  - cloudflare-mcp                         # Workers / Pages / KV / D1 / R2 deployment + management
+  - deepl-mcp                              # i18n translation workflow (next-intl / Paraglide pipelines)
+  - canva-mcp                              # marketing pages, design assets, brand-consistent visuals
+  - huggingface-mcp                        # transformers.js demos, ML-leaning frontend work
+
+# Source attribution. See SOURCES.md for the section→source map and
+# reference/INVENTORY.md for the per-file URL/description.
+sources:
+  - name: React 19 release notes
+    url: https://react.dev/blog/2024/12/05/react-19
+    used_for: Server Components, Server Actions, useActionState, use() promises, ref as prop
+  - name: Next.js 15 — App Router and PPR
+    url: https://nextjs.org/blog/next-15
+    used_for: App Router conventions, PPR stable, Turbopack, async params/headers/cookies
+  - name: Svelte 5 — runes
+    url: https://svelte.dev/blog/svelte-5-is-alive
+    used_for: $state / $derived / $effect / $props / $bindable patterns
+  - name: Vue 3.5 release
+    url: https://blog.vuejs.org/posts/vue-3-5
+    used_for: Composition API, defineModel, props destructure, async setup
+  - name: Astro 5 release
+    url: https://astro.build/blog/astro-5/
+    used_for: Islands architecture, Content Collections v2, Server Islands
+  - name: TypeScript 5.5 release notes
+    url: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-5.html
+    used_for: satisfies operator, conditional types, const type parameters, type-fest patterns
+  - name: TanStack Query v5
+    url: https://tanstack.com/query/v5/docs/framework/react/overview
+    used_for: server state management, useQuery / useMutation / useSuspenseQuery
+  - name: Tailwind CSS v4
+    url: https://tailwindcss.com/blog/tailwindcss-v4
+    used_for: Lightning CSS engine, CSS-first config, @theme directive
+  - name: shadcn/ui
+    url: https://ui.shadcn.com/
+    used_for: copy-paste components, Radix primitives, design-token system
+  - name: Web.dev — Core Web Vitals
+    url: https://web.dev/articles/vitals
+    used_for: LCP/INP/CLS targets, web-vitals library, INP replaced FID
+  - name: WCAG 2.2 specification
+    url: https://www.w3.org/TR/WCAG22/
+    used_for: a11y compliance targets — Level AA as floor
+  - name: Playwright best practices
+    url: https://playwright.dev/docs/best-practices
+    used_for: web-first assertions, locators, fixtures, traces, sharding
+  - name: Storybook 8
+    url: https://storybook.js.org/blog/storybook-8/
+    used_for: Vite builder, CSF 3, Autodocs, Test addon
+  - name: Biome
+    url: https://biomejs.dev/
+    used_for: single-tool lint + format, ESLint + Prettier replacement, migration paths
+  - name: Cloudflare Workers
+    url: https://developers.cloudflare.com/workers/
+    used_for: edge functions, Wrangler 3+, Workers KV / D1 / R2 / Durable Objects
+  - name: Vercel Next.js deployment
+    url: https://vercel.com/docs
+    used_for: Vercel deploy flow, env-promotion, preview branches

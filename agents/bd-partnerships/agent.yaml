@@ -1,0 +1,300 @@
+# Business Development / Partnerships — CraftBot agent definition
+#
+# GENERAL TIER. Senior BD/partnerships operator: partner sourcing,
+# agreement structuring (referral / affiliate / channel / integration /
+# OEM), marketplace listings (AWS / Azure / GCP / AppExchange / HubSpot /
+# Shopify / Slack / OpenAI / Stripe / Atlassian / AppSource), partner
+# enablement + certification, co-marketing, MDF allocation + tracking,
+# channel pricing + deal registration, integration roadmap planning,
+# Partnerstack / Tackle / Crossbeam / Reveal channel + account mapping,
+# partner scorecards, ecosystem mapping, partner-led events, partner-
+# sourced pipeline tracking, channel-conflict resolution, partner
+# advisory board, Partner NPS, 90-day onboarding, tech-partner integration
+# health, joint customer stories, QBRs, off-boarding.
+#
+# Three load-bearing convictions: (1) Partnerships have to be valuable to
+# BOTH sides — extractive deals collapse. (2) Channel is not direct sales —
+# different metrics, different motions, different incentives. (3)
+# Integration partnerships need a roadmap, not a press release.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and SOURCES.md for the section→source map.
+
+name: Business Development / Partnerships
+slug: bd-partnerships
+category: business-dev
+tier: general
+description: >
+  Senior end-to-end BD / partnerships operator for solo founders and small
+  revenue teams. Sources partners (PICP definition + Crunchbase / Pitchbook
+  / LinkedIn / Apollo waterfall), structures referral / affiliate /
+  channel-reseller / integration / OEM agreements, builds marketplace
+  listings (AWS / Azure / GCP / Salesforce AppExchange / HubSpot / Shopify
+  / Slack / OpenAI / Stripe / Atlassian / Microsoft AppSource), runs
+  partner enablement + certification, designs co-marketing campaigns,
+  allocates and tracks MDF, sets channel pricing + deal-registration
+  rules, plans integration roadmaps with product, manages Partnerstack /
+  Tackle / Allbound / Impartner channel programs, runs Crossbeam / Reveal
+  account mapping, authors quarterly scorecards, maps ecosystems, runs
+  partner-led webinars + events, tracks partner-sourced pipeline, resolves
+  channel conflict, runs Partner Advisory Boards + Partner NPS, executes
+  90-day onboarding plans, monitors integration health, produces joint
+  customer stories, runs QBRs, off-boards under-performing partners.
+  Defers to sales-agent for direct sales, marketing-agent for top-of-
+  funnel creative, product-manager for integration scoping, legal-counsel
+  for binding contract redlines, finance-controller for MDF accounting and
+  commission accounting.
+tags:
+  - business-development
+  - partnerships
+  - channel
+  - referral
+  - affiliate
+  - reseller
+  - oem
+  - integration-partnerships
+  - marketplaces
+  - aws-marketplace
+  - azure-marketplace
+  - gcp-marketplace
+  - appexchange
+  - hubspot-app-marketplace
+  - shopify-app-store
+  - co-marketing
+  - mdf
+  - deal-registration
+  - partner-enablement
+  - partner-scorecard
+  - account-mapping
+  - crossbeam
+  - reveal
+  - partnerstack
+  - tackle
+  - partner-nps
+  - ecosystem-mapping
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/bd-partnerships/skills/<name>/  (bundled — ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/                  (CraftBot default)
+enabled_skills:
+  # ── Bundled (20) — 2026 SOTA partnerships skill packs ─────────────────
+  - partner-sourcing-icp-definition                        # PICP scoring + Crunchbase/Apollo/LinkedIn waterfall
+  - referral-affiliate-channel-oem-agreement-structuring   # 5 archetype contract shells via PandaDoc/DocuSign
+  - aws-azure-gcp-marketplace-listings                     # Tackle + AWS/Azure/GCP CLI Catalog APIs
+  - salesforce-appexchange-listing                         # Code Analyzer + Partner Console + ISVForce
+  - hubspot-shopify-slack-marketplace-listings             # HubSpot/Shopify/Slack/OpenAI/Stripe/Atlassian/AppSource
+  - partner-enablement-certification-programs              # tiered cert + LMS + sandbox
+  - co-marketing-campaign-design                           # joint plan + co-branded assets + JMA
+  - mdf-allocation-tracking                                # MDF request → approval → POP → payout
+  - channel-pricing-discount-tiers                         # margin tier matrix + deal-reg uplift
+  - integration-roadmap-planning                           # joint roadmap + product-manager hand-off
+  - partnerstack-tackle-channel-management                 # Partnerstack/Tackle/Allbound/Impartner ops
+  - crossbeam-reveal-account-mapping                       # Crossbeam/Reveal/Snowflake co-sell overlap
+  - partner-scorecard-authoring                            # quarterly scorecard with 4-6 KPIs per partner type
+  - ecosystem-mapping-tech-stack-discovery                 # BuiltWith/Clay + DrawIO/Figma viz
+  - partner-led-webinars-events                            # Zoom Webinars + Goldcast joint event flow
+  - partner-sourced-pipeline-tracking                      # CRM attribution + weekly rollup
+  - deal-registration-channel-conflict-resolution          # registration workflow + 48h SLA + conflict log
+  - partner-advisory-board-pab                             # PAB summit + roadmap synthesis
+  - partner-nps-satisfaction-survey                        # Partner NPS quarterly + detractor recovery
+  - partner-onboarding-90-day-plan                         # 90-day standardized playbook
+
+  # ── CraftBot defaults (26) — already on recipient's install ──────────
+  # Universal verbs.
+  - cli-anything                            # universal verb (aws/az/gcloud/sfdx/curl/jq/python/pandas)
+  - file-format                             # cross-format conversion
+  - file-organizer                          # partner-file organization
+
+  # CRM + sales tech (managed OAuth via api-gateway covers HubSpot,
+  # Salesforce, Apollo, Partnerstack, Tackle, Crossbeam, Reveal, PandaDoc,
+  # DocuSign, Calendly, Crunchbase, Allbound, Impartner, and 100+ more).
+  - api-gateway                             # the universal sales/SaaS API proxy
+  - attio-api                               # modern CRM
+  - pipedrive-api                           # CRM
+  - salesforce-api                          # CRM
+  - zoho-crm                                # CRM
+  - calendly-api                            # scheduling
+  - linkedin                                # LinkedIn social-selling + partner sourcing
+
+  # Documents + collateral.
+  - docx                                    # 1-pagers, briefs, contracts
+  - pdf                                     # listing assets, scorecards, QBR books
+  - pptx                                    # joint pitch decks, QBR decks, PAB pre-reads
+  - xlsx                                    # pricing matrices, scorecards, MDF tracking
+  - microsoft-excel                         # Excel for finance handoff
+  - google-sheets                           # joint dashboards, account mapping CSVs
+
+  # Knowledge + comms.
+  - notion                                  # partner DB, playbooks, QBR records, MDF tracking
+  - slack                                   # partner channels, deal-reg alerts
+  - microsoft-teams                         # Microsoft-shop comms
+  - gmail                                   # partner outreach + onboarding
+  - outlook                                 # alt mailbox
+
+  # Research + ideation.
+  - playwright-mcp                          # marketplace portal automation
+  - brave-search                            # ecosystem research
+  - brainstorming                           # joint-GTM brainstorm
+  - concise-planning                        # 90-day plans + QBR agendas
+  - ask-questions-if-underspecified         # clarify before drafting
+  - typeform                                # Partner NPS surveys
+
+# MCP servers — every name MUST exist in app/config/mcp_config.json
+# (verify.py checks this). Recipient enables each in CraftBot MCP
+# settings and adds OAuth/API credentials per platform.
+mcp_servers:
+  - filesystem                              # read/edit partner collateral
+
+  # ── Email + comms ────────────────────────────────────────────────────
+  - gmail-mcp                               # partner outreach + onboarding comms
+  - outlook-mcp                             # Microsoft-shop email
+  - slack-mcp                               # partner channels, deal-reg alerts, MDF approvals
+  - ms-teams-mcp                            # Microsoft-shop notifications
+  - zoom-mcp                                # partner webinars + QBR + PAB summits
+  - google-calendar-mcp                     # joint meetings + recurring QBRs
+
+  # ── Knowledge + workflow ─────────────────────────────────────────────
+  - notion-mcp                              # partner DB, playbooks, QBR records, scorecards, MDF tracking
+  - linear-mcp                              # integration partnership tickets → product team
+  - jira-mcp                                # alt issue tracker for integration partners
+
+  # ── Data warehouse + analytics ───────────────────────────────────────
+  - postgresql-mcp                          # warehouse queries: scorecards, pipeline rollups, hygiene cron
+  - posthog-mcp                             # integration adoption analytics
+  - mixpanel-mcp                            # alt product analytics
+  - amplitude-mcp                           # alt product analytics + behavioral cohorts
+  - sentry-mcp                              # integration error monitoring + health checks
+
+  # ── Research + scraping ──────────────────────────────────────────────
+  - playwright-mcp                          # marketplace portal automation (AppExchange, Shopify, Atlassian, AppSource)
+  - firecrawl-mcp                           # ecosystem mapping + tech-stack scraping
+  - brightdata-mcp                          # LinkedIn Sales Nav scraping for partner sourcing
+  - brave-search                            # ecosystem + competitive research
+  - google-scholar-mcp                      # research-heavy verticals (regulated industries)
+
+  # ── Translation (multi-region partner programs) ──────────────────────
+  - deepl-mcp                               # multi-language onboarding + agreements
+
+  # ── Design + collateral ──────────────────────────────────────────────
+  - imagegen-mcp                            # marketplace listing screenshots + asset gen
+  - canva-mcp                               # co-branded one-pagers + QBR decks
+  - figma-mcp                               # design fidelity + integration architecture diagrams
+  - drawio-mcp                              # ecosystem maps + integration architecture
+
+  # ── Video / social (joint stories + partner socials) ────────────────
+  - youtube-mcp                             # joint customer-story video distribution
+  - tiktok-mcp                              # partner social motions (rare but real)
+
+  # ── Payments + commerce (marketplace listings) ──────────────────────
+  - stripe-mcp                              # Stripe Marketplace + Stripe Connect payouts
+
+  # ── Storage + sharing ───────────────────────────────────────────────
+  - google-drive-mcp                        # joint asset sharing with partners
+
+  # ── Learning management (partner certifications) ────────────────────
+  - canvas-lms-mcp                          # partner certification programs
+
+sources:
+  - name: Crossbeam Account Mapping API
+    url: https://crossbeam.com/docs/api
+    used_for: account overlap reporting + co-sell pipeline + joint customer mapping
+  - name: Reveal API
+    url: https://docs.reveal.co/
+    used_for: alt account mapping for EU + co-sell workflows
+  - name: Partnerstack API
+    url: https://partnerstack.com/api
+    used_for: referral + affiliate + reseller management + commission tracking + payouts
+  - name: Tackle.io
+    url: https://tackle.io/api-documentation
+    used_for: AWS / Azure / GCP cloud marketplace co-selling + private-offer orchestration
+  - name: AWS Marketplace Catalog API
+    url: https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/
+    used_for: AWS Marketplace SaaS listing creation + private offers + CPPO
+  - name: Azure Partner Center API
+    url: https://learn.microsoft.com/en-us/partner-center/marketplace/
+    used_for: Azure Marketplace SaaS offer + MACC eligibility + Co-Sell Ready
+  - name: GCP Marketplace Producer Portal
+    url: https://cloud.google.com/marketplace/docs/partners
+    used_for: GCP Marketplace listings + integrated billing
+  - name: Salesforce AppExchange Partner Program
+    url: https://partners.salesforce.com/partnerProgram
+    used_for: AppExchange listing + Security Review + ISVForce distribution
+  - name: Salesforce Code Analyzer
+    url: https://developer.salesforce.com/docs/atlas.en-us.code_analyzer.meta/code_analyzer/
+    used_for: pre-Security-Review static analysis of AppExchange packages
+  - name: HubSpot App Marketplace Developer Docs
+    url: https://developers.hubspot.com/docs/api/marketplace
+    used_for: HubSpot app listing + OAuth 2.0 + App Partner Program
+  - name: Shopify Partners + App Store
+    url: https://shopify.dev/docs/apps
+    used_for: Shopify App Store listing + Built for Shopify
+  - name: Slack App Directory + Manifest
+    url: https://api.slack.com/start/distributing
+    used_for: Slack App Directory submission + app review
+  - name: OpenAI GPT Store
+    url: https://platform.openai.com/docs/actions
+    used_for: GPT Store builder profile + GPT distribution
+  - name: Stripe Connect
+    url: https://docs.stripe.com/connect
+    used_for: Stripe Marketplace + Connect payout flows
+  - name: Atlassian Marketplace API
+    url: https://developer.atlassian.com/platform/marketplace/
+    used_for: Atlassian Marketplace listing (Cloud + Data Center)
+  - name: Microsoft AppSource via Partner Center
+    url: https://learn.microsoft.com/en-us/partner-center/marketplace/
+    used_for: Microsoft AppSource SaaS offer + Co-Sell Ready
+  - name: PandaDoc API
+    url: https://developers.pandadoc.com/
+    used_for: partner agreement generation from template + e-sign workflow
+  - name: DocuSign eSign API
+    url: https://developers.docusign.com/docs/esign-rest-api/
+    used_for: enterprise e-sign envelopes for partner agreements
+  - name: Apollo.io API
+    url: https://docs.apollo.io/reference/people-search
+    used_for: partner sourcing (organization + people search + job-change alerts)
+  - name: Crunchbase API
+    url: https://data.crunchbase.com/docs
+    used_for: partner sourcing (funding events + company data)
+  - name: Pitchbook API
+    url: https://pitchbook.com/api
+    used_for: private-company depth for partner sourcing
+  - name: BuiltWith API
+    url: https://api.builtwith.com/
+    used_for: tech-stack discovery for ecosystem mapping
+  - name: Clay.com API
+    url: https://clay.com/docs/api
+    used_for: multi-source enrichment + tech-stack waterfall for partner sourcing
+  - name: Impartner PRM
+    url: https://www.impartner.com/
+    used_for: PRM portal + deal-reg + MDF + certifications
+  - name: Allbound PRM
+    url: https://www.allbound.com/
+    used_for: PRM portal + LMS + partner enablement
+  - name: Channeltivity PRM
+    url: https://www.channeltivity.com/
+    used_for: mid-market PRM alt
+  - name: Magentrix PRM
+    url: https://www.magentrix.com/
+    used_for: Salesforce-anchored PRM
+  - name: Crossbeam Partnership Economy research
+    url: https://www.crossbeam.com/blog/the-partnership-economy/
+    used_for: methodology — both-sides-value, account mapping, co-sell motion
+  - name: Tackle State of Cloud Marketplaces report
+    url: https://tackle.io/state-of-cloud-marketplaces/
+    used_for: methodology — marketplace go-to-market patterns
+  - name: Forrester partner ecosystem research
+    url: https://www.forrester.com/research/partner-ecosystems/
+    used_for: PRM landscape + Partner NPS benchmarks
+  - name: Canalys channel research
+    url: https://www.canalys.com/insights/
+    used_for: channel pricing + margin tier benchmarks
+  - name: Goldcast / ON24 / Zoom Webinars
+    url: https://www.goldcast.io/blog/co-marketing-webinars
+    used_for: joint webinar mechanics + co-marketing event playbook
+  - name: Maton API gateway
+    url: https://gateway.maton.ai/
+    used_for: managed OAuth for 100+ apps incl HubSpot, Salesforce, Apollo, Partnerstack, Tackle, Crossbeam, Reveal, PandaDoc, DocuSign, Crunchbase, Allbound, Impartner

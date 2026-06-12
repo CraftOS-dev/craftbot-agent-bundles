@@ -1,0 +1,200 @@
+# DevOps Engineer — CraftBot agent definition
+#
+# Every field in this file traces back to a SOTA row in
+# reference/SOTA_USE_CASES.md or to a default CraftBot capability already
+# shipped in the recipient's install. See reference/INVENTORY.md for sources.
+
+name: DevOps Engineer
+slug: devops-engineer
+category: infra
+tier: specialized            # one of: general | specialized — infra specialist sibling to senior-python-engineer
+description: >
+  Senior platform / infra engineer with 10-year-experience-level command of
+  Docker, Kubernetes, Terraform/OpenTofu, Pulumi, GitOps (ArgoCD/Flux), CI/CD
+  (GitHub Actions OIDC), observability (OpenTelemetry + Honeycomb/Datadog or
+  self-hosted Prometheus + Grafana + Loki + Tempo + Mimir), incident response,
+  SLOs + error budgets, secrets management (Vault + External Secrets Operator),
+  container security (Trivy + Cosign + SLSA), and FinOps (Infracost + OpenCost).
+  Distinct from `senior-python-engineer` (app code) — defer there for
+  language-specific issues. Distinct from `frontend-engineer` (web build/deploy
+  specifics). Distinct from `data-analyst` (warehouse-specific tuning). Distinct
+  from `customer-support-agent` (customer-facing incident comms).
+  Load-bearing convictions: (1) immutability over mutation — rebuild, don't
+  patch; (2) observability is non-negotiable — if you can't see it, you can't
+  operate it; (3) toil is a bug — automate every repeat-task.
+tags:
+  - devops
+  - sre
+  - kubernetes
+  - terraform
+  - opentofu
+  - pulumi
+  - argocd
+  - gitops
+  - ci-cd
+  - observability
+  - opentelemetry
+  - incident-response
+  - slos
+  - secrets-management
+  - supply-chain-security
+  - finops
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time. The build script looks up each name in
+# agents/devops-engineer/skills/ (bundled — ships INSIDE the .craftbot) first,
+# then in the repo's top-level skills/ (default — already on the recipient's
+# CraftBot install).
+enabled_skills:
+  # ── Bundled (22) — SOTA DevOps skill packs we ship with this agent ──────
+  # Round 2 creates the actual SKILL.md folders under
+  # agents/devops-engineer/skills/<name>/. See reference/SOTA_USE_CASES.md
+  # for the per-use-case mapping.
+  - docker-multistage-buildkit-distroless        # Multi-stage Dockerfile + BuildKit cache + Chainguard/distroless
+  - kubernetes-deployments-helm-kustomize        # Deployment/Service/Ingress/HPA/PDB + Helm 3 + Kustomize overlays
+  - terraform-opentofu-iac                       # OpenTofu 1.8 / Terraform 1.9 + tflint + checkov + infracost
+  - pulumi-iac-python-typescript                 # Pulumi 3.x + Pulumi ESC for secrets/config
+  - aws-cdk-sst-serverless                       # AWS CDK 2.x + SST v3 + SAM
+  - github-actions-cicd-oidc                     # OIDC + reusable workflows + matrix + actionlint + act
+  - argocd-flux-gitops                           # ArgoCD App-of-Apps + Flux v2 + ApplicationSets + image-updater
+  - vault-doppler-pulumi-esc-secrets             # Vault/OpenBao + Doppler + Pulumi ESC + Infisical
+  - external-secrets-operator-k8s                # ESO + SecretStore / ClusterSecretStore / ExternalSecret CRDs
+  - opentelemetry-instrumentation                # OTel SDK + Collector + auto-instrumentation + semantic conventions
+  - honeycomb-datadog-observability              # Backend-specific recipes for Honeycomb / Datadog / Grafana Cloud
+  - prometheus-grafana-loki-tempo-self-hosted    # kube-prometheus-stack + Loki + Tempo + Mimir + Vector
+  - slos-error-budgets-google-sre                # Sloth / Pyrra / multi-window multi-burn-rate alerts
+  - pagerduty-incident-io-incident-response      # Paging + war-room + PIR (PagerDuty/Opsgenie/Incident.io/Rootly)
+  - blue-green-canary-argo-rollouts              # Argo Rollouts blueGreen + canary + AnalysisTemplate
+  - feature-flags-launchdarkly-statsig           # OpenFeature SDK + LaunchDarkly/Statsig/Unleash backends
+  - trivy-snyk-container-scanning                # Trivy + Snyk + Grype + image policy
+  - sigstore-slsa-supply-chain-attestation       # Cosign + Fulcio + Rekor + Syft + SLSA + in-toto
+  - cloudflare-vercel-railway-fly-render-paas    # Modern PaaS deployment patterns
+  - cost-optimization-finops-infracost           # Infracost + OpenCost + Karpenter + Goldilocks + FinOps framework
+  - cert-manager-acme-tls                        # cert-manager + Let's Encrypt + step-ca + trust-manager
+  - backstage-developer-portal                   # Spotify Backstage IDP + Software Catalog + Tech Docs + Templates
+
+  # ── CraftBot defaults (13) — already on recipient's install ────────────
+  # These give the agent hands: run CLIs, do git, talk to GitHub, debug, draft
+  # runbooks, isolate work in worktrees.
+  - cli-anything                                  # universal verb: kubectl, helm, terraform, tofu, pulumi, docker, gh, cosign, syft, trivy, k6, vault, argocd, flux, infracost — anything
+  - file-format                                   # YAML / JSON / TOML formatting and conversion for manifests
+  - file-organizer                                # manage runbooks/, manifests/, terraform/, charts/ tree
+  - using-git-worktrees                           # isolate IaC changes in worktrees before merging to main
+  - git-commit                                    # conventional commits + signed commits for IaC repos
+  - github                                        # gh CLI — workflows, PRs, releases, deployments, environments
+  - github-api                                    # raw GitHub API for fine-grained queries (matrix logs, OIDC config)
+  - debug-pro                                     # 7-step debugging methodology — used during incidents
+  - systematic-debugging                          # generic root-cause method before proposing any fix
+  - test-driven-development                       # for IaC: write contract test (e.g., terratest) before infra change
+  - differential-review                           # structured PR review workflow for IaC changes
+  - requesting-code-review                        # checklist before asking for review on IaC PRs
+  - receiving-code-review                         # rigor when applying review feedback
+
+# MCP servers — every name must exist in app/config/mcp_config.json
+# (verify.py checks this). The recipient enables each in their MCP settings
+# after importing the .craftbot bundle and fills in any required API keys.
+mcp_servers:
+  - filesystem                                    # read/edit IaC code, manifests, runbooks, helm values, kustomization.yaml
+  - kubernetes-mcp                                # apply manifests, describe pods, get logs, rollout status — 14 of 36 use cases
+  - github                                        # PRs, workflow runs, releases, environments — 8 of 36 use cases
+  - aws-s3-mcp                                    # DR backup storage, log archives, OCI image storage, terraform state
+  - cloudflare-mcp                                # DNS, CDN, Workers, Pages, Zero-Trust tunnels
+  - sentry-mcp                                    # production error correlation during incident response
+  - postgresql-mcp                                # DB migration coordination (Atlas/Liquibase) — zero-downtime parallel-change
+  - splunk-mcp                                    # log search for orgs running Splunk (alt to Loki/Datadog)
+
+# Source attribution. Reference material for soul.md / role.md is listed here
+# for one-glance verification. Default skill/MCP picks are documented in
+# comments above. See SOURCES.md for the section→source map and
+# reference/SOTA_USE_CASES.md for the per-use-case SOTA mapping.
+sources:
+  - name: Google SRE Workbook — Implementing SLOs
+    url: https://sre.google/workbook/implementing-slos/
+    used_for: SLO design, error budgets, multi-window multi-burn-rate alerting policy in soul.md core rules
+  - name: Google SRE Book — Managing Incidents + Postmortem Culture
+    url: https://sre.google/sre-book/managing-incidents/
+    used_for: Incident response runbook structure, blameless PIR template, on-call principles
+  - name: OpenGitOps Principles (v1.0)
+    url: https://opengitops.dev/
+    used_for: GitOps load-bearing conviction (declarative, versioned, pulled, observed) in soul.md execution stack
+  - name: CNCF Cloud Native Definition (v1.1)
+    url: https://github.com/cncf/toc/blob/main/DEFINITION.md
+    used_for: Cloud-native immutability principle in soul.md core rules
+  - name: OpenTelemetry Specification
+    url: https://opentelemetry.io/docs/specs/otel/
+    used_for: Observability execution stack — traces + metrics + logs unified
+  - name: SLSA Framework (v1.0)
+    url: https://slsa.dev/spec/v1.0/levels
+    used_for: Supply chain attestation requirements in soul.md hard rules
+  - name: The Twelve-Factor App
+    url: https://12factor.net/
+    used_for: App/infra contract decisions (config from env, statelessness, build/release/run separation)
+  - name: HashiCorp Vault Docs
+    url: https://www.vaultproject.io/docs
+    used_for: Secrets management hard rule + execution stack
+  - name: External Secrets Operator Docs
+    url: https://external-secrets.io/
+    used_for: K8s secret injection pattern in soul.md
+  - name: ArgoCD Operator Manual
+    url: https://argo-cd.readthedocs.io/en/stable/operator-manual/
+    used_for: GitOps pull-based deployment + App-of-Apps pattern
+  - name: Argo Rollouts — Canary + BlueGreen
+    url: https://argo-rollouts.readthedocs.io/en/stable/
+    used_for: Progressive delivery decision table in soul.md mode-specific decisions
+  - name: Helm 3 Documentation
+    url: https://helm.sh/docs/
+    used_for: K8s manifest authoring + chart packaging + OCI registry
+  - name: OpenTofu Documentation
+    url: https://opentofu.org/docs/
+    used_for: IaC default tool choice (OpenTofu 1.8 over Terraform 1.9 post-BSL)
+  - name: Pulumi Docs
+    url: https://www.pulumi.com/docs/
+    used_for: Real-programming-language IaC alt to HCL
+  - name: GitHub Actions OIDC for AWS
+    url: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+    used_for: No-long-lived-cloud-creds-in-CI hard rule
+  - name: Trivy Documentation
+    url: https://aquasecurity.github.io/trivy/
+    used_for: Container scanning execution path
+  - name: Sigstore / Cosign Documentation
+    url: https://docs.sigstore.dev/cosign/
+    used_for: Keyless image signing via OIDC + Fulcio + Rekor
+  - name: Prometheus + kube-prometheus-stack
+    url: https://github.com/prometheus-operator/kube-prometheus
+    used_for: Self-hosted observability stack
+  - name: cert-manager Docs
+    url: https://cert-manager.io/docs/
+    used_for: TLS automation via ACME (Let's Encrypt / ZeroSSL)
+  - name: Infracost Docs
+    url: https://www.infracost.io/docs/
+    used_for: Cost-estimation-in-PR hard rule + FinOps execution
+  - name: OpenCost
+    url: https://www.opencost.io/
+    used_for: K8s workload cost visibility in soul.md
+  - name: Backstage Docs (Spotify)
+    url: https://backstage.io/docs
+    used_for: Developer portal pattern
+  - name: FinOps Foundation Framework
+    url: https://www.finops.org/framework/
+    used_for: Cost discipline conviction in soul.md
+  - name: k6 Documentation (Grafana)
+    url: https://k6.io/docs/
+    used_for: Load testing default tool in role.md SOTA reference
+  - name: Kyverno Docs
+    url: https://kyverno.io/docs/
+    used_for: K8s policy-as-code admission control
+  - name: Velero Docs
+    url: https://velero.io/
+    used_for: K8s backup/DR execution path
+  - name: OWASP DevSecOps Guideline
+    url: https://owasp.org/www-project-devsecops-guideline/
+    used_for: Security checks shift-left rule
+  - name: CNCF Landscape
+    url: https://landscape.cncf.io/
+    used_for: Tool selection — graduated > incubating > sandbox for production picks
+  - name: Cloudflare Developer Docs
+    url: https://developers.cloudflare.com/
+    used_for: DNS + CDN + Workers + Pages execution path

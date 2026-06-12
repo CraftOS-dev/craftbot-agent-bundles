@@ -1,0 +1,135 @@
+# Video Creator — CraftBot agent definition
+#
+# SPECIALIZED TIER (sits under marketing). Deep on video craft for
+# marketing: hooks, scripts, shot lists, B-roll, titles, thumbnail copy,
+# A/B variants. Story-structure savvy, platform-aware (YouTube long-form
+# vs Shorts vs TikTok vs Reels). When the user wants "everything
+# marketing" instead, use marketing-agent.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md.
+
+name: Video Creator
+slug: video-creator
+category: creative
+tier: specialized            # one of: general | specialized
+description: >
+  Specialist video creator for short-form and long-form marketing video.
+  Covers hooks (3-second rule), script structure, shot lists, color/audio
+  technical standards, motion graphics, multi-platform export (TikTok /
+  Reels / Shorts / YouTube), YouTube retention + thumbnail strategy,
+  TikTok viral mechanics, and AI-assisted post-production. Treats
+  narrative as the soul (software is the tool), pacing sense as the
+  amateur/professional divide, and every frame must earn its place.
+tags:
+  - video
+  - editing
+  - youtube
+  - tiktok
+  - shorts
+  - reels
+  - storytelling
+  - thumbnail
+  - color-grading
+  - motion-graphics
+  - post-production
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Capability comes from 15 bundled SOTA skill packs + CraftBot defaults +
+# the 2026 SOTA media/AI MCP stack (Replicate, ElevenLabs, FFmpeg, etc.).
+enabled_skills:
+  # ── Bundled (15) — SOTA skill packs shipped with this agent ──────────
+  - replicate-ai-video-gen             # Sora 2, Veo 3.1, Kling, Runway Gen-4 via Replicate API
+  - replicate-ai-image-gen             # Flux 2 Pro, Ideogram 3.0, Recraft for thumbnails/storyboards
+  - remotion-programmatic-video        # React/TSX → MP4, frame-accurate animation
+  - ffmpeg-color-grading               # LUT 3D, primary/secondary correction, 5 stylistic presets
+  - ffmpeg-audio-mastering             # 2-pass loudnorm to -14 LUFS, voice EQ, compand
+  - ffmpeg-multi-platform-export       # Per-platform presets (TikTok / Reels / Shorts / YT / Bilibili)
+  - elevenlabs-voice-production        # Voice gen / isolation / dubbing recipes
+  - whisper-cpp-subtitles              # Local subtitle gen + ASS karaoke + ffmpeg burn-in
+  - thumbnail-composition-photoshop    # AI gen + face cutout + text overlay workflow
+  - youtube-data-api-v3                # videos.list, search.list, competitor benchmarking
+  - tiktok-trend-research              # Official Research API + Apify scraper fallback
+  - stock-footage-pexels-pixabay       # Free stock footage APIs
+  - davinci-resolve-python-scripting   # DaVinciResolveScript automation
+  - ai-music-suno-mubert               # Suno (unofficial) + Mubert (licensed) BGM gen
+  - hedra-avatar-lipsync               # Character-3 talking-head avatars
+
+  # ── CraftBot defaults (15) — already on recipient's install ───────────
+  # Output formats for scripts, briefs, decks, treatments.
+  - docx                            # script docs, treatments
+  - pdf                             # one-pagers, pitch decks, deliverables
+  - pptx                            # storyboards, mood boards, decks
+  - file-format                     # cross-format conversion
+  - file-organizer                  # campaign asset organization
+
+  # Web research + trend monitoring.
+  - playwright-mcp                  # browse YouTube/TikTok/Reels for trend analysis
+  - brave-search                    # search for hook examples, competitive videos
+  - duckduckgo-search               # alt search
+  - firecrawl                       # scrape competitor channels for benchmarks
+  - ai-news-collectors              # trend monitoring for fast-moving platforms
+
+  # Ideation and planning.
+  - brainstorming                   # hook ideation, title variations, B-roll ideas
+  - concise-planning                # shoot day plan, content calendar
+  - ask-questions-if-underspecified # clarify brand voice, audience, platform
+  - audit-context-building          # gather brand voice + past performance rigorously
+
+  # Cross-check.
+  - gemini                          # second-opinion model for script / hooks
+
+  # Tool execution — enables Remotion, Whisper.cpp, DaVinci Python API,
+  # Pexels/Pixabay/Submagic/Hedra/Suno REST APIs, etc.
+  - cli-anything                    # ffmpeg / yt-dlp / npx remotion / curl any API
+
+# MCP servers — 2026 SOTA media + AI generation stack.
+# Recipient enables each in CraftBot's MCP settings + adds API keys.
+mcp_servers:
+  - filesystem                      # read/edit scripts, assets, briefs
+  - gmail-mcp                       # share scripts/links for approval, send to crew
+  - notion-mcp                      # content calendar, mood boards, brief storage
+
+  # ── AI generation stack (one auth, four+ frontier models per MCP) ────
+  - replicate-mcp                   # Sora 2, Veo 3.1, Flux 2 Pro, Kling, Runway Gen-4,
+                                    # Ideogram 3.0 — covers AI video AND thumbnail gen
+  - elevenlabs-mcp                  # voice gen, isolation, dubbing, sound effects
+  - stability-ai-mcp                # alt image gen (SD 3.5, SDXL)
+  - imagegen-mcp                    # generic image gen routing
+  - minimax-mcp                     # alt video/voice generation
+  - huggingface-mcp                 # alt model access for inference
+
+  # ── Editing / format / media processing (FFmpeg-grade) ───────────────
+  - ffmpeg-mcp-advanced             # cut/concat/transition/LUT/loudnorm/transcode
+  - mcp-video-converter             # MP4/WebM/MOV/codec conversions
+  - mcp-media-processor             # higher-level media pipeline ops
+
+  # ── Thumbnails / visual composition ──────────────────────────────────
+  - photoshop-mcp                   # thumbnail face cutout + text overlay
+  - gimp-mcp                        # open-source thumbnail alternative
+  - canva-mcp                       # design-tool thumbnails + covers
+
+  # ── Platform intelligence + transcripts ──────────────────────────────
+  - youtube-mcp                     # YouTube Data API v3 — competitor + trending
+  - youtube-mcp-transcript          # auto-transcripts for competitor analysis
+  - tiktok-mcp                      # TikTok trends (auth-required for Research API)
+  - reddit-mcp                      # community insight + format research
+
+  # ── Subtitle generation (Whisper-backed) ─────────────────────────────
+  - mcp-tts                         # TTS fallback when ElevenLabs is overkill
+
+sources:
+  - name: msitarzewski — Short-Video Editing Coach (RICHEST)
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-short-video-editing-coach.md
+    used_for: software decision tree (CapCut / Premiere / DaVinci / FCP), shot scales, camera movements, transition design, color grading workflow (primary + secondary + LUT + stylistic), audio engineering standards (voice / BGM / SFX levels, -14 LUFS target), motion graphics + keyframe + speed ramping, subtitle typography, multi-platform export specs, AI-assisted editing tools, asset management 3-2-1 backup, workflow phases (rough cut → fine cut → color/audio/subs → export), critical rules (narrative > software, image quality non-negotiable, audio = video, efficiency = productivity, platform/copyright)
+  - name: msitarzewski — Video Optimization Specialist
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-video-optimization-specialist.md
+    used_for: YouTube algorithmic optimization, 4-step process (Research → Package → Structure → Optimize), retention engineering, thumbnail synergy with title, cross-platform syndication, success targets (CTR 8%, retention 50% at 3-min)
+  - name: msitarzewski — Visual Storyteller
+    url: https://github.com/msitarzewski/agency-agents/blob/main/design/design-visual-storyteller.md
+    used_for: story arc creation (setup / conflict / resolution), emotional journey mapping, visual pacing, multimedia design, cross-platform visual strategy, accessibility standards, information design + data visualization
+  - name: msitarzewski — TikTok Strategist
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-tiktok-strategist.md
+    used_for: hook-in-3-seconds rule, 40/30/20/10 content pillar mix (educational/entertainment/inspirational/promotional), viral content formulas, algorithm mastery (completion rate, engagement velocity, user behavior triggers), creator tier strategy (nano/micro/mid/macro), hashtag mix, cross-platform adaptation

@@ -1,0 +1,304 @@
+# Grant Writer — CraftBot agent definition
+#
+# Every field traces back to reference/SOTA_USE_CASES.md or to a default
+# CraftBot capability already shipped on the recipient's install. See
+# reference/INVENTORY.md for sources and SOURCES.md for the section→source map.
+
+name: Grant Writer
+slug: grant-writer
+category: fundraising
+tier: general
+description: >
+  End-to-end grant writing operator for nonprofits, fiscally sponsored
+  projects, and social enterprises. Runs federal / state / foundation /
+  corporate prospect research (Grants.gov + SAM.gov + Candid + Instrumentl
+  + ProPublica 990s). Drafts LOIs, concept papers, full proposals
+  (statement of need / project description / methods / evaluation / budget
+  + budget narrative / sustainability). Builds logic models and theories
+  of change. Owns federal compliance (2 CFR 200 OMB Uniform Guidance —
+  Oct 2024 + May 2026 rewrites), SF-424 family forms, SF-LLL, indirect
+  cost (15% de minimis MTDC or NICRA), matching funds, subaward
+  monitoring, Single Audit prep ($1M post-Oct 2024 / $750K prior),
+  fiscal sponsorship coordination. Manages multi-grant pipeline, deadline
+  calendar, foundation cultivation cadence, declined-grant iteration.
+  Hard rules: funder priorities outrank your project priorities — align
+  or lose; logic models force clarity; reporting begins at award
+  acceptance, not 11 months later. Defers binding accounting / audit to
+  finance-controller, binding compliance interpretation to legal-counsel,
+  donor-facing storytelling to marketing-agent, broader docs to
+  technical-writer, board / exec strategy to ceo-agent.
+
+tags:
+  - grant-writing
+  - fundraising
+  - nonprofit
+  - 501c3
+  - federal-grants
+  - foundation-grants
+  - corporate-giving
+  - csr
+  - logic-model
+  - theory-of-change
+  - budget-narrative
+  - 2-cfr-200
+  - uniform-guidance
+  - sf-424
+  - nicra
+  - single-audit
+  - fiscal-sponsorship
+  - instrumentl
+  - candid
+  - grants-gov
+  - sam-gov
+  - propublica-990
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time. Build script looks up names in
+# agents/grant-writer/skills/ (bundled — Round 2 creates the contents)
+# first, then top-level skills/ (CraftBot defaults — already on recipient).
+enabled_skills:
+  # ── Bundled (20) — SOTA grant-writing skill packs we ship with this agent ─
+  # Round 2 creates each skills/<name>/SKILL.md.
+  - grant-prospect-research-grants-gov-instrumentl-candid  # Grants.gov + SAM.gov APIs + Candid + Instrumentl + GrantStation + ProPublica 990
+  - loi-letter-of-inquiry-drafting                         # 2-3 page LOI structure + funder-priority match + PO outreach
+  - full-grant-proposal-narrative-methods-evaluation       # 8-section proposal + AI assist (Grantable/GrantBoost/Instrumentl)
+  - logic-model-inputs-activities-outputs-outcomes         # 5-column logic model + Theory of Change (Sopact wizard, Kellogg guide)
+  - budget-narrative-justification                         # 2 CFR 200 Subpart E + SF-424A pairing + reviewer-readable narrative
+  - irs-501c3-compliance-docs                              # IRS EO search + ready-attach packet (determination letter, 990s, policies)
+  - grant-deadline-calendar-management                     # Instrumentl (≥10) or Google Calendar+Notion+Airtable (<10) pipeline
+  - grants-gov-sam-gov-submission                          # SAM.gov entity reg + Workspace SF-424 prep + Playwright UI walkthrough
+  - grant-reporting-interim-final                          # SF-425 FFR + SF-PPR + funder-portal narrative; reconcile to GL
+  - foundation-cultivation-program-officer                 # Multi-touch cadence + PO call before LOI + CRM tracking
+  - federal-grant-compliance-omb-uniform-guidance          # 2 CFR 200 Subparts A-F + NIH 45 CFR 75 + 2026 OMB rewrite
+  - corp-giving-csr-bumblebee-goodera                      # Benevity + YourCause + Bonterra + Goodera + MovingWorlds + CSR-report mining
+  - matching-funds-in-kind-strategy                        # 2 CFR 200.306 + Independent Sector volunteer rates + in-kind letter templates
+  - indirect-cost-nicra                                    # De Minimis 15% MTDC vs NICRA (HHS PSC / DOI IBC) negotiation
+  - sf-424-sf-lll-subaward                                 # SF-424 family + SF-LLL lobbying + 2 CFR 200.331 subrecipient monitoring
+  - multi-grant-pipeline-mgmt                              # Stage tracking (research → cultivate → draft → submit → decide → report)
+  - fiscal-sponsorship-coordination                        # Model A/C/F + NEO/Fractured Atlas/PPF/Community Initiatives selection
+  - single-audit-prep-federal-750k                         # $1M post-Oct-2024 + SF-SAC + fac.gov + SEFA prep (defers to finance-controller)
+  - capital-campaign-capacity-equipment-grants             # Case for support + quiet/public phases + Kresge/Hewlett/Packard patterns
+  - declined-grant-iteration                               # 30-day feedback request + portfolio-level pattern tracking + portfolio pivot
+
+  # ── CraftBot defaults (20) — already on recipient's install ────────────
+  # Always evaluate (per METHODOLOGY.md default skills audit checklist):
+  - cli-anything                                           # universal verb — Grants.gov / SAM.gov / ProPublica / eCFR / Candid / Instrumentl REST
+  - file-format                                            # convert .docx / .pdf / .md / .xlsx between formats for proposals + attachments
+  - file-organizer                                         # organize active-proposal folders, funder library, declined-grant archive
+  - using-git-worktrees                                    # isolate per-grant proposal branches in a versioned proposals repo
+
+  # Content / writing (the bulk of the role's output):
+  - docx                                                   # primary output for narratives + budget justifications + LOIs
+  - pdf                                                    # fillable SF-424 family + final-stamp PDFs for upload
+  - pptx                                                   # site-visit decks + funder-meeting briefings + board grant updates
+  - markdown-converter                                     # cross-convert drafts; markdown is the working format
+  - writing-skills                                         # general writing discipline + voice control
+  - writing-plans                                          # multi-section proposal outlining
+  - writing-assistant                                      # collaborative drafting flow for sections
+  - brainstorming                                          # problem-statement framing + need-statement generation
+  - concise-planning                                       # multi-month grant-cycle planning
+  - ask-questions-if-underspecified                        # clarify org type / funding mix / deadlines before drafting
+  - audit-context-building                                 # gather org context rigorously before claiming outcomes
+  - verification-before-completion                         # quality-gate every proposal against funder NOFO before delivery
+
+  # Spreadsheet (budget work is heavy spreadsheet):
+  - xlsx                                                   # SF-424A, multi-year budget, SEFA, pipeline tracker, declined-grant analysis
+  - google-sheets                                          # shared budget collaboration with finance + program leads
+
+  # Comms (cultivation + submission notifications):
+  - gmail                                                  # cultivation emails, PO outreach, declined-grant feedback requests
+  - notion                                                 # multi-grant pipeline DB, foundation profile cards, PO relationship notes
+  - obsidian                                               # local-first alt for sensitive funder strategy notes
+  - google-drive                                           # shared proposal drafts with org leadership + program staff
+
+  # Research (heavy research load — funder research, peer-org research, regulator research):
+  - research-assistant                                     # broader research discipline
+  - web-search-plus                                        # broad funder + sector + regulator search
+  - tavily-search                                          # high-quality search for federal NOFOs + foundation pages
+  - firecrawl                                              # scrape funder pages, CSR reports, NOFOs
+  - playwright-mcp                                         # guided UI walkthrough of Grants.gov Workspace + Submittable + Fluxx + Foundant
+
+  # Versioning + comms tooling:
+  - git-commit                                             # version-control proposal drafts + budgets
+  - github                                                 # store organizational proposal library + templates in a repo
+  - differential-review                                    # structured peer review of proposal drafts before submission
+
+# MCP servers — every name verified against app/config/mcp_config.json.
+# The recipient enables each in MCP settings after import and fills in any
+# required API keys.
+mcp_servers:
+  - filesystem                                             # always — read/edit proposals, budgets, attachments
+
+  # ── Research + scrape (funder pages, NOFOs, CSR reports, eCFR) ───────
+  - firecrawl-mcp                                          # scrape Grants.gov NOFO HTML, foundation priorities, CSR reports
+  - brightdata-mcp                                         # alt scrape for paywalled foundation databases / heavy CAPTCHA sites
+  - sec-edgar-mcp                                          # public-company 10-K / ESG sections for corporate giving research
+
+  # ── Comms (cultivation, PO outreach, declined-grant follow-up) ────────
+  - gmail-mcp                                              # cultivation emails + PO outreach + feedback-request emails
+  - outlook-mcp                                            # alt for org on Microsoft 365
+  - slack-mcp                                              # team grant comms (deadline alerts, awarded/declined notifications)
+
+  # ── Workspace (proposal drafts, calendar, shared drives) ──────────────
+  - google-calendar-mcp                                    # grant deadline calendar with PO touch-point reminders
+  - google-drive-mcp                                       # shared proposal drafts with org leadership / program staff
+  - google-workspace-mcp                                   # Docs + Sheets + Calendar in one OAuth (alt to per-product MCPs)
+  - notion-mcp                                             # multi-grant pipeline DB + foundation profile cards + relationship notes
+
+  # ── Accounting + reporting (financial data for budget + reports + SEFA) ─
+  - xero-mcp                                               # GL pull for grant reports + SEFA prep + budget actuals
+  - stripe-mcp                                             # donations + program revenue (fee-for-service nonprofits)
+  - postgresql-mcp                                         # query org data warehouses for outcomes / beneficiary metrics
+
+  # ── OCR (extract from scanned PDFs of legacy proposals, 990s, board minutes) ─
+  - gemini-ocr-mcp                                         # OCR for image-only PDFs
+  - mistral-ocr-mcp                                        # alt OCR for redundancy
+
+  # ── Translation (international funders + multi-lingual community letters) ─
+  - deepl-mcp                                              # high-quality translation for proposals + community impact letters
+
+  # ── Data / outcomes evidence ─────────────────────────────────────────
+  - huggingface-mcp                                        # discover outcome datasets / evaluation evidence
+
+  # ── UI walkthrough (Grants.gov Workspace + Submittable + Fluxx + Foundant) ─
+  - playwright-mcp                                         # guided UI flow when funder portal lacks an API (most foundations)
+
+  # ── GitHub for organizational proposal library + templates ────────────
+  - github                                                 # store proposal library + budget templates + LOI templates in a repo
+
+sources:
+  - name: Grants.gov API (GSA Open Technology — Get Opportunities Public API)
+    url: https://open.gsa.gov/api/get-opportunities-public-api/
+    used_for: federal grant prospect research RESTful JSON search + opportunity-detail pulls
+  - name: SAM.gov Opportunity Management API (GSA Open Technology)
+    url: https://open.gsa.gov/api/opportunities-api/
+    used_for: federal grant opportunity discovery + entity registration verification
+  - name: ProPublica Nonprofit Explorer API v2
+    url: https://projects.propublica.org/nonprofits/api
+    used_for: 3M+ Form 990 filings — grant prospect mining + 501c3 verification + funder due diligence
+  - name: Candid (Foundation Directory + GuideStar merger — Candid Search Jan 2026)
+    url: https://candid.org/
+    used_for: 304K funder profiles + geographic mapping (city/county/legislative district) + AI matching
+  - name: Instrumentl
+    url: https://www.instrumentl.com/
+    used_for: 410K funder profiles incl. DAFs + grant pipeline tracker + AI proposal drafting
+  - name: GrantStation
+    url: https://www.grantstation.com/
+    used_for: clubs / associations / giving circles filter (unique to GrantStation)
+  - name: eCFR — 2 CFR Part 200 (OMB Uniform Guidance)
+    url: https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200
+    used_for: federal grant compliance — Subparts A-F including cost principles + audit + 2024 update + 2026 rewrite
+  - name: OMB May 29 2026 proposed rewrite of 2 CFR 200
+    url: https://grantedai.com/blog/omb-uniform-guidance-overhaul-2-cfr-200-may-29-2026-pre-issuance-political-review-october-1-effective-strategy
+    used_for: 2026 OMB proposed rule (comment by July 13 2026) — political pre-issuance review + Oct 1 effective date
+  - name: Clark Nuber — Uniform Guidance De Minimis 15% MTDC update
+    url: https://clarknuber.com/articles/uniform-guidance-the-de-minimis-indirect-cost-rate-updated/
+    used_for: De Minimis rate raised from 10% to 15% MTDC in 2024 revision
+  - name: NIH NOT-OD-26-072 — 45 CFR 75 reversion
+    url: https://grantedai.com/blog/federal-grants-regulatory-overhaul-2026
+    used_for: NIH FY2026 indirect cost provisions revert to 45 CFR Part 75
+  - name: Grants.gov SF-424 Family + Mandatory Family forms
+    url: https://www.grants.gov/forms/forms-repository/sf-424-family
+    used_for: SF-424, SF-424A, SF-424B, SF-424C, SF-424D, SF-424 Short Org structures + XML schemas
+  - name: Grants.gov SF-LLL (Disclosure of Lobbying Activity)
+    url: https://www.grants.gov/forms/sf-424-mandatory-family.html
+    used_for: SF-LLL required only when lobbying activity present
+  - name: Northwestern Foundation Relations — Letter of Inquiry guide
+    url: https://www.northwestern.edu/foundationrelations/grant-writing-guide/proposal-resources/letter-of-inquiry/
+    used_for: canonical LOI structure (hook, need, project, capability, ask, close)
+  - name: Get Fully Funded — Killer LOI
+    url: https://getfullyfunded.com/how-to-write-a-killer-letter-of-inquiry-loi-to-get-a-grant/
+    used_for: LOI cultivation patterns + program officer outreach
+  - name: Sopact — Logic Model + Theory of Change wizard
+    url: https://www.sopact.com/use-case/logic-model
+    used_for: 5-column logic model (Inputs → Activities → Outputs → Outcomes → Impact) + ToC causal narrative
+  - name: W.K. Kellogg Foundation Logic Model Development Guide
+    url: https://wkkf.issuelab.org/resource/logic-model-development-guide.html
+    used_for: canonical logic model methodology (still the 2026 industry standard)
+  - name: Granted AI — best AI grant writing tools 2026
+    url: https://grantedai.com/blog/best-ai-grant-writing-tools-2026
+    used_for: 2026 ranking of Grantable / GrantBoost / FundRobin / Instrumentl / Grant Assistant
+  - name: Grantable — AI-native grant writing
+    url: https://grantable.co/
+    used_for: persistent funder memory + 130K foundation DB + full lifecycle management
+  - name: Federal Audit Clearinghouse (fac.gov)
+    url: https://www.fac.gov/audit-resources/submission-guide/about/
+    used_for: SF-SAC Data Collection Form + Single Audit submission
+  - name: Single Audit threshold $1M post-Oct 2024 + $750K prior
+    url: https://grantedai.com/blog/single-audit-threshold-1-million-nonprofit-compliance-uniform-guidance-strategy-2026
+    used_for: dual-compliance environment for orgs with multi-year grants straddling the effective date
+  - name: National Network of Fiscal Sponsors
+    url: https://www.fiscalsponsors.org/
+    used_for: Model A / C / F selection + top sponsors directory (NEO, Fractured Atlas, PPF, Community Initiatives, TSNE)
+  - name: National Council of Nonprofits — Fiscal Sponsorship guide
+    url: https://www.councilofnonprofits.org/running-nonprofit/administration-and-financial-management/fiscal-sponsorship-nonprofits
+    used_for: fiscal sponsorship overview + tax-status implications
+  - name: Foundation Group — What Is a Fiscal Sponsor
+    url: https://www.501c3.org/what-is-a-fiscal-sponsor/
+    used_for: practitioner-level fiscal sponsorship walkthrough + admin-fee benchmarks (5-10%)
+  - name: Benevity — AI-Native Corporate Purpose Software
+    url: https://benevity.com/
+    used_for: corporate giving + volunteering + grantmaking + ERG funding (Fortune 100 majority)
+  - name: Goodera — Corporate Volunteering
+    url: https://www.goodera.com/
+    used_for: corp volunteering + 50K nonprofit network
+  - name: YourCause CSRconnect (Blackbaud)
+    url: https://www.blackbaud.com/products/yourcause-csrconnect
+    used_for: enterprise corporate engagement + Blackbaud-integrated CSR reporting
+  - name: Bonterra — All-in-One CSR Platform
+    url: https://www.bonterratech.com/
+    used_for: corp giving + employee engagement + grant management bundle
+  - name: MovingWorlds — Skills-Based Volunteering
+    url: https://movingworlds.org/
+    used_for: scaling skills-based volunteering as in-kind value
+  - name: ProPublica Nonprofit Explorer (project)
+    url: https://projects.propublica.org/nonprofits/
+    used_for: 3M+ 990 filings web search; funder due-diligence; grant-giver discovery
+  - name: IRS Tax Exempt Organization Search
+    url: https://apps.irs.gov/app/eos/
+    used_for: live 501(c)(3) status verification
+  - name: Bloomerang — Nonprofit CRM
+    url: https://bloomerang.com/
+    used_for: donor management; pair with separate grant tracker (no native grant module)
+  - name: DonorPerfect — Donor + light grant management
+    url: https://www.donorperfect.com/
+    used_for: mid-market nonprofit CRM with light grant awards / deadlines / notes
+  - name: Salesforce Nonprofit Cloud (NPSP / EDA)
+    url: https://www.salesforce.org/products/nonprofit-cloud/
+    used_for: enterprise CRM + full grant compliance (with $20K-100K configuration)
+  - name: Submittable
+    url: https://submit.com/
+    used_for: funder submission + review platform (Workspace alt for foundations)
+  - name: Fluxx (Grantmaker + Grantseeker)
+    url: https://www.fluxx.io/products/grantseeker
+    used_for: enterprise grant management on both sides of the table
+  - name: Foundant GrantHub
+    url: https://www.foundant.com/grant-management/
+    used_for: dedicated grantseeker platform (no enterprise overhead)
+  - name: Independent Sector — Value of Volunteer Time
+    url: https://independentsector.org/resource/value-of-volunteer-time/
+    used_for: $33.49/hr national rate (2024) for in-kind volunteer-hour valuation in match strategy
+  - name: 2 CFR 200.306 (Cost sharing or matching)
+    url: https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFR2afe8a0b08d1cdc/section-200.306
+    used_for: federal matching rules — third-party in-kind allowed if verifiable / allowable / allocable / necessary / reasonable
+  - name: 2 CFR 200.331 (Requirements for pass-through entities)
+    url: https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.331
+    used_for: subaward monitoring + risk assessment + sub-recipient management
+  - name: Grant Writing Academy — Tracking Patterns in Rejections
+    url: https://grantwritingacademy.substack.com/p/tracking-patterns-in-rejections-the
+    used_for: declined-grant portfolio-level pattern tracking (vs proposal-level tweaks)
+  - name: "Funding for Good — Rejected: What to Do When Denied"
+    url: https://fundingforgood.org/rejected-what-to-do-if-your-grant-proposal-is-denied/
+    used_for: 30-day feedback request + internal debrief without funder feedback
+  - name: Inside Philanthropy — LOI Explainer
+    url: https://www.insidephilanthropy.com/explainers/what-is-a-letter-of-inquiry-loi
+    used_for: LOI placement in foundation cultivation cycle
+  - name: Instrumentl Blog — Federal Funding Changes 2026
+    url: https://www.instrumentl.com/blog/federal-funding-changes-report
+    used_for: 2026 nonprofit-sector response to federal grant rewrites + private/corp pivot data
+  - name: CMS Budget Request + Narrative Guidance
+    url: https://www.cms.gov/about-cms/work-us/cms-grants/cooperative-agreements/how-apply-cms-grants/cms-guidance-preparing-budget-request-and-narrative
+    used_for: federal budget narrative pairing with SF-424A across period of performance

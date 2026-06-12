@@ -1,0 +1,298 @@
+# Finance Agent — CraftBot agent definition
+#
+# Strategic finance / fractional CFO scope. PAIRS with finance-controller
+# (operational / tactical). See reference/INVENTORY.md for the capability
+# split. Every field traces back to reference/SOTA_USE_CASES.md or to a
+# default CraftBot capability already shipped on the recipient's install.
+
+name: Finance Agent
+slug: finance-agent
+category: finance
+tier: general
+description: >
+  Senior strategic finance / fractional CFO for founders and finance teams.
+  Owns capital allocation, fundraising strategy (priced equity vs SAFE vs
+  venture debt vs revenue-based financing vs secondaries), term sheet review
+  (NVCA Oct 2025 model), 409A valuation negotiation, M&A target screen + QoE
+  due diligence, FP&A (three-statement driver-based modeling + scenario +
+  Monte Carlo), capital structure optimization, treasury yield strategy,
+  equity compensation design (pool + evergreen), pitch deck financial
+  slides, board CFO package, investor data room curation, IPO readiness /
+  S-1 prep, international expansion structure + transfer pricing, FX
+  hedging, QSBS / R&D credit / holdco tax strategy, and CFO-voice
+  investor updates. PAIRS with `finance-controller` (operational / tactical
+  bookkeeping / monthly close / AR-AP). Hard rules: (1) cash burn is a
+  feature only when it compounds returns — opportunity cost is the dollar's
+  silent twin; (2) capital structure follows strategy, not vice versa;
+  (3) be conservative on revenue, aggressive on COGS, brutal on
+  capital allocation. Always discloses "consult a licensed CFO / CPA /
+  qualified investment advisor for binding strategic-finance decisions" —
+  the agent models, surfaces trade-offs, and drafts deliverables; humans
+  approve binding actions.
+tags:
+  - finance
+  - strategic-finance
+  - fractional-cfo
+  - cfo
+  - fpa
+  - fundraising
+  - capital-allocation
+  - term-sheet
+  - m-and-a
+  - 409a
+  - treasury
+  - capital-structure
+  - ipo-readiness
+  - investor-relations
+  - equity-compensation
+  - qsbs
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time. Build script looks up names in
+# agents/finance-agent/skills/ (bundled — Round 2 creates the contents)
+# first, then top-level skills/ (CraftBot defaults — already on recipient).
+enabled_skills:
+  # ── Bundled (22) — SOTA strategic-finance skill packs we ship with this agent ──
+  # Round 2 creates each skills/<name>/SKILL.md.
+  - three-statement-financial-model-tied        # IS / BS / CF driver-based; cohort-revenue
+  - driver-based-revenue-modeling               # SaaS / e-com / marketplace; cohort × ACV × NRR
+  - scenario-planning-monte-carlo               # base / bull / bear + sensitivity + Monte Carlo
+  - capital-allocation-framework                # ROIC vs WACC ladder; reinvest / return / reserve
+  - ltv-cohort-strategic                        # bottom-up cohort LTV by segment / channel
+  - market-sizing-tam-sam-som-strategic         # bottom-up + top-down triangulation
+  - fundraising-strategy-priced-safe-venture-debt-rbf  # decision tree by stage + revenue posture
+  - 409a-valuation-negotiation                  # OPM / PWERM hybrid; preferred discount 12-25%
+  - term-sheet-nvca-grade-review                # NVCA Oct 2025 model; clause-by-clause vs market
+  - pitch-deck-financial-slides                 # 6-metric max; growth → unit econ → path to profit
+  - investor-data-room-curation                 # Visible.vc / DocSend / Papermark + sequencing
+  - board-cfo-financial-package                 # 10-slide Cube/Vena structure; T-28 prep
+  - ma-target-screen-and-qoe                    # Bain/McKinsey screen + Finsider QoE pre-work
+  - treasury-yield-ladder-risk-tier             # Rho / Public.com / Mercury Treasury / Brex Yield
+  - capital-structure-debt-equity-mix-stage     # WACC + venture-debt / RBF / secondaries blend
+  - tax-strategy-qsbs-rd-credit-holdco          # Big Beautiful Bill 2025 QSBS; MainStreet / Neo.tax
+  - international-entity-transfer-pricing       # Stripe Atlas / Foothold America / BaseFirma
+  - fx-hedging-strategies                       # Wise / Airwallex / Revolut Business / OANDA
+  - ipo-readiness-s1-prep                       # Cross Country / Carta / EisnerAmper / Deloitte
+  - strategic-partnership-jv-structuring        # EY / Ankura five-essential JV framework
+  - equity-comp-design-pool-evergreen           # 10-20% initial pool; 3-5% annual evergreen
+  - investor-update-cfo-voice                   # Visible.vc Standard + YC variant; CFO voice
+
+  # ── CraftBot defaults (24) — already on recipient's install ─────────────
+  # Always evaluate (per METHODOLOGY.md default skills audit checklist):
+  - cli-anything                            # universal verb for Carta/Pulley/Knolli/Causal/Mosaic/MainStreet REST
+  - file-format                             # convert decks / term sheets / models between formats
+  - file-organizer                          # organize data rooms + audit binders
+  - using-git-worktrees                     # isolated worktree per workstream (e.g., Series-A-raise)
+
+  # Content / comms (strategic CFO delivers a lot of decks + memos + emails):
+  - docx                                    # term sheet review memos, board memos, M&A LOIs
+  - pdf                                     # board deck PDF, pitch deck PDF, data-room PDF assets
+  - pptx                                    # pitch deck, board CFO package, fundraising deck
+  - xlsx                                    # three-statement model, scenarios, cap structure, sensitivity
+  - google-sheet                            # live shared models for board/team collaboration
+  - microsoft-excel                         # local Excel for sensitive cap-structure / M&A work
+  - gmail                                   # investor outreach, board updates, LP comms
+  - notion                                  # strategic-finance wiki / decision logs / playbooks
+  - obsidian                                # alt local-first for sensitive M&A / fundraise drafts
+
+  # Existing finance defaults that ship:
+  - xero                                    # Xero via Maton-managed gateway (for actuals feed)
+  - stripe-api                              # Stripe via Maton gateway (revenue + Sigma)
+  - stock-forecast                          # Public-comp / peer multiples / market read
+  - stock-market-pro                        # Alt market data layer
+
+  # Research + planning (strategic CFO spends substantial time researching):
+  - brainstorming                           # Hypothesis generation for capital structure / M&A
+  - concise-planning                        # Plan fundraise / M&A / IPO-prep timelines
+  - ask-questions-if-underspecified         # Clarify stage / ARR / horizon before computing
+  - audit-context-building                  # Rigorous context-gathering before strategic memo
+  - verification-before-completion          # Tie out scenarios before delivering
+
+  # Versioning / collaboration:
+  - git-commit                              # Version-control strategic models + decision logs
+  - markdown-converter                      # Convert finance docs across formats
+
+# MCP servers — every name must exist in app/config/mcp_config.json
+# (verify.py checks this). The recipient enables each in their MCP settings
+# after importing the .craftbot bundle and fills in any required API keys.
+mcp_servers:
+  - filesystem                              # always
+
+  # ── Accounting + billing actuals feed (shared with finance-controller) ─
+  - xero-mcp                                # actuals feed for FP&A model
+  - stripe-mcp                              # revenue + Sigma queries for unit econ + pricing
+
+  # ── Public + private market research (heavy use for this agent) ───────
+  - sec-edgar-mcp                           # peer financials, IPO comparables, M&A comps, market sizing
+  - octagon-sec-mcp                         # alt SEC research / private-market comparables
+  - yahoo-finance-mcp                       # public-comp stock data + yield curve
+  - alpha-vantage-mcp                       # alt market data
+  - mcp-finance                             # multi-source finance data aggregator
+  - tradingview-mcp                         # public-comp charting + technicals
+
+  # ── Product analytics (cohort retention, NRR, segment economics) ───────
+  - posthog-mcp                             # cohort + NRR + churn fetch
+  - mixpanel-mcp                            # alt product analytics
+  - amplitude-mcp                           # alt behavioral cohorts
+
+  # ── Database / GL access ─────────────────────────────────────────────
+  - postgresql-mcp                          # raw GL / warehouse queries for custom cohort joins
+
+  # ── Comms (investor updates, board, vendor, M&A counterparty) ────────
+  - gmail-mcp                               # investor updates + LP comms + M&A outreach
+  - outlook-mcp                             # alt for recipients on Outlook
+  - notion-mcp                              # strategic-finance wiki + decision logs + board prep
+  - slack-mcp                               # finance team / advisor / counsel comms
+
+  # ── Research / scrape / OCR (peers, term sheets, contracts) ──────────
+  - firecrawl-mcp                           # peer / competitor / industry-report scrape
+  - brightdata-mcp                          # alt paid scrape (PitchBook-style benchmark data)
+  - huggingface-mcp                         # industry benchmark datasets
+  - gemini-ocr-mcp                          # OCR for term sheets / contracts / M&A LOIs
+  - mistral-ocr-mcp                         # alt OCR engine
+
+sources:
+  - name: Knolli — Top 15 AI Tools for CFOs and Fractional CFOs 2026
+    url: https://www.knolli.ai/post/top-15-ai-tools-for-cfos-and-fractional-cfos
+    used_for: 2026 fractional-CFO AI tool landscape (Knolli, Pry/Brex, Runway, Mosaic, Causal, Cube)
+  - name: NVCA Model Term Sheet (Oct 2025 update)
+    url: https://nvca.org/wp-content/uploads/2019/06/NVCA-Model-Term-Sheet-1.doc
+    used_for: NVCA-grade term sheet review; tranched financings, anti-dilution, liquidation preference
+  - name: Foley — NVCA Oct 2025 update breakdown
+    url: https://www.foley.com/insights/publications/2025/10/breaking-down-the-nvca-what-founders-and-vcs-need-to-know/
+    used_for: Oct 2025 NVCA changes — tranched SPAs, milestone-based financing
+  - name: Y Combinator — Standard SAFE Documents
+    url: https://www.ycombinator.com/documents
+    used_for: post-money SAFE template + cap-table impact modeling
+  - name: Carta — 16 Things to Know About 409A
+    url: https://a16z.com/16-things-to-know-about-the-409a-valuation/
+    used_for: 409A methodology + negotiation primer
+  - name: 409A — Methods, Cost, Triggers, Timeline 2026
+    url: https://getexact.com/409a-valuation-guide/
+    used_for: 2026 409A methodology (OPM/PWERM hybrid) + refresh triggers
+  - name: 409A — Top 2026 firms
+    url: https://acumensphere.com/blog/409a-valuation/top-409a-valuation-firms-in-2026
+    used_for: 409A provider landscape (Carta, Pulley, Aranca, EquityEffect, Eqvista)
+  - name: Mosaic vs Runway vs Cube — 2026 FP&A comparison
+    url: https://cfoadvisors.com/blog/mosaic-vs-runway-vs-cube-fpa-software-2026
+    used_for: FP&A platform selection by stage
+  - name: Causal vs Mosaic vs Runway vs Excel — 2026
+    url: https://valueaddvc.com/blog/best-financial-modeling-tools-for-startups-excel-vs-runway-vs-causal-vs-mosaic
+    used_for: Driver-based FP&A tool selection
+  - name: Visible.vc Standard Investor Update Template
+    url: https://visible.vc/templates/the-visible-standard-investor-update-template/
+    used_for: CFO-voice investor update structure
+  - name: Papermark — 7 data rooms for investors 2026
+    url: https://www.papermark.com/blog/data-room-for-investors
+    used_for: 2026 data-room platform selection (Visible.vc / DocSend / Papermark / Carta IR)
+  - name: Rho — Treasury management software 2026
+    url: https://www.rho.co/blog/treasury-management-software
+    used_for: Treasury yield ladder + multi-bank strategy post-SVB
+  - name: Rho — T-bill ladder guide
+    url: https://www.rho.co/blog/guide-to-t-bill-ladders
+    used_for: T-bill ladder construction for SaaS startups
+  - name: Axis Group — Capital Stack Optimization 2026
+    url: https://www.axisgroupventures.com/post/capital-stack-optimization-how-founders-are-blending-debt-equity-and-secondaries-in-2026
+    used_for: Blended capital stack — equity + debt + secondaries 2026 trend
+  - name: ECL — Revenue-based financing 2026 guide
+    url: https://www.ecaplabs.com/blogs/revenue-based-financing
+    used_for: RBF vs venture debt selection
+  - name: Recur Club — Venture debt vs RBF
+    url: https://www.recurclub.com/blog/venture-debt-vs-revenue-based-financing
+    used_for: Venture debt vs RBF decision matrix
+  - name: Damodaran 2026 Data Updates
+    url: https://aswathdamodaran.substack.com/p/data-update-1-for-2026-the-push-and
+    used_for: Equity risk premium, WACC inputs, industry betas (2026 dataset)
+  - name: Damodaran — Useful Data Sets
+    url: https://pages.stern.nyu.edu/~adamodar/New_Home_Page/data.html
+    used_for: Public datasets for cost of capital, ERPs, betas, capital structure
+  - name: Davis Wright Tremaine — QSBS Big Beautiful Bill update (Jul 2025)
+    url: https://www.dwt.com/blogs/startup-law-blog/2025/07/qsbs-big-beautiful-bill-tax-code-upgrades
+    used_for: QSBS post-Big-Beautiful-Bill cap raise ($75M assets, $15M individual benefit, tiered exclusion)
+  - name: Kruze Consulting — Big Beautiful Bill VC-startup tax changes
+    url: https://kruzeconsulting.com/blog/big-beautiful-bill/
+    used_for: 2025 tax changes for venture-backed startups
+  - name: MainStreet — R&D credit advance platform
+    url: https://dashboard.mainstreet.com/welcome/guideline
+    used_for: R&D credit auto-claim + cash advance for QSBs
+  - name: Carta — QSBS guide
+    url: https://carta.com/learn/startups/tax-planning/qsbs/
+    used_for: QSBS holding requirements, exclusion mechanics
+  - name: Cross Country Consulting — IPO Readiness Steps 2026
+    url: https://www.crosscountry-consulting.com/insights/blog/ipo-readiness-steps-focus-areas/
+    used_for: IPO readiness 5-dimension framework + timeline
+  - name: Carta IPO Readiness
+    url: https://carta.com/learn/startups/exit-strategies/ipo/readiness/
+    used_for: IPO readiness process + checklist
+  - name: EisnerAmper IPO Readiness Guide
+    url: https://www.eisneramper.com/insights/ipo-insights/ipo-readiness-guide/
+    used_for: S-1 prep + audit-ready posture
+  - name: Anders QoE Report Guide
+    url: https://anderscpa.com/learn/blog/quality-of-earnings-report-analysis-due-diligence-guide/
+    used_for: QoE methodology for M&A due diligence
+  - name: Finsider — M&A Software Tools 2026
+    url: https://finsider.ai/blog/ma-software-tools/
+    used_for: Finsider auto-QoE (74-point GL scan); 2026 M&A tooling landscape
+  - name: EY — Joint Ventures and Strategic Alliances
+    url: https://www.ey.com/en_us/services/strategy-transactions/joint-ventures-alliances
+    used_for: 2026 JV / strategic alliance framework
+  - name: Ankura JV Alchemist — Five essentials of JV dealmaking
+    url: https://jvalchemist.ankura.com/transactions/how-to-structure-a-joint-venture-the-five-essential-elements-of-jv-dealmaking/
+    used_for: JV structuring 5-essentials — strategic / governance / financing / operating / exit
+  - name: Unicorn Currencies — Wise vs Airwallex vs Revolut vs OFX 2026
+    url: https://unicorncurrencies.com/forcfo/b2b-fx-platforms-compared/
+    used_for: FX platform selection for international SaaS
+  - name: Airwallex — FX hedging strategies
+    url: https://www.airwallex.com/ca/blog/strategies-companies-hedge-strengthening-home-currency
+    used_for: FX hedging strategy (spot vs forward vs option) for startups
+  - name: BaseFirma — Transfer pricing for startups and international expansions
+    url: https://basefirma.com/transfer-pricing-for-start-ups-and-international-expansions/
+    used_for: International entity + transfer pricing for startups
+  - name: Kruze Consulting — Transfer pricing for startups
+    url: https://kruzeconsulting.com/blog/transfer-pricing/
+    used_for: Transfer pricing decision framework
+  - name: Holloway Guide to Equity Compensation — The Option Pool
+    url: https://www.holloway.com/g/equity-compensation/sections/the-option-pool
+    used_for: Option pool sizing (10-20% initial) and evergreen design
+  - name: The Startup Law Blog — Equity Comp Plan Design 2026
+    url: https://www.thestartuplawblog.com/blog/equity-compensation-plan-design-startup-guide/
+    used_for: Equity comp plan design 2026 best practice
+  - name: First Round — The Right Way to Grant Equity
+    url: https://review.firstround.com/The-Right-Way-to-Grant-Equity-to-Your-Employees
+    used_for: Per-employee evergreen grant design (25% of new-hire-equivalent)
+  - name: WaveUp — Financial Projections Slide 2026
+    url: https://waveup.com/blog/financial-projections-slide/
+    used_for: Pitch deck financial slide best practice 2026
+  - name: WaveUp — TAM/SAM/SOM Market Sizing 2026
+    url: https://waveup.com/blog/tam-sam-som/
+    used_for: Market sizing methodology — bottom-up + top-down triangulation
+  - name: Qubit Capital — Bottom-up market sizing
+    url: https://qubit.capital/blog/bottom-up-market-sizing
+    used_for: Bottom-up TAM calculation per ICP × ACV
+  - name: Cube — CFO Board Deck Guide
+    url: https://www.cubesoftware.com/blog/cfo-guide-board-deck
+    used_for: CFO board deck structure (10-slide pattern + T-28 prep)
+  - name: Vena — What the CFO Reports to the Board
+    url: https://www.venasolutions.com/blog/cfo-board-reports
+    used_for: CFO board reporting template
+  - name: Bussinology — Startup financial model sensitivity analysis
+    url: https://bussinology.com/startups/financial-model-startup-sensitivity-analysis/
+    used_for: Sensitivity + Monte Carlo for startup runway / risk
+  - name: Bessemer 2026 SaaS Metrics — LTV / CAC / NRR benchmarks
+    url: https://beancount.io/blog/2026/05/10/saas-metrics-founders-must-track-2026-ltv-cac-nrr-churn-cac-payback-benchmarks-guide
+    used_for: 2026 LTV / CAC / NRR / Rule-of-40 / Burn Multiple benchmarks
+  - name: Eagle Rock CFO — SaaS Benchmarks by Stage 2026
+    url: https://www.eaglerockcfo.com/blog/research/saas-finance-metrics-benchmarks
+    used_for: Stage-graded targets (Seed / A / B / C+) for segment unit economics
+  - name: Pillar Legal — Series A Liquidation Preference
+    url: https://www.pillarlegalpc.com/series-a-term-sheet-liquidation-preference/
+    used_for: 1x non-participating preferred standard (~98% of Q2 2025 U.S. rounds)
+  - name: Foundersuite — Investor CRM
+    url: https://foundersuite.com/
+    used_for: Investor CRM and pipeline management
+  - name: PitchBook 2026 Company Profile (CB Information Services)
+    url: https://www.cbinsights.com/company/pitchbook-data
+    used_for: PitchBook coverage (11.9M companies, 3M deals, 621K investors)

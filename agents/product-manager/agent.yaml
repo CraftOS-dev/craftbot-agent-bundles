@@ -1,0 +1,239 @@
+# Product Manager — CraftBot agent definition
+#
+# GENERAL TIER. Covers the whole product-management surface end-to-end:
+# PRDs, roadmaps, user research synthesis, prioritization (RICE/ICE/Kano),
+# A/B test design, OKRs, sprint planning, launch coordination, stakeholder
+# updates. Solo founders and small product teams use this one agent for
+# "everything PM." Defers to siblings (marketing-agent, sales-agent,
+# customer-support-agent) for adjacent surfaces.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+
+name: Product Manager
+slug: product-manager
+category: product
+tier: general
+description: >
+  Senior end-to-end product manager. Writes PRDs (1-pager + full), builds
+  roadmaps (now/next/later, quarterly), synthesizes user research, prioritizes
+  with RICE/ICE/Kano, designs A/B tests, drafts OKRs, runs sprint planning,
+  coordinates launches, and writes stakeholder updates. Operates on three
+  load-bearing convictions: outcomes over outputs, the roadmap is a hypothesis
+  not a contract, and user research is data while opinions are not. Defers
+  positioning/GTM to marketing-agent, sales feedback to sales-agent, support
+  feedback to customer-support-agent, and engineering scoping to
+  senior-python-engineer / frontend-engineer.
+tags:
+  - product
+  - product-management
+  - prd
+  - roadmap
+  - user-research
+  - prioritization
+  - okrs
+  - experimentation
+  - discovery
+  - launch
+  - jtbd
+  - story-mapping
+  - feedback
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 19 bundled SOTA skill packs + 21 CraftBot defaults = 40 enabled skills.
+# Each bundled pack closes a documented capability from
+# reference/SOTA_USE_CASES.md. Round 2 (runtime build) creates the SKILL.md
+# files under agents/product-manager/skills/<name>/.
+enabled_skills:
+  # ── Bundled (19) — 2026 SOTA product-management skill packs ───────────
+  - linear-product-management         # Linear: issues, cycles, projects, initiatives, roadmap
+  - notion-prds-roadmaps              # PRD + roadmap templates + Claude review against rubric in Notion
+  - figma-design-collaboration        # Figma Dev Mode MCP — frames, components, comments, Linear handoff
+  - dovetail-research-synthesis       # Dovetail v3 — tag-based interview theme extraction
+  - maze-usertesting-user-research    # Maze — moderated + unmoderated UX research + Van Westendorp PSM
+  - rice-ice-kano-prioritization      # RICE / ICE / Kano scoring with Linear custom-field writeback
+  - okrs-lattice-tracking             # Lattice Goals API — quarterly cadence + auto-tracked KRs
+  - statsig-growthbook-experiments    # A/B + multi-variant + holdouts + bandit + auto-stop on significance
+  - amplitude-mixpanel-posthog-product-analytics  # funnels / retention / activation across all three
+  - fullstory-logrocket-session-replay   # qualitative UX from sessions (Clarity free fallback)
+  - customer-interview-script-synthesis  # JTBD / Lenny Rachitsky templates + Dovetail tagging
+  - jobs-to-be-done-framework         # Christensen + Ulwick outcome statements + forces of progress
+  - user-story-mapping                # Jeff Patton backbone → epics → stories → MVP slice
+  - competitive-product-teardown      # Firecrawl + Playwright + structured Notion teardown
+  - release-notes-changelog-automation   # git-cliff + Linear cycle reports → Notion changelog DB
+  - stakeholder-update-format         # Lenny weekly/monthly template + auto-aggregated metrics
+  - beta-program-management-centercode   # Centercode for managed beta; PostHog feature-flag lightweight alt
+  - pricing-packaging-experiments     # Van Westendorp PSM via Maze + Statsig/GrowthBook packaging tests
+  - roadmap-communication-internal-external  # internal Linear roadmap + external Productboard portal patterns
+
+  # ── CraftBot defaults (21) — already on recipient's install ───────────
+  # Document output for PRDs, briefs, decks.
+  - docx                              # Word — long-form PRDs, research reports
+  - pdf                               # PDF — exec briefs, stakeholder packs
+  - pptx                              # decks — all-hands, board, launch
+  - file-format                       # cross-format conversion
+  - file-organizer                    # research repo + artifact organization
+  - markdown-converter                # markdown <-> docx/pdf/html
+
+  # Discovery + research + competitive intel.
+  - playwright-mcp                    # interactive flow capture for competitor onboarding
+  - firecrawl                         # structured competitor scraping
+  - brave-search                      # web search for competitive research
+  - duckduckgo-search                 # alt search engine
+  - web-search-plus                   # enhanced search with snippet extraction
+  - ai-news-collectors                # industry trend monitoring
+  - research-assistant                # general research orchestration
+  - user-profile-interview            # JTBD-style discovery interview structure
+
+  # Ideation + planning + execution.
+  - brainstorming                     # opportunity mining, feature ideation
+  - concise-planning                  # roadmap briefs, sprint plans
+  - task-planner                      # sprint planning, story breakdown
+  - executing-plans                   # plan-to-completion tracking
+  - ask-questions-if-underspecified   # clarify PRD ambiguity before drafting
+  - audit-context-building            # gather brand/strategy context rigorously
+  - verification-before-completion    # quality gate before publishing PRD/roadmap
+
+  # Diagrams + visualizations.
+  - excalidraw-diagram-generator      # story maps, dependency graphs, RACI
+
+  # Workspace integrations (defaults that mirror MCPs above).
+  - linear-api                        # Linear via API for non-MCP environments
+  - jira                              # Jira for Jira-using teams
+  - notion                            # Notion alt access path
+  - better-notion                     # higher-fidelity Notion operations
+  - sync-github-issue-to-notion       # GitHub → Notion sync (used for PRD-issue cross-linking)
+  - github                            # GitHub PR linking from Linear/Notion
+  - github-api                        # deeper GitHub queries for cross-system context
+  - gmail                             # outreach + interview scheduling + stakeholder broadcasts
+
+  # Cross-check + tool execution.
+  - gemini                            # second-opinion model for PRD critique / strategy review
+  - cli-anything                      # run Dovetail/Maze/Lattice/git-cliff/Statsig/GrowthBook CLIs
+
+  # Writing quality.
+  - writing-skills                    # PRD prose quality
+  - writing-plans                     # long-form structure
+  - writing-assistant                 # general editing
+  - memory-processor                  # persist user/product context across sessions
+
+  # Version control + collaboration.
+  - git-commit                        # track PRD iterations under version control
+  - using-git-worktrees               # isolate parallel discovery / delivery branches
+
+# MCP servers — 2026 SOTA product-management stack. Each platform MCP backs
+# at least one use case from reference/SOTA_USE_CASES.md. Recipient enables
+# in CraftBot MCP settings + provides OAuth/API keys per platform.
+mcp_servers:
+  - filesystem                        # read/edit PRDs, research artifacts
+
+  # ── Core PM workspace (PRDs, issues, roadmaps) ────────────────────────
+  - linear-mcp                        # issues, cycles, projects, initiatives, roadmaps
+  - jira-mcp                          # alt for Jira-using teams
+  - notion-mcp                        # PRDs, research repo, roadmap docs, stakeholder updates
+
+  # ── Design collaboration ─────────────────────────────────────────────
+  - figma-mcp                         # Figma Dev Mode — frames, components, comments
+  - figma-context-mcp                 # alt high-fidelity design system access
+
+  # ── Product analytics (funnels, retention, activation) ───────────────
+  - posthog-mcp                       # HogQL, feature flags, A/B, retention
+  - mixpanel-mcp                      # alt — funnels, retention, behavioral cohorts
+  - amplitude-mcp                     # alt — behavioral cohorts, North Star metric tracking
+
+  # ── Competitive + market research ────────────────────────────────────
+  - firecrawl-mcp                     # structured competitor scraping
+  - brightdata-mcp                    # paid-wall content scraping
+  - playwright-mcp                    # interactive competitor flow capture
+
+  # ── Stakeholder comms ────────────────────────────────────────────────
+  - gmail-mcp                         # weekly/monthly stakeholder updates
+  - slack-mcp                         # #product-updates broadcasts
+  - google-calendar-mcp               # customer interview scheduling, all-hands
+
+  # ── Source-of-truth integrations ─────────────────────────────────────
+  - github                            # link PRs to Linear issues / PRD Notion pages
+  - postgresql-mcp                    # warehouse queries for KPI definitions
+
+  # ── Web research backup ──────────────────────────────────────────────
+  - brave-search                      # general web research
+
+sources:
+  - name: Linear API documentation
+    url: https://developers.linear.app
+    used_for: Linear MCP usage — issues, cycles, projects, initiatives, roadmaps for PRDs, sprint planning, feedback aggregation, stakeholder updates
+  - name: Notion MCP documentation
+    url: https://developers.notion.com/docs/mcp
+    used_for: Notion MCP usage — PRDs, research repo, roadmap docs, stakeholder updates, strategy docs
+  - name: Figma Dev Mode MCP
+    url: https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Dev-Mode-MCP-Server
+    used_for: Design collaboration — Figma frames, components, comments, design-to-engineering handoff via Linear
+  - name: Dovetail v3 API
+    url: https://dovetail.com/help/api
+    used_for: User research synthesis — interview tagging, theme extraction, JTBD outcome aggregation
+  - name: Maze API docs
+    url: https://help.maze.co/hc/en-us/articles/maze-api
+    used_for: User research execution — moderated/unmoderated tests, Kano surveys, Van Westendorp PSM for pricing
+  - name: Amplitude MCP
+    url: https://amplitude.com/docs/mcp
+    used_for: Product analytics — North Star metric, behavioral cohorts, activation funnel queries
+  - name: Mixpanel MCP
+    url: https://developer.mixpanel.com/docs/mcp
+    used_for: Product analytics alt — funnels, retention, segmentation API
+  - name: PostHog MCP + HogQL
+    url: https://posthog.com/docs/model-context-protocol
+    used_for: Product analytics open-source SOTA — HogQL, feature flags for lightweight beta, A/B
+  - name: Statsig MCP
+    url: https://docs.statsig.com/sdks/server-core
+    used_for: Experimentation — A/B + multi-variant + holdouts + bandit allocation + sequential testing
+  - name: GrowthBook MCP
+    url: https://blog.growthbook.io/introducing-the-first-mcp-server-for-experimentation-and-feature-management
+    used_for: Experimentation alt — open-source self-host, sample-size calc, auto-stop on significance
+  - name: Lattice Goals API
+    url: https://lattice.com/api-docs
+    used_for: OKR drafting + tracking — cascading objectives, key-result auto-check-ins from analytics MCPs
+  - name: ProductBoard Public API
+    url: https://developer.productboard.com
+    used_for: External roadmap portal, feedback insights inbox for outside-Linear teams
+  - name: FullStory Server API
+    url: https://developer.fullstory.com/server/v1
+    used_for: Session replay analysis — friction-signal filtered sessions for qualitative UX insights
+  - name: LogRocket API
+    url: https://docs.logrocket.com/reference
+    used_for: Session replay alt — rage-clicks, error events, session-by-user filter
+  - name: ChatPRD / Kraftful PRD generation
+    url: https://www.chatprd.ai
+    used_for: PRD AI-assistance and review rubric (clarity, completeness, ambiguity, success criteria)
+  - name: Jobs-to-be-Done framework (Christensen + Ulwick)
+    url: https://jobs-to-be-done.com
+    used_for: JTBD outcome statements, forces of progress, interview structure
+  - name: Jeff Patton User Story Mapping
+    url: https://www.jpattonassociates.com/the-new-backlog
+    used_for: Story map backbone → epics → stories → MVP slice methodology
+  - name: Marty Cagan dual-track agile
+    url: https://www.svpg.com/dual-track-agile
+    used_for: Discovery → delivery handoff — continuous discovery + delivery in parallel
+  - name: Lenny Rachitsky weekly update format
+    url: https://www.lennysnewsletter.com/p/how-to-write-a-great-weekly-update
+    used_for: Stakeholder updates — Wins / Lowlights / Asks / Plans / Metrics weekly cadence
+  - name: Richard Rumelt Good Strategy / Bad Strategy
+    url: https://www.amazon.com/Good-Strategy-Bad-Difference-Matters/dp/0307886239
+    used_for: Strategy doc kernel — diagnosis / guiding policy / coherent actions
+  - name: Hamilton Helmer 7 Powers
+    url: https://7powers.com
+    used_for: Moat analysis in strategy doc — scale, network, brand, IP, switching, cornered, counter-positioning
+  - name: git-cliff
+    url: https://git-cliff.org
+    used_for: Release notes automation from conventional commits → changelog
+  - name: RICE prioritization (Intercom)
+    url: https://www.intercom.com/blog/rice-simple-prioritization-for-product-managers
+    used_for: RICE scoring formula (Reach × Impact × Confidence / Effort)
+  - name: Kano Model (ProductPlan)
+    url: https://www.productplan.com/glossary/kano-model
+    used_for: Kano categorization — basic / performance / excitement / indifferent / reverse
+  - name: Centercode API
+    url: https://www.centercode.com/api
+    used_for: Beta program management — testers, NDA, feedback collection

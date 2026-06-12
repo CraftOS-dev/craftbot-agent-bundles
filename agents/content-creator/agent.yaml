@@ -1,0 +1,248 @@
+# Content Creator — CraftBot agent definition
+#
+# SPECIALIZED TIER (sits under marketing). Deep on multi-format content
+# operations: long-form newsletter, podcast scripting + production,
+# repurposing pipelines (one-to-many), audiograms, infographics, LinkedIn
+# carousels, X threads, content series planning, monetization stack, and
+# creator-economy distribution. When user wants "everything marketing"
+# instead, defer to marketing-agent. When user wants deep video craft
+# (color grading, FFmpeg pipelines, AI video gen), defer to video-creator.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+
+name: Content Creator
+slug: content-creator
+category: marketing                  # sits under marketing alongside marketing-agent + video-creator
+tier: specialized                    # one of: general | specialized
+description: >
+  Multi-format content operator for newsletters, podcasts, repurposing
+  pipelines, and creator-economy distribution. Writes long-form
+  newsletters to Beehiiv/Ghost/Substack/Kit; scripts and produces podcasts
+  with Castmagic/Descript/Riverside; runs one-to-many repurposing chains
+  (1 tentpole → 10+ derived assets); publishes LinkedIn carousels via
+  Postiv/Carosello, X threads via Typefully, short-form scripts via
+  Submagic; designs monetization stacks across Patreon/Memberstack/Circle.
+  Three convictions ground every decision: distribution is 10× more
+  important than creation, the format is part of the message, and
+  consistency compounds (daily ugly beats sporadic perfect). For broad
+  marketing (positioning, SEO, paid ads, email lifecycle) defer to
+  marketing-agent; for deep video craft (color/FFmpeg/AI video gen) defer
+  to video-creator.
+tags:
+  - content
+  - newsletter
+  - podcast
+  - repurposing
+  - linkedin-carousel
+  - twitter-thread
+  - audiogram
+  - infographic
+  - creator-economy
+  - monetization
+  - content-series
+  - cross-platform-publishing
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Capability comes from 21 bundled SOTA skill packs + CraftBot defaults +
+# the 2026 SOTA content/podcast/newsletter MCP stack.
+# See reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+enabled_skills:
+  # ── Bundled (21) — 2026 SOTA content-creator skill packs ──────────────
+  - long-form-newsletter-substack-beehiiv-ghost  # Beehiiv MCP + Ghost Admin API + Kit/ConvertKit API
+  - podcast-scripting-show-notes                  # Castmagic MCP + Otter chat + Whisper transcripts
+  - podcast-guest-research-outreach               # Podchaser API + Notion pipeline + Gmail outreach
+  - podcast-editing-brief-descript-riverside      # Descript API import + Riverside multitrack
+  - content-series-multi-format-arcs              # Tentpole + derivative arcs in Notion editorial DB
+  - repurposing-pipeline-1-to-10                  # Castmagic + Opus Pro + Submagic + Headliner chain
+  - short-form-video-script-reels-shorts-tiktok   # 3-second hook + 40/30/20/10 pillar mix + Submagic
+  - linkedin-carousel-authoring                   # Postiv/Carosello/Taplio + Canva MCP fallback
+  - twitter-x-thread-authoring                    # Typefully agent CLI + cross-publish cascade
+  - audiogram-headliner-wavve                     # Headliner RSS autopilot + ffmpeg waveform fallback
+  - infographic-canva-piktochart-visme            # Piktochart AI outline + Canva MCP branded templates
+  - creator-collab-brand-partnership-briefing     # Brand brief template + FTC compliance + outreach
+  - podcast-sponsorship-integration               # Host-read scripts (4× recall) + DAI placement
+  - monetization-patreon-substack-ad-network      # Patreon v2 + Memberstack + Circle stack design
+  - newsletter-subscriber-growth                  # Beehiiv referrals/Boosts + Kit tag flows + Ghost paywalls
+  - content-analytics-retention-open-rates-chartable # Beehiiv/Spotify/Apple/YouTube/Chartable analytics
+  - newsletter-audience-survey                    # Beehiiv polls + Typeform/Tally embedded surveys
+  - content-calendar-notion-db                    # Parent/child editorial DB + Buffer cascade
+  - ai-ideation-drafting-claude-gpt               # Claude long-context ideation + Vale slop scrub
+  - podcast-seo-titles-descriptions-chapters      # `<podcast:chapter>` + Google Key Moments
+  - podcast-back-catalog-audit-repromotion        # Top-N evergreen audit + Castmagic + Buffer re-promo
+
+  # ── CraftBot defaults (18) — already on recipient's install ───────────
+  # Document output for briefs, scripts, decks, lead magnets.
+  - docx                            # Word docs — scripts, briefs, contracts
+  - pdf                             # PDF — lead magnets, ebooks, sponsorship decks
+  - pptx                            # Decks — pitch, brand-partnership, sponsorship
+  - file-format                     # Cross-format conversion (md ↔ html ↔ pdf ↔ docx)
+  - file-organizer                  # Content asset organization (per-episode / per-issue)
+
+  # Web + competitive research, content monitoring.
+  - playwright-mcp                  # Browse newsletter renders, podcast pages, competitor channels
+  - brave-search                    # SEO + competitive newsletter / podcast research
+  - duckduckgo-search               # Alt search
+  - firecrawl                       # Structured scraping of competitor Substack/Ghost newsletters
+  - ai-news-collectors              # Industry trend monitoring for newsletter content
+
+  # Ideation and planning.
+  - brainstorming                   # 30-angles ideation, hook variation, thread brainstorm
+  - concise-planning                # Editorial calendar, content series arcs
+  - ask-questions-if-underspecified # Clarify format/platform/audience before drafting
+  - audit-context-building          # Gather brand voice + past performance rigorously
+
+  # Writing tools + slop scrub.
+  - writing-skills                  # Anthropic best-practice writing principles
+  - writing-assistant               # Long-form composition aid
+  - humanize-ai-text                # Strip AI-slop tells (em-dash storms, hedging)
+
+  # Cross-check + tool execution.
+  - gemini                          # Second-opinion model for newsletter / podcast script
+  - cli-anything                    # Universal verb: run Beehiiv/Ghost/Castmagic/Typefully/ffmpeg/curl
+
+# MCP servers — 2026 SOTA content + podcast + newsletter + creator-economy
+# stack. Each platform MCP closes a "draft only, can't publish/analyze" gap.
+# Recipient enables in CraftBot MCP settings + adds OAuth/API credentials.
+mcp_servers:
+  - filesystem                      # Read/edit scripts, episode files, newsletter drafts
+
+  # ── Knowledge base + outreach core ───────────────────────────────────
+  - gmail-mcp                       # Guest outreach, brand partner pitches, audience replies
+  - notion-mcp                      # Editorial calendar + briefs + monetization dashboard
+
+  # ── Social publishing (replaces "can draft, can't post" gap) ─────────
+  - twitter-mcp                     # X publishing (polls / DMs / native); Typefully cascade handles threads
+  - insta-business-mcp              # Instagram Reels publishing (podcast clips, audiograms)
+  - facebook-mcp-server             # Facebook page (newsletter / podcast promo)
+  - tiktok-mcp                      # TikTok organic (short-form repurposed clips)
+  - reddit-mcp                      # Reddit publishing + community insight + AMA scheduling
+
+  # ── Video / podcast intelligence + scheduling ────────────────────────
+  - youtube-mcp                     # YouTube video upload + scheduling (podcast video, clips); 100/day quota 2026
+  - youtube-mcp-transcript          # Competitor podcast transcript pull for benchmarking
+
+  # ── Audio / voice generation ─────────────────────────────────────────
+  - elevenlabs-mcp                  # Voice gen for trailers, dubbing, voiceovers, guest sub
+  - mcp-tts                         # TTS fallback when ElevenLabs is overkill
+
+  # ── Media processing (audiogram / clip generation) ───────────────────
+  - ffmpeg-mcp-advanced             # Audiogram waveform overlay, audio mastering (-14 LUFS), clip cuts
+  - mcp-video-converter             # MP4/WebM/MOV cross-format
+  - mcp-media-processor             # Higher-level media pipeline
+
+  # ── Visual design / infographics / thumbnails ────────────────────────
+  - canva-mcp                       # Branded carousel / infographic / cover templates
+  - figma-mcp                       # Design system fidelity + brand-asset access
+  - imagegen-mcp                    # AI image gen — newsletter headers, episode artwork
+  - stability-ai-mcp                # Alt AI image gen (SD 3.5)
+
+  # ── Web research + competitive scraping ──────────────────────────────
+  - firecrawl-mcp                   # Substack stats scrape, newsletter audit, competitor podcast pages
+  - brightdata-mcp                  # Paid SERP / web data for deep competitor audit
+
+  # ── Translation (multi-language newsletter / podcast subtitles) ──────
+  - deepl-mcp                       # SOTA translation for multi-language editions
+
+  # ── Analytics (closes "limited analytics" gap) ───────────────────────
+  - posthog-mcp                     # Newsletter funnel, podcast listen-through cohorts, retention
+  - mixpanel-mcp                    # Alt product analytics
+  - amplitude-mcp                   # Alt behavioral analytics
+  - postgresql-mcp                  # Content warehouse + scheduled analytics alerts
+
+# Source attribution. See reference/SOTA_USE_CASES.md for per-use-case sources
+# and SOURCES.md for the section→source map.
+sources:
+  - name: Beehiiv MCP launch (March 24, 2026)
+    url: https://product.beehiiv.com/p/beehiiv-mcp
+    used_for: Newsletter MCP integration — Beehiiv read-only V1, write committed for V2; paid plans only
+  - name: Beehiiv MCP newsletter AI agent guide (2026)
+    url: https://www.buildmvpfast.com/blog/beehiiv-mcp-newsletter-ai-agent-integration-2026
+    used_for: How agents query Beehiiv subscriber growth, post analytics, segment data
+  - name: Kit (ConvertKit) vs Beehiiv 2026
+    url: https://www.knockedupmoney.com/blog/convertkit-vs-beehiiv-whats-the-best-newsletter-platform
+    used_for: Newsletter platform decision tree (Beehiiv = media product; Kit = course creator + automation)
+  - name: Beehiiv vs Substack vs Ghost monetisation 2026
+    url: https://earnifyhub.com/blog/blogging/beehiiv-vs-substack-vs-ghost-monetisation.php
+    used_for: Substack/Ghost positioning vs Beehiiv; 0% revenue share for both Ghost + Beehiiv
+  - name: Ghost vs Beehiiv (Ghost positioning as independent publisher CMS)
+    url: https://ghost.org/vs/beehiiv/
+    used_for: Ghost Content API + Admin API for programmatic content publishing
+  - name: Descript vs Riverside 2026
+    url: https://speakwiseapp.com/blog/descript-vs-riverside
+    used_for: Recording vs editing distinction; Riverside Business plan API; Descript media-import API
+  - name: Cleanvoice — Top podcast APIs 2026
+    url: https://cleanvoice.ai/blog/best-podcast-api/
+    used_for: Podcast API landscape — Riverside, Descript, Spotify, Apple, Chartable, Podtrac
+  - name: Riverside API review (Business plan)
+    url: https://cleanvoice.ai/blog/riverside-api-review/
+    used_for: API capability boundary — transcript + media retrieval YES, editing operations NO
+  - name: Castmagic Stormy AI repurposing 2026
+    url: https://stormy.ai/blog/best-gpt-repurposing-tools-2026-opusclip-munch-castmagic
+    used_for: Castmagic MCP for Claude; OpusClip / Munch / Castmagic positioning; repurposing pipeline tools
+  - name: Blotato — Best AI content repurposing tools 2026
+    url: https://www.blotato.com/blog/ai-content-repurposing-tools
+    used_for: Repurpose.io vs OpusClip vs Castmagic decision matrix; tentpole-to-derivative pipeline
+  - name: Submagic
+    url: https://www.submagic.co/
+    used_for: AI captions (99% accuracy 48 langs) + B-roll auto-edit + Business+ API for short-form video
+  - name: Headliner audiograms
+    url: https://www.headliner.app/
+    used_for: RSS-monitored auto-audiogram per new podcast episode; YouTube auto-upload
+  - name: Best podcast audiogram tools 2026
+    url: https://www.thepodosphere.com/blog/podcast-audiogram-tools-2026
+    used_for: Audiogram landscape — Headliner / Wavve / Recast / Percify positioning
+  - name: Podchaser API vs Listen Notes API
+    url: https://www.podchaser.com/articles/api/podchaser-api-vs-listen-notes-api
+    used_for: Guest discovery — Podchaser 6M+ podcasts, 32M+ structured credits by host/guest/producer role
+  - name: Podcast SEO 2026 (Spear Point)
+    url: https://www.thespearpoint.com/blog/seo-for-podcasts
+    used_for: Podcast chapter SEO, Google Key Moments rich results, `<podcast:chapter>` RSS tag
+  - name: Typefully + agent CLI (npx typefully)
+    url: https://typefully.com/x-twitter
+    used_for: Thread authoring + cross-publish cascade to X/LinkedIn/Threads/Bluesky/Mastodon
+  - name: Posteverywhere — Best X schedulers 2026
+    url: https://posteverywhere.ai/blog/best-x-twitter-scheduler
+    used_for: Typefully positioning as best-in-class thread composer
+  - name: LinkedIn carousel engagement (Supergrow)
+    url: https://www.supergrow.ai/blog/linkedin-carousel-generators
+    used_for: 1.6× engagement vs text; 6.6% carousel rate vs 1.11% text; Postiv / Carosello / Taplio
+  - name: ContentIn — LinkedIn carousel generators 2026
+    url: https://contentin.io/blog/best-linkedin-carousel-generators/
+    used_for: Carousel SOTA tools + Carosello BYOK pricing
+  - name: Notion editorial calendar template
+    url: https://www.notion.com/templates/editorial-calendar
+    used_for: Editorial DB schema (parent tentpole row, child derivative rows, properties)
+  - name: Notion AI content calendar with Claude
+    url: https://espressio.ai/blog/claude-notion-content-calendar
+    used_for: Notion MCP for editorial DB read+write workflow
+  - name: Patreon developer portal (v2)
+    url: https://www.patreon.com/portal
+    used_for: Patreon API v2; v1 deprecated; iOS 30% fee Nov 2026 enforcement
+  - name: Memberstack content monetization
+    url: https://www.memberstack.com/webflow-templates/content-monetization-template
+    used_for: Patreon alternative (96% creator take vs Patreon's 88%)
+  - name: Circle community + monetization
+    url: https://circle.so/blog/best-membership-platforms
+    used_for: Flat-fee community vs Patreon %; SSO + API for community
+  - name: Otter podcast transcription
+    url: https://otter.ai/podcast-transcription
+    used_for: Otter AI Chat for show notes + quotes + summary
+  - name: Buffer GraphQL + MCP
+    url: https://mcpmarket.com/server/buffer
+    used_for: Cross-platform publishing cascade to LinkedIn/X/IG/TikTok/Threads/Bluesky/Pinterest/Mastodon
+  - name: YouTube Data API v3 (videos.insert quota 100 units, Dec 4 2025)
+    url: https://zernio.com/blog/youtube-upload-api
+    used_for: Video upload + scheduling for podcast clips; 100 uploads/day free tier 2026
+  - name: Best podcast hosting 2026 (Podosphere)
+    url: https://www.thepodosphere.com/blog/best-podcast-hosting-platforms-2026-comparison-guide
+    used_for: Buzzsprout / Transistor / Captivate / RSS.com / Megaphone positioning; DAI capability per host
+  - name: Podcast trends 2026 (ThoughtLeaders)
+    url: https://www.thoughtleaders.io/blog/podcast-trends-2026
+    used_for: Network-level sponsorship cascades; host-read 4× recall vs pre-roll; video-first podcast SOTA
+  - name: Best infographic generators 2026
+    url: https://washingtoncitypaper.com/article/782752/top-infographic-generators-in-2026/
+    used_for: Piktochart AI outline (URL/PDF → structured infographic); Canva vs Adobe Express vs Piktochart

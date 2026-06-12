@@ -1,0 +1,236 @@
+# Sales Agent — CraftBot agent definition
+#
+# GENERAL TIER. Senior end-to-end revenue operator for solo founders and
+# small revenue teams: outreach (sequences, deliverability, LinkedIn),
+# CRM hygiene + scoring, pipeline review, qualification (MEDDIC /
+# MEDDPICC / BANT / SPIN / Challenger), discovery + demo prep, deal
+# coaching with next-best-action, negotiation prep, proposal generation
+# + e-sign, win/loss analysis, forecasting, signal/intent monitoring,
+# expansion + renewal.
+#
+# Three load-bearing convictions: (1) Outbound is a system, not a
+# hustle — sequences > one-offs. (2) Qualify in or out fast — pick ONE
+# framework (MEDDIC for complex, BANT for transactional) and run it.
+# (3) Pipeline hygiene is the daily job — stale = dead.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and SOURCES.md for the section→source map.
+
+name: Sales Agent
+slug: sales-agent
+category: sales
+tier: general
+description: >
+  Senior end-to-end sales operator for solo founders and small revenue
+  teams. Covers outbound sequence design (cold email + LinkedIn + phone
+  cadence), inbound lead qualification + scoring, CRM hygiene, pipeline
+  review, MEDDIC / MEDDPICC / BANT / SPIN / Challenger qualification,
+  discovery + demo prep, deal coaching (next-best-action), negotiation
+  prep, proposal generation + e-sign, win/loss analysis, forecasting,
+  signal/intent monitoring (job changes, funding events, tech-stack
+  shifts), customer expansion + renewal. Defers to marketing-agent for
+  top-of-funnel content, customer-support-agent for post-sale issues,
+  product-manager for feature requests, finance-controller for
+  commission, legal-counsel for contract redlines.
+tags:
+  - sales
+  - crm
+  - outbound
+  - sequences
+  - qualification
+  - meddic
+  - pipeline
+  - forecasting
+  - proposals
+  - account-research
+  - call-intelligence
+  - expansion
+  - renewal
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/sales-agent/skills/<name>/  (bundled — ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/              (CraftBot default)
+enabled_skills:
+  # ── Bundled (18) — 2026 SOTA sales skill packs ────────────────────────
+  - hubspot-sales-mcp                       # HubSpot CRM ops via managed OAuth
+  - apollo-clay-lead-enrichment             # waterfall enrichment Apollo + Clay + Lusha + ZoomInfo
+  - outreach-salesloft-sequences            # multi-channel sequence design + execution
+  - cold-email-deliverability-warmup        # Lemwarm + Instantly warmup + SPF/DKIM/DMARC + mail-tester
+  - gong-chorus-call-intelligence           # call analysis Gong/Chorus/Fathom/Fireflies/tl;dv
+  - meddic-meddpicc-qualification           # MEDDIC + MEDDPICC execution + scoring rubric
+  - bant-spin-challenger-frameworks         # alt qualification frameworks
+  - account-research-deep                   # ICP scoring + hierarchy + intent + tech stack
+  - linkedin-sales-navigator-outreach       # HeyReach / Phantombuster / TexAu LinkedIn motion
+  - signal-intent-monitoring-pocus-koala-common-room  # PLG + community signals
+  - deal-coaching-next-best-action          # opportunity-level coaching framework
+  - win-loss-analysis-structured            # structured post-mortem with tag rollup
+  - pandadoc-docusign-proposal-pipeline     # proposal + e-sign workflow
+  - clari-forecasting-commit-accuracy       # forecast discipline + commit accuracy
+  - pipeline-hygiene-stage-criteria         # stage definitions + criteria-based progression
+  - sales-enablement-battlecards-roi-calculators  # battlecards + ROI models
+  - multi-threading-enterprise-deals        # champion + EB + technical evaluator mapping
+  - expansion-upsell-renewal-playbook       # customer-success-into-sales motion
+
+  # ── CraftBot defaults (24) — already on recipient's install ──────────
+  # Universal verbs.
+  - cli-anything                            # universal verb (dig, curl, jq, python, pandas)
+  - file-format                             # cross-format conversion
+  - file-organizer                          # deal-file organization
+
+  # CRM defaults — managed OAuth via api-gateway covers HubSpot, Apollo,
+  # Outreach, Salesloft, Lemlist, Instantly, Gong, PandaDoc, DocuSign,
+  # Calendly, Fathom, Fireflies, LinkedIn, and 100+ more.
+  - api-gateway                             # the universal sales/SaaS API proxy
+  - attio-api                               # modern CRM (default skill exists)
+  - pipedrive-api                           # CRM (default skill)
+  - salesforce-api                          # CRM (default skill)
+  - zoho-crm                                # CRM (default skill)
+  - zoho-bigin                              # SMB CRM (default skill)
+  - calendly-api                            # scheduling
+  - fathom-api                              # call notetaker
+  - linkedin                                # LinkedIn social-selling
+
+  # Documents + collateral.
+  - docx                                    # proposals, case studies, briefs
+  - pdf                                     # proposals, one-pagers, signed docs
+  - pptx                                    # battlecards, QBR decks, pitch decks
+  - xlsx                                    # ROI calculators, pipeline reports
+  - microsoft-excel                         # Excel for finance handoff
+  - google-sheets                           # forecast + pipeline dashboards
+
+  # Knowledge + comms.
+  - notion                                  # playbooks, target-account lists, post-mortems
+  - slack                                   # sales-room pings
+  - microsoft-teams                         # Microsoft-shop pings
+  - gmail                                   # outbound email + reply parsing
+  - outlook                                 # alt mailbox
+
+  # Research + ideation.
+  - playwright-mcp                          # browse prospect sites
+  - brave-search                            # web research
+  - brainstorming                           # discovery question ideation
+  - concise-planning                        # campaign + deal plans
+  - ask-questions-if-underspecified         # clarify before drafting
+  - audit-context-building                  # gather brand voice + history rigorously
+
+  # Cross-check + automation.
+  - gemini                                  # second-opinion model for outreach copy
+
+# MCP servers — every name MUST exist in app/config/mcp_config.json
+# (verify.py checks this). Recipient enables each in CraftBot MCP
+# settings and adds OAuth/API credentials per platform.
+mcp_servers:
+  - filesystem                              # read/edit sales collateral
+
+  # ── Email + comms ────────────────────────────────────────────────────
+  - gmail-mcp                               # outbound email + reply parsing
+  - outlook-mcp                             # Microsoft-shop email
+  - slack-mcp                               # sales-room notifications
+  - ms-teams-mcp                            # Microsoft-shop notifications
+  - zoom-mcp                                # meeting create + recording fetch
+  - twilio-mcp                              # SMS outbound (paired with cadence)
+
+  # ── Knowledge + workflow ─────────────────────────────────────────────
+  - notion-mcp                              # playbooks, target-account lists, post-mortems
+  - linear-mcp                              # handoffs to product team
+  - jira-mcp                                # alt handoff target
+
+  # ── Data warehouse + analytics ───────────────────────────────────────
+  - postgresql-mcp                          # warehouse queries for reporting + cron alerts
+  - posthog-mcp                             # PLG signals + product usage
+  - mixpanel-mcp                            # alt product analytics
+  - amplitude-mcp                           # alt product analytics + behavioral cohorts
+
+  # ── Research + scraping ──────────────────────────────────────────────
+  - playwright-mcp                          # browse prospect sites
+  - firecrawl-mcp                           # structured scraping of prospect sites
+  - brightdata-mcp                          # LinkedIn Sales Nav scraping fallback
+  - brave-search                            # web research
+  - google-scholar-mcp                      # research-heavy verticals
+
+  # ── Translation (multi-language outreach) ───────────────────────────
+  - deepl-mcp                               # multi-language outreach
+
+  # ── Design + collateral ──────────────────────────────────────────────
+  - imagegen-mcp                            # battlecard imagery
+  - canva-mcp                               # branded one-pager templates
+  - figma-mcp                               # brand-system fidelity for proposals
+
+  # ── Social / video (rare but real) ───────────────────────────────────
+  - tiktok-mcp                              # video-first sales motions
+  - youtube-mcp                             # sales-team learning material
+
+  # ── Payments + commerce (for expansion deals) ───────────────────────
+  - stripe-mcp                              # subscription + invoice ops
+
+sources:
+  - name: HubSpot CRM API (developers.hubspot.com)
+    url: https://developers.hubspot.com/docs/api/crm/contacts
+    used_for: contact + deal + workflow management, scoring, list creation, sequence enrollment
+  - name: Salesforce REST + SOQL
+    url: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/
+    used_for: enterprise CRM ops, assignment rules, opportunity stage hygiene
+  - name: Outreach.io API
+    url: https://developers.outreach.io/api/
+    used_for: sequence creation + step orchestration + reply detection
+  - name: Salesloft Cadence API
+    url: https://developers.salesloft.com/api.html
+    used_for: cadence creation + step orchestration
+  - name: Instantly API v2
+    url: https://help.instantly.ai/en/articles/8500911-instantly-api-v2
+    used_for: cold-email campaigns + deliverability warmup at scale
+  - name: lemlist API
+    url: https://developer.lemlist.com/
+    used_for: personalized cold email + LinkedIn hybrid sequences
+  - name: Apollo.io API
+    url: https://docs.apollo.io/reference/people-search
+    used_for: lead enrichment + people/organization search + job-change alerts
+  - name: Clay.com API
+    url: https://clay.com/docs/api
+    used_for: multi-source enrichment workflow orchestration
+  - name: Gong API
+    url: https://app.gong.io/settings/api/documentation
+    used_for: call transcript pull + talk-listen ratio + objection mining
+  - name: Fathom API
+    url: https://help.fathom.video/en/articles/8430832-fathom-api
+    used_for: meeting transcript + action item extraction (free notetaker tier)
+  - name: PandaDoc API
+    url: https://developers.pandadoc.com/
+    used_for: proposal generation from template + e-sign workflow
+  - name: DocuSign eSign API
+    url: https://developers.docusign.com/docs/esign-rest-api/
+    used_for: enterprise e-sign envelopes
+  - name: Calendly API v2
+    url: https://developer.calendly.com/api-docs/
+    used_for: meeting booking automation + round-robin assignment
+  - name: Common Room API
+    url: https://docs.commonroom.io/
+    used_for: community + dark social intent signals
+  - name: Pocus API + Koala API
+    url: https://www.pocus.com/
+    used_for: PLG signal aggregation (product activity → sales action)
+  - name: MEDDPICC methodology (MEDDIC Academy)
+    url: https://www.meddicc.com/
+    used_for: qualification framework execution + scoring rubric
+  - name: Gong "Multi-threading" + "Deal coaching" research
+    url: https://www.gong.io/blog/multi-threading/
+    used_for: stakeholder mapping + next-best-action heuristics + win/loss analysis
+  - name: Lemwarm (email warmup)
+    url: https://lemwarm.com/
+    used_for: pre-launch sender domain warmup (4-6 weeks)
+  - name: mail-tester.com + Glock Apps
+    url: https://www.mail-tester.com/
+    used_for: deliverability test + spam-folder placement diagnostics
+  - name: HeyReach (LinkedIn outbound automation)
+    url: https://www.heyreach.io/
+    used_for: LinkedIn connection + message sequences at safe daily volumes
+  - name: SPIN Selling (Neil Rackham)
+    url: https://huthwaiteinternational.com/insights/spin-selling
+    used_for: discovery call question framework (Situation / Problem / Implication / Need-payoff)
+  - name: Challenger Sale (CEB / Gartner)
+    url: https://www.challengerinc.com/the-challenger-sale/
+    used_for: commercial conversation framework — teach / tailor / take control

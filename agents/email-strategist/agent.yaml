@@ -1,0 +1,223 @@
+# Email Strategist — CraftBot agent definition
+#
+# SPECIALIZED TIER under marketing-agent. Deep email lifecycle +
+# deliverability specialist. Drills beyond the parent on advanced
+# segmentation, DMARC reporting, IP warming, BIMI / VMC, post-MPP
+# measurement, transactional/marketing separation, IP reputation,
+# multi-ESP architecture, MJML / Maizzle modular design, dynamic
+# personalization, newsletter creator economics.
+#
+# Three load-bearing convictions: (1) Inbox placement is everything —
+# a 50% open rate to spam is a 0% real open rate. (2) Segmentation
+# beats broadcast — every send needs ≥ 2 segmentation attributes.
+# (3) Open rates are dead post-MPP — measure clicks, conversions,
+# revenue per email.
+#
+# Every field traces back to reference/SOTA_USE_CASES.md. See
+# SOURCES.md for the section→source map.
+
+name: Email Strategist
+slug: email-strategist
+category: marketing
+tier: specialized                # specialized under marketing-agent
+description: >
+  Senior email lifecycle + deliverability specialist for teams running
+  serious volume. Drills deeper than marketing-agent on advanced
+  segmentation (RFM, predictive churn, LTV bands), Klaviyo predictive
+  AI, IP warming, DMARC implementation + report parsing (Valimail /
+  dmarcian / Postmark DMARC), BIMI / Verified Mark Certificate setup,
+  Google Postmaster + Microsoft SNDS IP reputation monitoring, post-MPP
+  measurement (clicks > opens), transactional/marketing separation
+  (separate ESP, domain, IP pool), multi-language architecture (ICU
+  MessageFormat), MJML / Maizzle modular design, dynamic personalization
+  (Movable Ink + AMP for Email), and Beehiiv / Substack newsletter
+  creator economics. White-hat + consent-as-infrastructure only.
+  Defers to marketing-agent (broader marketing, top-of-funnel acquisition),
+  sales-agent (cold outbound — different game, different rules),
+  customer-support-agent (transactional support content), data-analyst
+  (deep cohort analysis on email performance).
+tags:
+  - email
+  - lifecycle
+  - deliverability
+  - dmarc
+  - bimi
+  - ip-warming
+  - segmentation
+  - klaviyo
+  - customer-io
+  - resend
+  - postmark
+  - hubspot
+  - newsletter
+  - post-mpp
+  - transactional
+  - mjml
+  - maizzle
+  - dynamic-content
+  - movable-ink
+  - accessibility
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 23 bundled SOTA skill packs (Round 2 will populate SKILL.md contents).
+# Each closes a documented use case from reference/SOTA_USE_CASES.md.
+enabled_skills:
+  # ── Bundled (23) — 2026 SOTA email-strategist skill packs ─────────────
+  - klaviyo-deep-lifecycle-predictive-ai     # Klaviyo e-com deep (flows, segments, predictive AI, smart send time)
+  - customer-io-b2b-lifecycle                # Customer.io B2B (event-driven campaigns, transactional, broadcasts)
+  - resend-postmark-transactional-modern     # Resend + Postmark dev-focused transactional + React Email
+  - mailgun-sendgrid-ses-volume-transactional  # Mailgun / SendGrid / SES / Mailchannels / SparkPost
+  - deliverability-deep-spf-dkim-dmarc-bimi-arc  # full auth audit + ARC + remediation
+  - dmarc-reporting-valimail-dmarcian        # RUA/RUF parsing + sender alignment (Valimail / dmarcian / Postmark)
+  - bimi-verified-mark-certificate-setup     # BIMI + VMC procurement + DNS publication (DigiCert / Entrust)
+  - ip-warming-strategy-dedicated-shared     # 4-6 week warming (Lemwarm / Mailflow / MailReach / Folderly)
+  - ip-reputation-google-postmaster-snds     # Postmaster Tools v2 + SNDS + Yahoo Postmaster polling
+  - list-cleaning-zerobounce-emailable       # ZeroBounce / Emailable / NeverBounce / BriteVerify / Kickbox
+  - engagement-based-suppression             # engagement-tier definitions + send rules
+  - multi-language-esp-architecture-icu      # per-locale templates + ICU MessageFormat + DeepL router
+  - transactional-vs-marketing-separation    # DNS + IP + ESP architecture for stream separation
+  - post-mpp-measurement-clicks-conversions-revenue  # clicks > opens + CTR/CTOR/revenue per recipient + GA4
+  - ab-testing-subject-preview-copy-send-time  # Klaviyo A/B + GrowthBook for multi-variant
+  - mjml-maizzle-responsive-modular-email    # MJML / Maizzle compile pipeline + push to ESP
+  - dark-mode-email-design-accessibility     # dark mode tokens + WCAG AA + ARIA + alt text
+  - glock-apps-inboxable-inbox-placement-testing  # pre-send seed-list placement
+  - litmus-email-on-acid-rendering-testing   # cross-client render diff (90+ clients)
+  - complaint-bounce-rate-management         # complaint rate < 0.10% target + alert thresholds
+  - klaviyo-customer-io-flow-design-patterns  # named-flow templates + throttling + exit conditions
+  - beehiiv-substack-newsletter-creator-strategy  # Beehiiv API + Substack migration + monetization
+  - dynamic-personalization-movable-ink      # Movable Ink dynamic blocks + AMP for Email
+
+  # ── CraftBot defaults (16) — already on recipient's install ───────────
+  # Document output for deliverability audits, campaign decks, post-mortems.
+  - docx                            # audit reports, executive summaries
+  - pdf                             # deliverability audit PDFs, BIMI VMC briefs
+  - pptx                            # email program review decks
+  - xlsx                            # complaint/bounce/CTR dashboards, RFM exports
+  - file-format                     # cross-format conversion
+  - file-organizer                  # campaign asset organization
+
+  # Web + competitive research, render testing.
+  - playwright-mcp                  # render competitor newsletters, validate ESP UIs, AMP test
+  - brave-search                    # deliverability tool research, ESP compare
+  - firecrawl                       # competitor newsletter scraping
+
+  # Ideation + planning.
+  - brainstorming                   # subject line + preview text variants
+  - concise-planning                # IP warming schedule, DMARC phased plan, sequence design
+
+  # Cross-check + universal verb.
+  - cli-anything                    # dig, curl mail-tester, mxtoolbox, Postmark spam check, jq, python, MJML/Maizzle, lemwarm/mailflow API
+  - gemini                          # second-opinion model for copy / segment definitions
+
+  # Version control for templates + DNS state.
+  - git-commit                      # track template + DNS iterations
+  - github                          # collaborative review on email PRs
+
+# MCP servers — every name MUST exist in app/config/mcp_config.json.
+# Recipient enables each in CraftBot MCP settings + adds credentials.
+mcp_servers:
+  - filesystem                      # always
+
+  # ── Comms + alerting ──────────────────────────────────────────────
+  - gmail-mcp                       # deliverability alerts, sender notifications, dig output emails
+  - slack-mcp                       # complaint-rate / bounce / spam-rate alerts to ops channel
+
+  # ── Knowledge + ticketing ─────────────────────────────────────────
+  - notion-mcp                      # segment library, flow inventory, DMARC remediation tracker
+  - linear-mcp                      # DMARC remediation tickets to engineering
+  - jira-mcp                        # alt ticketing target
+
+  # ── Data warehouse + product analytics ────────────────────────────
+  - postgresql-mcp                  # RFM SQL, cohort joins, complaint-rate cron alerts
+  - posthog-mcp                     # activation event source for onboarding triggers, retention
+  - mixpanel-mcp                    # alt activation event source
+  - amplitude-mcp                   # alt activation event source + behavioral cohorts
+
+  # ── Research / scraping ───────────────────────────────────────────
+  - firecrawl-mcp                   # competitor newsletter scrape
+  - brightdata-mcp                  # paid scraping + SERP fallback
+  - playwright-mcp                  # render competitor newsletters
+
+  # ── Translation (multi-language email) ────────────────────────────
+  - deepl-mcp                       # SOTA translation for per-locale templates
+
+  # ── E-commerce + payments (event triggers for lifecycle) ──────────
+  - shopify-mcp                     # cart / product / order event enrichment
+  - stripe-mcp                      # subscription event triggers (renewal, churn)
+
+sources:
+  - name: Klaviyo MCP Server
+    url: https://developers.klaviyo.com/en/docs/klaviyo_mcp_server
+    used_for: e-com lifecycle flows, segments, templates, predictive AI segments, smart send time, post-MPP get_campaign_metrics, complaint-rate monitoring
+  - name: Customer.io API + Campaigns
+    url: https://customer.io/docs/api/
+    used_for: B2B lifecycle, event-triggered campaigns, transactional, broadcasts, onboarding sequences
+  - name: HubSpot remote MCP
+    url: https://developers.hubspot.com/mcp
+    used_for: B2B Workflows + lifecycle stage transitions + forms with consent fields
+  - name: Resend API + React Email
+    url: https://resend.com/docs
+    used_for: modern transactional, dev-focused templates, React Email composition
+  - name: Postmark Developer Docs
+    url: https://postmarkapp.com/developer
+    used_for: deliverability-focused transactional, message streams, spam check API, DMARC monitoring (free tier)
+  - name: SendGrid v3 API
+    url: https://docs.sendgrid.com/api-reference
+    used_for: high-volume transactional + automation + Subuser caps
+  - name: Mailgun API
+    url: https://documentation.mailgun.com/
+    used_for: high-volume transactional, EU residency option
+  - name: Amazon SES Developer Guide
+    url: https://docs.aws.amazon.com/ses/
+    used_for: high-volume cheap transactional with own reputation management
+  - name: Valimail DMARC + dmarcian + EasyDMARC + Postmark DMARC
+    url: https://dmarcian.com/dmarc-deployment/
+    used_for: phased DMARC deployment (p=none → quarantine → reject), RUA/RUF aggregate report parsing, sender alignment remediation
+  - name: BIMI Group + DigiCert / Entrust VMC
+    url: https://bimigroup.org/
+    used_for: BIMI logo display + Verified Mark Certificate procurement + DNS publication
+  - name: Lemwarm + Mailflow + Warmup Inbox + Folderly + MailReach + TrulyInbox
+    url: https://lemwarm.com/
+    used_for: dedicated IP and new-domain warming over 4-6 weeks, engaged-cohort targeting
+  - name: Google Postmaster Tools v2 + Microsoft SNDS + Yahoo Postmaster
+    url: https://developers.google.com/gmail/postmaster
+    used_for: domain + IP reputation, spam rate, feedback loop, authentication results polling and alerting
+  - name: ZeroBounce + Emailable + NeverBounce + BriteVerify + Kickbox
+    url: https://www.zerobounce.net/v2/documentation/
+    used_for: pre-send list validation, inline signup validation, spam-trap and catch-all detection
+  - name: MJML + Maizzle + Foundation for Emails + Cerberus
+    url: https://mjml.io/
+    used_for: responsive cross-client HTML email composition, modular design, Tailwind-for-email
+  - name: Litmus + Email on Acid
+    url: https://litmus.com/api
+    used_for: cross-client render testing (90+ clients), dark-mode preview, spam-check scoring
+  - name: Glock Apps + Inboxable + Mailtrap + Putsmail
+    url: https://glockapps.com/
+    used_for: pre-send seed-list inbox placement, ISP-specific placement diagnostics
+  - name: Movable Ink + AMP for Email + Stensul
+    url: https://movableink.com/developers
+    used_for: open-time dynamic content (weather/countdown/inventory/geo/behavior), AMP for Email interactive forms, creative operations briefs
+  - name: Beehiiv API + Substack
+    url: https://developers.beehiiv.com/
+    used_for: newsletter creator-economy publishing + analytics + referral programs + monetization
+  - name: Apple Mail Privacy Protection background
+    url: https://www.klaviyo.com/blog/apple-mail-privacy-protection
+    used_for: post-MPP measurement (clicks > opens), MIE handling, ratio tracking
+  - name: SPF / DKIM / DMARC reference
+    url: https://www.trulyinbox.com/blog/spf-dkim-dmarc-email-deliverability/
+    used_for: SPF/DKIM/DMARC fundamentals, 2024-2025 Google/Yahoo Feb 2024 + Microsoft May 2025 mandate, RFC 8058 one-click unsubscribe
+  - name: Klaviyo RFM segmentation
+    url: https://klaviyo.com/marketing-resources/rfm-segmentation-guide
+    used_for: RFM (Recency / Frequency / Monetary) segmentation, lost-best cohort, win-back design
+  - name: Klaviyo Predictive Analytics
+    url: https://help.klaviyo.com/hc/en-us/articles/360054384451
+    used_for: predictive CLV, churn risk, next-purchase date, average order value as profile properties
+  - name: ICU MessageFormat (Unicode)
+    url: https://unicode-org.github.io/icu/userguide/format_parse/messages/
+    used_for: pluralization, gender, number formatting in multi-language templates
+  - name: Parent marketing-agent reference corpus
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-email-strategist.md
+    used_for: lifecycle stages, segmentation > broadcast rule, post-Apple-MPP measurement, deliverability fundamentals, GDPR/ePrivacy 2026 state, sequence design + audit templates, multi-language architecture

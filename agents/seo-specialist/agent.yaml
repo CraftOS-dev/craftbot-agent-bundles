@@ -1,0 +1,244 @@
+# SEO Specialist — CraftBot agent definition
+#
+# SPECIALIZED TIER. Deep technical + content SEO beyond what marketing-agent
+# (the parent) covers end-to-end. Cannibalization at scale, parent-topic
+# clustering, log file analysis, programmatic SEO, AEO/GEO depth, JS-rendering
+# audits, deep schema, hreflang at scale, content decay detection, link
+# building outreach automation, E-E-A-T scoring.
+#
+# Defers to marketing-agent for broader marketing strategy; to
+# technical-writer for content production after SEO brief; to
+# frontend-engineer for Core Web Vitals remediation + SSR/SSG implementation;
+# to data-analyst for warehouse-grade log analysis at scale.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and reference/SOTA_USE_CASES.md for the per-use-case SOTA mapping.
+
+name: SEO Specialist
+slug: seo-specialist
+category: marketing
+tier: specialized             # specialist sibling of marketing-agent
+description: >
+  Deep technical + content SEO specialist for sites that have outgrown
+  generalist coverage. Cannibalization audit at scale, parent-topic
+  clustering, log file analysis, programmatic SEO, JS-rendering audits,
+  E-E-A-T scoring, AEO/GEO depth, hreflang at scale, schema deep, content
+  decay detection, link-building outreach automation. White-hat or nothing.
+  Cannibalization audit BEFORE optimization — every time. AEO and SEO are
+  different jobs in 2026 — measured separately. Defers to marketing-agent
+  for broader marketing strategy, to technical-writer for post-brief content
+  production, to frontend-engineer for CWV remediation, to data-analyst for
+  warehouse-grade log analytics at scale.
+tags:
+  - seo
+  - technical-seo
+  - content-seo
+  - cannibalization
+  - log-analysis
+  - programmatic-seo
+  - aeo
+  - geo
+  - schema
+  - hreflang
+  - core-web-vitals
+  - link-building
+  - eeat
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 22 bundled SOTA skill packs (created in Round 2) + 14 CraftBot defaults
+# = 36 enabled_skills. Each bundled name maps to a future folder at
+# agents/seo-specialist/skills/<name>/SKILL.md (Round 2 populates content).
+# See reference/SOTA_USE_CASES.md for the per-use-case skill mapping.
+enabled_skills:
+  # ── Bundled (22) — 2026 SOTA deep-SEO skill packs (created in Round 2) ──
+  - technical-seo-deep-audit-screaming-frog-sitebulb  # 1000+ check deep crawl audit
+  - suganthan-gsc-cannibalization-decay-indexing      # cannibalization + decay + Indexing API
+  - ahrefs-deep-keyword-cluster-research              # Ahrefs MCP cluster workflows
+  - parent-topic-clustering-ahrefs-semantic-intent    # parent_topic + SERP overlap
+  - content-cluster-architecture-marketmuse           # MarketMuse / Surfer / Frase topical map
+  - programmatic-seo-template-db-driven               # Next.js / Astro DB-driven SEO
+  - internal-linking-strategy-orphan-hub-spoke        # orphan detection + hub-spoke + anchor diversity
+  - schema-org-deep-jsonld-eeat                       # JSON-LD per type + validator + Rich Results
+  - log-file-analysis-botify-screaming-frog           # Botify / OnCrawl / SF Log Analyser
+  - serp-analysis-intent-snippet-paa                  # DataForSEO SERP API + feature optimization
+  - content-gap-analysis-competitive                  # Ahrefs content_gap + MarketMuse topic gap
+  - aeo-geo-citation-tracking-athena-profound-glasp   # AthenaHQ + Profound + Otterly + Peec
+  - aeo-content-optimization-entity-rich              # Wikidata SPARQL + Surfer GEO + Frase
+  - hreflang-i18n-implementation-verification         # SF hreflang + Aleyda checker
+  - core-web-vitals-deep-pagespeed-crux               # PageSpeed Insights + CrUX API depth
+  - js-rendering-csr-ssr-ssg-isr-indexing-impact      # SF JS-mode + Search Console URL Inspection
+  - site-migration-url-mapping-redirects-monitoring   # SF + GSC migration playbook
+  - content-decay-detection-refresh                   # Suganthan GSC content_decay
+  - link-building-outreach-pitchbox-respona           # Pitchbox / Respona / BuzzStream outreach
+  - eeat-author-bio-source-authority                  # E-E-A-T scoring + Knowledge Graph API
+  - lighthouse-ci-gtmetrix-webpagetest-perf           # perf measurement deep
+  - indexing-api-indexnow-google-bing                 # Google Indexing + Bing IndexNow + Webmaster API
+
+  # ── CraftBot defaults (14) — already on recipient's install ─────────────
+  # Universal verb for shell access to Screaming Frog, Sitebulb, dig, curl,
+  # python pandas, npx tools (lighthouse-ci, suganthan-gsc-mcp, etc.).
+  - cli-anything                    # universal verb — primary execution surface
+
+  # File ops for crawl outputs, schema JSON, content briefs.
+  - file-format                     # CSV/JSON/XLSX/MD conversions for crawl outputs
+  - file-organizer                  # organize crawl exports, audit reports
+
+  # Web research, SERP scraping verification, competitor monitoring.
+  - playwright-mcp                  # JS-rendered SERP + SPA crawl verification
+  - brave-search                    # competitive intel + unlinked-mention fallback
+  - duckduckgo-search               # alt search engine
+  - firecrawl                       # structured competitor content scraping
+  - baidu-search                    # Chinese-language SEO surfaces
+
+  # Document outputs for audit reports, migration plans, SEO briefs.
+  - docx                            # Word — SEO audit reports for clients
+  - pdf                             # PDF — final audit deliverables
+  - pptx                            # decks — SEO strategy presentations
+
+  # Ideation + planning for cluster architecture, migration scopes.
+  - brainstorming                   # cluster ideation, gap analysis brainstorms
+  - concise-planning                # migration plans, audit scopes
+
+  # Git workflows for technical SEO PRs to product/site repos.
+  - git-commit                      # commit schema / robots.txt / sitemap changes
+  - github                          # PRs for technical SEO code changes
+
+# MCP servers — every name verified against app/config/mcp_config.json.
+# Recipient enables in CraftBot MCP settings + adds OAuth/API credentials.
+mcp_servers:
+  - filesystem                      # mandatory — read/edit audit reports, schema files
+  - github                          # technical SEO PRs to product repos
+
+  # ── Knowledge + outreach ──────────────────────────────────────────────
+  - notion-mcp                      # keyword cluster DB, opportunity tracker, AEO log
+  - gmail-mcp                       # outreach (broken-link, unlinked mention, digital PR)
+
+  # ── Crawling + scraping ───────────────────────────────────────────────
+  - playwright-mcp                  # JS-rendered SERP + SPA crawl verification
+  - firecrawl-mcp                   # structured competitor scraping
+  - brightdata-mcp                  # paid SERP / proxy scraping for cannibalization at scale
+  - brave-search                    # competitive intel + unlinked-mention fallback
+
+  # ── Storage for programmatic SEO + crawl outputs ──────────────────────
+  - postgresql-mcp                  # programmatic SEO data backbone, crawl warehouse
+
+  # ── Analytics + entity intelligence ───────────────────────────────────
+  - posthog-mcp                     # user behavior on SEO landing pages
+  - huggingface-mcp                 # semantic entity extraction for AEO content
+  - deepl-mcp                       # hreflang content translation
+
+  # ── Design + media for on-page audit / generation ─────────────────────
+  - figma-mcp                       # design-system fidelity, OG image specs
+  - canva-mcp                       # OG image / social-share image generation
+  - imagegen-mcp                    # AI image gen for missing alts / OG variants
+  - stability-ai-mcp                # alt AI image gen
+
+  # ── OCR for legacy doc audits ─────────────────────────────────────────
+  - gemini-ocr-mcp                  # legacy PDF/scan content audits
+
+# Source attribution. SOTA tool sources back the role.md SOTA tool reference
+# section. See SOURCES.md for the full section→source map and
+# reference/INVENTORY.md for the per-file URL/license/description.
+sources:
+  - name: msitarzewski — SEO Specialist (parent inheritance)
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-seo-specialist.md
+    used_for: white-hat-only rule, cannibalization audit (MANDATORY before optimization), keyword research framework, on-page checklist, topic cluster architecture, E-E-A-T compliance, Core Web Vitals (LCP/INP/CLS) targets (inherited via marketing-agent, deepened here)
+  - name: Screaming Frog SEO Spider CLI
+    url: https://www.screamingfrog.co.uk/seo-spider/user-guide/general/#commandlineinterface
+    used_for: deep technical SEO audit, JS-rendering audit, hreflang verification, internal linking strategy, mobile-first indexing audit
+  - name: Sitebulb hint engine
+    url: https://sitebulb.com/resources/guides/how-to-use-the-sitebulb-cli/
+    used_for: hint-based prioritization for deep technical SEO audit, orphan page detection
+  - name: Suganthan GSC MCP v2.2.2
+    url: https://suganthan.com/blog/google-search-console-mcp-server/
+    used_for: cannibalization audit (the canonical mandatory pre-optimization step), content decay detection, striking-distance opportunities, Indexing API, index coverage monitoring
+  - name: Ahrefs remote MCP
+    url: https://help.ahrefs.com/en/articles/13913559-getting-started-with-ahrefs-mcp
+    used_for: keyword research with intent classification, parent_topic clustering, content gap analysis, broken-link reclamation, unlinked mentions, link velocity tracking, internal link audit
+  - name: Ahrefs Parent Topic methodology
+    url: https://ahrefs.com/blog/parent-topic/
+    used_for: parent-topic clustering as the SOTA way to group semantically-equivalent queries into one canonical pillar
+  - name: DataForSEO SERP + Labs APIs
+    url: https://docs.dataforseo.com/v3/serp/google/organic/live/regular/
+    used_for: SERP analysis (intent + features + PAA), cheap keyword volume fallback, programmatic cannibalization confirmation at scale
+  - name: Botify Log Analyzer
+    url: https://www.botify.com/blog/log-analyzer
+    used_for: enterprise-scale log file analysis (crawl budget, bot behavior, Googlebot vs Bingbot verification)
+  - name: OnCrawl Log Analyzer
+    url: https://www.oncrawl.com/oncrawl-log-analyzer/
+    used_for: mid-market log file analysis alt to Botify
+  - name: Screaming Frog Log File Analyser
+    url: https://www.screamingfrog.co.uk/log-file-analyser/
+    used_for: SMB log file analysis, Apache/Nginx/CloudFront log parsing
+  - name: Schema.org Validator API
+    url: https://schema.org/docs/validator.html
+    used_for: deep schema validation across Article/Product/FAQ/HowTo/BreadcrumbList/JobPosting/LocalBusiness/Organization/Person/Event/VideoObject/Course/Recipe
+  - name: Google Search Central — Structured Data
+    url: https://developers.google.com/search/docs/appearance/structured-data/search-gallery
+    used_for: Rich Results eligibility per schema type, structured data deep
+  - name: Google Search Console URL Inspection API
+    url: https://developers.google.com/webmaster-tools/v1/urlInspection.index/inspect
+    used_for: JS-rendering audit (Googlebot's actual rendered DOM), pagination indexing verification
+  - name: Google PageSpeed Insights API v5
+    url: https://developers.google.com/search/docs/appearance/core-web-vitals
+    used_for: Core Web Vitals depth (LCP/INP/CLS), per-template + per-cohort breakdown, mobile-first audit
+  - name: Chrome UX Report (CrUX) API
+    url: https://developer.chrome.com/docs/crux/api
+    used_for: real-user p75 CWV by URL/origin, per-device + per-connection cohort analysis
+  - name: Google Indexing API + IndexNow protocol
+    url: https://developers.google.com/search/apis/indexing-api/v3/quickstart
+    used_for: Indexing API submission via Suganthan GSC, IndexNow for Bing + Yandex
+  - name: Bing IndexNow
+    url: https://www.indexnow.org/documentation
+    used_for: instant Bing indexing protocol, ping-based submission
+  - name: MarketMuse Topical Map API
+    url: https://genesysgrowth.com/blog/surfer-seo-vs-clearscope-vs-marketmuse
+    used_for: content cluster architecture (pillar + supporting), topical authority scoring
+  - name: Surfer SEO Content Planner + GEO
+    url: https://surferseo.com/blog/geo-optimization/
+    used_for: alt content cluster architecture, AEO content scoring
+  - name: AthenaHQ — AEO citation tracking
+    url: https://athenahq.ai/
+    used_for: AEO/GEO citation share across ChatGPT/Gemini/Claude/Perplexity, brand mention rate in AI surfaces
+  - name: Profound — AI search citation API
+    url: https://www.profound.ai/
+    used_for: public-API alt for AI citation tracking, share-of-voice vs competitors in AI surfaces
+  - name: Otterly — European AEO tracking
+    url: https://otterly.ai/
+    used_for: EU-focused AEO/GEO tracking alt
+  - name: Peec.ai — European AEO
+    url: https://peec.ai/
+    used_for: EU-focused AEO/GEO tracking alt with lower-tier pricing
+  - name: Aleyda Solis hreflang generator
+    url: https://www.aleydasolis.com/english/international-seo-tools/hreflang-tags-generator/
+    used_for: hreflang implementation + verification for i18n SEO
+  - name: Lighthouse CI
+    url: https://github.com/GoogleChrome/lighthouse-ci
+    used_for: lab perf measurement, render-blocking + TBT diagnostics, regression gating
+  - name: Pitchbox — outreach automation
+    url: https://pitchbox.com/api/
+    used_for: link-building outreach at scale, broken-link reclamation, unlinked-mention conversion
+  - name: Respona — link builder in a box
+    url: https://respona.com/api
+    used_for: alt outreach automation combining prospecting + sequences
+  - name: BuzzStream — relationship management
+    url: https://www.buzzstream.com/api/
+    used_for: SMB outreach + relationship management alt
+  - name: Google Knowledge Graph API
+    url: https://developers.google.com/knowledge-graph
+    used_for: E-E-A-T author entity verification, brand entity recognition
+  - name: Wikidata SPARQL
+    url: https://query.wikidata.org/
+    used_for: entity linking for AEO content optimization (signals authority to LLM retrievers)
+  - name: Search Engine Journal — Migration Checklist
+    url: https://www.searchenginejournal.com/seo-website-migration-checklist/
+    used_for: site migration playbook (pre-migration baseline, URL mapping, 301 rules, post-migration monitoring)
+  - name: Google Search Central — Disavow (2024 update)
+    url: https://developers.google.com/search/blog/2024/04/disavow-rare
+    used_for: disavow file management — rarely warranted, algorithmic spam filtering handles 99%
+  - name: Ahrefs — programmatic SEO playbook
+    url: https://ahrefs.com/blog/programmatic-seo/
+    used_for: programmatic SEO template + DB-driven page generation methodology

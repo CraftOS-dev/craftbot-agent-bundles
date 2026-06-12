@@ -1,0 +1,355 @@
+# Document Automation — CraftBot agent definition
+#
+# Every field traces back to web-sourced SOTA research summarized in
+# reference/SOTA_USE_CASES.md (per-use-case mapping) and SOURCES.md
+# (section-to-source map). Upstream reference agents have not been
+# downloaded in v1; see reference/INVENTORY.md.
+
+name: Document Automation
+slug: docgen-automation
+category: operations
+tier: specialized
+description: >
+  Document automation operator for contracts, proposals, RFPs, smart forms,
+  and bulk doc generation. Authors and versions templates (MSA / NDA /
+  proposal / RFP / customer T&C / employment); ships conditional-logic
+  doc assembly (Documate / HotDocs / Docassemble); wires e-signature
+  pipelines (DocuSign / Adobe Sign / PandaDoc / Dropbox Sign); runs AI
+  doc extraction (Hyperscience / Rossum / AWS Textract / Azure Document
+  Intelligence / Google Document AI); integrates with CLM (Ironclad /
+  ContractWorks / LinkSquares / Evisort); generates Salesforce + HubSpot
+  proposals (Conga Composer / PandaDoc); handles bulk doc gen from CSV;
+  enforces brand consistency (Templafy + Vale); produces PDF/UA accessible
+  output. Defers binding contract language to legal-counsel, revenue /
+  pricing decisions to finance-controller, CPQ rule design to sales-ops.
+
+tags:
+  - document-automation
+  - templates
+  - contracts
+  - proposals
+  - rfp
+  - e-signature
+  - docusign
+  - pandadoc
+  - adobe-sign
+  - clm
+  - ironclad
+  - conga-composer
+  - hubspot-quotes
+  - hyperscience
+  - rossum
+  - textract
+  - azure-document-intelligence
+  - templafy
+  - documate
+  - hotdocs
+  - docassemble
+  - jotform
+  - formstack
+  - bulk-document-gen
+  - redaction
+  - pdf-accessibility
+  - clause-extraction
+  - multilingual-templates
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/docgen-automation/skills/<name>/  (bundled — ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/                    (CraftBot default — already on recipient's install)
+#   A missing skill (in neither location) causes a build error.
+enabled_skills:
+  # ── Bundled (24) — SOTA doc-automation skill packs we ship with this agent ─
+  # Round 2 will populate each folder under agents/docgen-automation/skills/<name>/
+  # with a SKILL.md. The names below are reserved and referenced from soul.md /
+  # role.md / SOTA_USE_CASES.md.
+  - contract-template-authoring-msa-nda             # MSA / NDA / employment / customer T&C template authoring
+  - proposal-automation-pandadoc-proposify-qwilr    # PandaDoc / Proposify / Qwilr proposal platforms
+  - rfp-response-loopio-rfpio-responsive            # Loopio / Responsive (RFPIO) / Qvidian / Arphie
+  - conditional-logic-doc-assembly                  # Documate / HotDocs / Docassemble if-then clause engine
+  - e-signature-docusign-adobe-sign-pandadoc        # DocuSign / Adobe Sign / PandaDoc / Dropbox Sign
+  - e-sign-compliance-ueta-esign-eidas              # UETA / ESIGN Act / eIDAS 2.0 compliance
+  - ai-doc-extraction-hyperscience-rossum-textract  # Hyperscience / Rossum / Textract / Azure DI / Document AI
+  - receipt-invoice-extraction-veryfi-mindee        # Veryfi / Mindee / Klippa / Nanonets
+  - template-library-templafy-brand                 # Templafy / Brandfolder / Frontify + brand lint
+  - clm-ironclad-contractworks-integration          # Ironclad / ContractWorks / Lexion / LinkSquares / Evisort
+  - salesforce-conga-composer                       # Conga Composer Salesforce doc gen
+  - hubspot-doc-gen                                 # HubSpot Quotes + PandaDoc integration
+  - document-workflow-routing-approval              # Multi-stage approval routing (legal → finance → exec)
+  - audit-trail-e-sign-versioning                   # E-sign Certificate of Completion + version history
+  - dynamic-pricing-variable-insertion              # Pricing tables + variable insertion (PandaDoc / Jinja2 / WeasyPrint)
+  - smart-form-jotform-formstack                    # Jotform / Formstack / Typeform / Tally smart forms
+  - redaction-automation-pii                        # Presidio / AWS Comprehend / Google DLP redaction
+  - document-accessibility-pdf-ua                   # PDF/UA tagged PDF + WCAG 2.2 AA verification
+  - bulk-document-gen-csv                           # DocSpring / PDFmonkey / docxtemplater bulk gen
+  - ocr-paper-doc-extraction                        # Tesseract / PaddleOCR / Gemini OCR / Textract for paper
+  - ai-summarization-clause-extraction              # Long-doc summarization + clause extraction
+  - contract-redlining-automation                   # Spellbook / Robin AI / python-docx redlines
+  - document-analytics-time-to-sign                 # DocuSign Connect + PandaDoc analytics + posthog
+  - multilingual-template-generation                # DeepL + Lokalise + locale-specific templates
+
+  # ── CraftBot defaults (24) — already on recipient's install ───────────────
+  # Document I/O, file ops, research, writing assistance, automation.
+  - cli-anything                                    # universal verb — install DocuSign SDK, Pandoc, WeasyPrint, Presidio, verapdf, ORT, curl any API
+  - file-format                                     # convert .docx / .pdf / .md / .txt / .csv for doc intake
+  - file-organizer                                  # organize a workspace of templates / source docs / executed contracts
+  - docx                                            # produce Word output (master doc format for contracts)
+  - pdf                                             # produce PDF output (default for signed docs)
+  - nano-pdf                                        # lightweight PDF manipulation
+  - pptx                                            # produce PowerPoint output (proposal decks)
+  - markdown-converter                              # cross-convert markdown for source authoring
+  - writing-skills                                  # writing discipline for contract / proposal language
+  - writing-plans                                   # structured drafting plans for long-form docs
+  - writing-assistant                               # collaborative drafting flow
+  - typeform                                        # Typeform smart-form integration
+  - n8n-workflow-automation                         # orchestrate doc-gen → approval → sign pipelines
+  - notion                                          # archive executed docs + audit logs in Notion
+  - gmail                                           # send drafts + executed docs to counterparties
+  - outlook                                         # Microsoft alternative
+  - google-drive                                    # template library + executed doc storage
+  - google-sheets                                   # CSV data source for bulk doc gen + dynamic pricing
+  - microsoft-excel                                 # Excel data source
+  - slack                                           # approval-routing notifications
+  - firecrawl                                       # scrape regulator pages (UETA / eIDAS / RON statutes)
+  - prompt-engineering-expert                       # structure prompts to AI doc-extraction / summarization
+  - verification-before-completion                  # quality-gate every doc before delivery
+  - using-git-worktrees                             # isolate template-repo branches for clause iteration
+
+# MCP servers — every name verified against app/config/mcp_config.json.
+# The recipient enables each in MCP settings after import and fills in any
+# required API keys.
+mcp_servers:
+  - filesystem                                      # read/write templates + source docs + executed contracts
+  - gmail-mcp                                       # send drafts + executed docs
+  - outlook-mcp                                     # Microsoft alternative
+  - google-drive-mcp                                # store templates + executed docs in user's Drive
+  - google-workspace-mcp                            # Docs (authoring) + Sheets (CSV / pricing) + Slides (proposal decks)
+  - notion-mcp                                      # archive executed docs + audit logs
+  - slack-mcp                                       # approval-routing notifications + completion alerts
+  - ms-teams-mcp                                    # Teams alternative
+  - aws-s3-mcp                                      # bulk document storage + signed URL delivery
+  - firecrawl-mcp                                   # fetch regulator pages (UETA / ESIGN / eIDAS / state RON) that change
+  - gemini-ocr-mcp                                  # AI OCR for scanned paper contracts
+  - mistral-ocr-mcp                                 # alt OCR
+  - openai-ocr-mcp                                  # alt OCR
+  - easyocr-mcp                                     # open-source OCR for non-Latin scripts
+  - deepl-mcp                                       # multilingual template translation (tag_handling=html)
+  - playwright-mcp                                  # end-to-end test form-to-doc-to-sign flows; browser automation for portal-only platforms
+  - github                                          # version control on template + clause library
+  - stripe-mcp                                      # read deal / quote info for dynamic pricing
+  - linear-mcp                                      # task creation for review / approval workflow
+  - jira-mcp                                        # Jira alternative
+  - posthog-mcp                                     # document analytics (time-to-sign, drop-off)
+  - mixpanel-mcp                                    # alt document analytics
+  - amplitude-mcp                                   # alt document analytics
+
+# Source attribution. See SOURCES.md for section→source map. See
+# reference/INVENTORY.md for the per-file URL + license + description.
+sources:
+  - name: Documate
+    url: https://documate.org/
+    used_for: Document automation + interview-driven template authoring (FOSS)
+  - name: HotDocs
+    url: https://www.hotdocs.com/
+    used_for: Conditional logic template authoring (legal industry standard)
+  - name: Docassemble
+    url: https://docassemble.org/
+    used_for: Open-source document assembly (interview-driven, Python-extensible)
+  - name: Templafy
+    url: https://www.templafy.com/
+    used_for: Enterprise template library + brand asset injection + AI brand-compliance
+  - name: Common Paper Standardized Templates
+    url: https://commonpaper.com/standards/
+    used_for: NDA, Cloud Service Agreement, DPA, AUP standardized contract templates
+  - name: Bonterms Open Template Library
+    url: https://bonterms.com/
+    used_for: Cloud Terms, AUP, DPA, SLA modules as baseline templates
+  - name: PandaDoc Developer Docs
+    url: https://developers.pandadoc.com/reference/about
+    used_for: Proposal automation REST API + e-sign + pricing tables
+  - name: Proposify
+    url: https://help.proposify.com/en/articles/5398128-api-getting-started
+    used_for: Proposal authoring + analytics + e-sign
+  - name: Qwilr
+    url: https://qwilr.com/
+    used_for: Interactive web-based proposals
+  - name: Responsive (formerly RFPIO)
+    url: https://www.responsive.io/api-documentation
+    used_for: RFP / security questionnaire response automation
+  - name: Loopio
+    url: https://www.loopio.com/
+    used_for: RFP response library + auto-fill engine
+  - name: Arphie
+    url: https://www.arphie.ai/
+    used_for: LLM-native RFP response (2024+)
+  - name: DocuSign eSignature REST API
+    url: https://developers.docusign.com/docs/esign-rest-api/
+    used_for: E-signature envelope creation + audit certificate (dominant 2026 platform)
+  - name: Adobe Sign (Acrobat Sign) Developer
+    url: https://developer.adobe.com/document-services/apis/sign-api/
+    used_for: E-signature alternative (Adobe ecosystem)
+  - name: Dropbox Sign (HelloSign) Developer
+    url: https://developers.hellosign.com/
+    used_for: E-signature SMB alternative
+  - name: SignNow API
+    url: https://docs.signnow.com/docs/signnow/welcome
+    used_for: E-signature mid-market alternative
+  - name: ESIGN Act (15 USC §7001)
+    url: https://www.law.cornell.edu/uscode/text/15/chapter-96
+    used_for: US federal e-signature legal recognition
+  - name: UETA (Uniform Electronic Transactions Act)
+    url: https://www.uniformlaws.org/committees/community-home?CommunityKey=2c04b76c-2b7d-4399-977e-d5876ba7e034
+    used_for: US state-level e-signature framework (47 states + DC adopted)
+  - name: eIDAS Regulation (EU 910/2014) + eIDAS 2.0
+    url: https://digital-strategy.ec.europa.eu/en/policies/eidas-regulation
+    used_for: EU e-signature framework (Simple / Advanced / Qualified tiers + 2024 EUDI Wallet)
+  - name: Hyperscience
+    url: https://hyperscience.ai/
+    used_for: Enterprise IDP — handwriting + mixed-format extraction
+  - name: Rossum
+    url: https://rossum.ai/
+    used_for: Invoice-to-ERP IDP
+  - name: AWS Textract
+    url: https://aws.amazon.com/textract/
+    used_for: AWS doc extraction (forms + tables + queries)
+  - name: Azure Document Intelligence (formerly Form Recognizer)
+    url: https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/
+    used_for: Azure doc extraction (prebuilt models for invoice / receipt / ID / contract layouts)
+  - name: Google Document AI
+    url: https://cloud.google.com/document-ai
+    used_for: GCP doc extraction (200+ prebuilt processors)
+  - name: Veryfi
+    url: https://docs.veryfi.com/
+    used_for: Receipt / W-2 / 1099 / bill OCR
+  - name: Mindee
+    url: https://developers.mindee.com/
+    used_for: Invoice + receipt + ID extraction (SDK + cloud)
+  - name: Klippa
+    url: https://developers.klippa.com/
+    used_for: Receipt + ID + KYC extraction
+  - name: Nanonets
+    url: https://nanonets.com/api-docs/
+    used_for: Custom-trained extractors for vertical-specific docs
+  - name: Ironclad Developer
+    url: https://developer.ironcladapp.com/
+    used_for: Enterprise CLM platform integration
+  - name: ContractWorks
+    url: https://www.contractworks.com/
+    used_for: SMB-priced CLM repository
+  - name: Lexion (DocuSign)
+    url: https://www.lexion.ai/
+    used_for: Pre-execution workflow CLM
+  - name: LinkSquares
+    url: https://www.linksquares.com/
+    used_for: AI-first post-execution contract analysis + clause library
+  - name: Evisort
+    url: https://www.evisort.com/
+    used_for: AI clause search + contract intelligence
+  - name: Concord
+    url: https://www.concord.app/
+    used_for: Mid-market CLM alternative
+  - name: Salesforce CPQ + Conga Composer
+    url: https://documentation.conga.com/composer
+    used_for: Salesforce-native CPQ-driven doc generation
+  - name: HubSpot Quotes API
+    url: https://developers.hubspot.com/docs/api/crm/quotes
+    used_for: HubSpot SMB CPQ-lite + PandaDoc integration
+  - name: Jotform Developer
+    url: https://api.jotform.com/docs/
+    used_for: Smart form builder + conditional logic + DocuSign integration
+  - name: Formstack
+    url: https://api.formstack.com/v2/
+    used_for: Enterprise smart forms (HIPAA-eligible workspace)
+  - name: Typeform Developer
+    url: https://www.typeform.com/developers/
+    used_for: Conversational smart form UX
+  - name: Microsoft Presidio
+    url: https://microsoft.github.io/presidio/
+    used_for: Open-source PII detection + redaction
+  - name: AWS Comprehend PII Detection
+    url: https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html
+    used_for: AWS PII detection + redaction
+  - name: Google DLP (Data Loss Prevention) API
+    url: https://cloud.google.com/dlp
+    used_for: GCP PII detection + redaction
+  - name: veraPDF
+    url: https://docs.verapdf.org/
+    used_for: PDF/UA + PDF/A validation
+  - name: PDF/UA (ISO 14289)
+    url: https://www.pdfa.org/resource/iso-14289/
+    used_for: Accessible PDF spec
+  - name: WCAG 2.2 (W3C)
+    url: https://www.w3.org/WAI/WCAG22/quickref/
+    used_for: Web Content Accessibility Guidelines for doc accessibility
+  - name: DocSpring API
+    url: https://docspring.com/docs/api/
+    used_for: Bulk PDF generation from template + CSV
+  - name: PDFmonkey API
+    url: https://www.pdfmonkey.io/api-docs
+    used_for: Bulk PDF generation alternative
+  - name: docxtemplater (Node)
+    url: https://docxtemplater.com/
+    used_for: Node.js docx template rendering with placeholders + loops
+  - name: python-docx + docxtpl
+    url: https://docxtpl.readthedocs.io/
+    used_for: Python docx template rendering
+  - name: Pandoc
+    url: https://pandoc.org/MANUAL.html
+    used_for: Doc format conversion (markdown ↔ docx ↔ PDF ↔ epub)
+  - name: WeasyPrint
+    url: https://weasyprint.org/
+    used_for: HTML/CSS → PDF rendering (CSS Paged Media)
+  - name: PrinceXML
+    url: https://www.princexml.com/
+    used_for: High-fidelity HTML → PDF rendering
+  - name: LibreOffice headless
+    url: https://www.libreoffice.org/
+    used_for: Command-line docx → PDF conversion
+  - name: Tesseract OCR
+    url: https://github.com/tesseract-ocr/tesseract
+    used_for: Open-source OCR (100+ langs)
+  - name: PaddleOCR
+    url: https://github.com/PaddlePaddle/PaddleOCR
+    used_for: Open-source OCR (strong on Chinese / Japanese / Korean)
+  - name: olmOCR (AllenAI)
+    url: https://allenai.org/blog/olmocr
+    used_for: LLM-aware OCR for academic / complex layouts (2024+)
+  - name: Spellbook
+    url: https://www.spellbook.legal/
+    used_for: AI legal copilot for Word — clause suggestion + redlining
+  - name: Robin AI
+    url: https://www.robinai.com/
+    used_for: AI-assisted contract review + redlining
+  - name: DraftWise
+    url: https://draftwise.com/
+    used_for: AI contract drafting + redlining alternative
+  - name: redlines (Python)
+    url: https://github.com/MaxHumber/redlines
+    used_for: Programmatic track-change generation for docx
+  - name: Notarize.com (Proof) RON
+    url: https://www.proof.com/
+    used_for: Remote Online Notarization platform
+  - name: NotaryLive
+    url: https://www.notarylive.com/
+    used_for: RON alternative
+  - name: DeepL Translator API
+    url: https://developers.deepl.com/docs/api-reference/translate
+    used_for: Legal-quality multilingual translation (tag_handling=html)
+  - name: Lokalise
+    url: https://docs.lokalise.com/
+    used_for: Translation memory + glossary management
+  - name: Vale (prose linter)
+    url: https://vale.sh/
+    used_for: Brand voice + style guide enforcement on template repo
+  - name: Acrolinx
+    url: https://www.acrolinx.com/
+    used_for: Enterprise tone + style enforcement
+  - name: OpenTimestamps
+    url: https://opentimestamps.org/
+    used_for: Free blockchain timestamping for evidentiary doc archive
+  - name: n8n
+    url: https://n8n.io/
+    used_for: Workflow orchestration (form → doc → approve → sign)

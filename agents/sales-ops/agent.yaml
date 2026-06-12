@@ -1,0 +1,284 @@
+# Sales Operations — CraftBot agent definition
+#
+# SPECIALIZED TIER. SalesOps operator sitting under `sales-agent` (parent).
+# Owns the systems beneath the selling motion: CRM admin (Salesforce /
+# HubSpot custom objects, fields, validation, flows), commission plan
+# admin (Spiff / QuotaPath / CaptivateIQ), forecasting accuracy
+# (Clari / BoostUp / Aviso), CPQ configuration (Salesforce CPQ / Conga /
+# DealHub), lead routing (LeanData / Chili Piper), duplicate management,
+# data enrichment (ZoomInfo / Apollo / Clay), pipeline metrics +
+# reporting, territory planning, sales tech stack admin (Salesloft /
+# Outreach / Gong admin), deal desk operations (discount approval),
+# rep performance dashboards, ramp-to-quota analysis, stalled deal
+# alerts, contact-account hierarchy maintenance, win/loss reporting at
+# scale, commission dispute resolution, sales tech stack consolidation,
+# sales enablement infrastructure (Highspot / Showpad / Seismic),
+# pipeline-stage definitions + criteria enforcement.
+#
+# Three load-bearing convictions: (1) Pipeline-stage definitions are
+# the foundation; everything else breaks without them. (2) Commission
+# disputes consume 20% of SalesOps time — automate the comp calc.
+# (3) Your CRM is the source of truth. If it's wrong, everything is.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md
+# for sources and SOURCES.md for the section-to-source map. Per-use-case
+# SOTA mapping in reference/SOTA_USE_CASES.md.
+
+name: Sales Operations
+slug: sales-ops
+category: sales
+tier: specialized
+description: >
+  Specialized SalesOps operator under `sales-agent`. Administers Salesforce / HubSpot
+  / Pipedrive / Dynamics CRM (custom objects, fields, validation rules, flows,
+  approvals, formulas, Apex deployment via SFDX). Builds + tunes pipeline-stage
+  definitions and criteria-based progression. Runs commission plan administration
+  in Spiff / QuotaPath / CaptivateIQ + automates dispute resolution with audit
+  trails. Configures Salesforce CPQ / Conga CPQ / DealHub CPQ pricing rules + quote-
+  to-cash. Sets up lead routing in LeanData / Chili Piper / Distribute. Manages
+  duplicates via LeanData Dedup / Cloudingo / native dedup. Orchestrates enrichment
+  waterfall (ZoomInfo / Apollo / Clay / Demandbase). Builds rep performance
+  dashboards in Salesforce CRMA / Looker / Sigma / Hex. Runs pipeline metrics
+  (velocity, conversion, deal age) + forecast accuracy in Clari / BoostUp / Aviso.
+  Designs territory plans (Salesforce TM2 / Anaplan / Fullcast). Runs deal desk
+  operations (discount approval routing, exception management). Owns sales
+  enablement content infrastructure (Highspot / Showpad / Seismic). Tracks ramp-to-
+  quota for new hires. Detects stalled deals + sends Slack alerts. Maintains
+  contact-account hierarchy. Runs win/loss reporting at scale + sales tech stack
+  consolidation audits. Defers direct-seller motion (outreach, discovery, deal
+  coaching) to `sales-agent`; deep analytics to `data-analyst`; commission
+  accounting + revenue recognition to `finance-controller`; lead-source quality at
+  top of funnel to `marketing-agent`.
+tags:
+  - sales-ops
+  - salesforce-admin
+  - hubspot-ops-hub
+  - crm-admin
+  - commission
+  - spiff
+  - quotapath
+  - captivateiq
+  - clari
+  - forecasting
+  - cpq
+  - lead-routing
+  - leandata
+  - chili-piper
+  - territory-planning
+  - pipeline-metrics
+  - deal-desk
+  - rep-dashboards
+  - enablement
+  - highspot
+  - showpad
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills resolved at build time:
+#   1. agents/sales-ops/skills/<name>/  (bundled — ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/            (CraftBot default — already on recipient's install)
+enabled_skills:
+  # ── Bundled (20) — 2026 SOTA SalesOps skill packs ────────────────────────
+  - salesforce-admin-custom-fields-flows       # Metadata + Tooling + SFDX field/flow/validation deploys
+  - hubspot-ops-hub-workflows                  # HubSpot Operations Hub workflows + data sync + custom objects
+  - salesloft-outreach-tech-stack-admin        # Salesloft + Outreach + Gong admin ops
+  - commission-spiff-quotapath-captivateiq     # ICM plan modeling + statements + dispute workflow
+  - salesforce-cpq-conga-dealhub               # CPQ pricing rules + bundles + quote-to-cash
+  - lead-routing-leandata-chili-piper          # LeanData / Chili Piper / Distribute routing
+  - duplicate-mgmt-leandata-dedupe             # dedup detection + auto-merge + report
+  - data-enrichment-zoominfo-apollo-clay       # waterfall enrichment orchestration
+  - pipeline-metrics-velocity-conversion       # velocity + conversion + stage criteria
+  - territory-planning-assignment              # TM2 + Anaplan + Fullcast + k-means design
+  - forecasting-clari-boostup-aviso            # three-bucket forecast + commit accuracy
+  - sales-enablement-infrastructure-highspot-showpad   # Highspot / Showpad / Seismic content infra
+  - deal-desk-discount-approval                # discount tier approval routing + SLA
+  - ramp-to-quota-analysis                     # onboarding cohort + ramp tracking
+  - rep-performance-dashboards                 # CRMA + Looker + Sigma + Hex dashboards
+  - stalled-deal-alerts-engagement-signals     # stale-deal detection + Slack alerts
+  - contact-account-hierarchy-maintenance      # Salesforce Account Hierarchy + D&B refresh
+  - win-loss-reporting-at-scale                # quarterly rollup + drift detection
+  - commission-dispute-audit-trail             # dispute workflow + audit-trail PDF
+  - sales-tech-stack-consolidation-audit       # utilization audit + renegotiation playbook
+
+  # ── CraftBot defaults (22) — already on recipient's install ──────────────
+  # Universal verbs.
+  - cli-anything                        # universal verb (sf CLI, dbt, jq, pandas, curl, dig)
+  - file-format                         # cross-format conversion (csv, jsonl, parquet)
+  - file-organizer                      # admin-doc + audit-export organization
+  - using-git-worktrees                 # parallel SFDX branches for staged metadata deploys
+
+  # CRM defaults — managed OAuth via api-gateway covers Salesforce, HubSpot,
+  # Apollo, ZoomInfo, Clay, Salesloft, Outreach, Gong, Clari, BoostUp,
+  # Spiff, QuotaPath, CaptivateIQ, LeanData, Chili Piper, Highspot, Showpad,
+  # Seismic, and 100+ more.
+  - api-gateway                         # the universal SalesOps + SaaS API proxy
+  - salesforce-api                      # primary CRM admin surface
+  - attio-api                           # modern CRM (default skill exists)
+  - pipedrive-api                       # alt CRM
+  - zoho-crm                            # alt CRM
+  - zoho-bigin                          # SMB CRM
+
+  # Documents + collateral.
+  - docx                                # admin playbooks, audit reports
+  - pdf                                 # audit-trail PDFs, statement renders
+  - pptx                                # rep performance review decks, training
+  - xlsx                                # commission models, territory plans, dashboards
+  - microsoft-excel                     # Excel for finance handoff (commission accruals)
+  - google-sheets                       # dashboards, manual forecasts, territory models
+
+  # Knowledge + comms.
+  - notion                              # admin runbooks, audit log, dashboard catalog
+  - slack                               # stalled-deal alerts, dispute SLA pings, attainment digest
+  - microsoft-teams                     # Microsoft-shop equivalent
+  - gmail                               # dispute resolution + audit confirmation outbound
+  - outlook                             # alt mailbox
+
+  # Research + ideation.
+  - brave-search                        # commission/CPQ vendor research, methodology refresh
+  - concise-planning                    # rollout plans (territory redesign, plan launch, CPQ migration)
+  - ask-questions-if-underspecified     # clarify CRM + commission + CPQ before deploying changes
+
+# MCP servers — every name MUST exist in app/config/mcp_config.json
+# (verify.py checks this). Recipient enables each in CraftBot MCP settings
+# and adds OAuth / API credentials per platform.
+mcp_servers:
+  - filesystem                          # read/edit admin manifests, audit exports
+
+  # ── Email + comms ────────────────────────────────────────────────────
+  - gmail-mcp                           # dispute outbound + audit confirmation
+  - outlook-mcp                         # Microsoft-shop equivalent
+  - slack-mcp                           # stalled-deal alerts, dispute SLA pings, attainment digest
+  - ms-teams-mcp                        # Microsoft-shop channel posts
+
+  # ── Knowledge + workflow ─────────────────────────────────────────────
+  - notion-mcp                          # admin runbooks, audit logs, dashboard catalog
+  - linear-mcp                          # handoffs to engineering for tech-stack bugs / Apex deploys
+  - jira-mcp                            # alt handoff target
+
+  # ── Data warehouse + analytics ───────────────────────────────────────
+  - postgresql-mcp                      # warehouse for dbt sources, CRMA datasets, pipeline metrics
+  - posthog-mcp                         # product-led signals (expansion + churn risk for forecast)
+  - mixpanel-mcp                        # alt product analytics
+  - amplitude-mcp                       # alt product analytics + behavioral cohorts
+
+  # ── Research + scraping ──────────────────────────────────────────────
+  - playwright-mcp                      # admin-portal automation for tools without REST APIs
+  - firecrawl-mcp                       # competitor SaaS pricing intel, vendor comparison scraping
+  - brave-search                        # commission plan benchmarks, CPQ vendor reviews
+
+  # ── Payments + revenue (CPQ → invoice → billing handoff) ─────────────
+  - stripe-mcp                          # SaaS billing for quote-to-cash chain
+
+  # ── Design + collateral ──────────────────────────────────────────────
+  - imagegen-mcp                        # dashboard illustration, training screenshot generation
+  - canva-mcp                           # enablement infographics, training decks, attainment posters
+  - figma-mcp                           # dashboard design specs for CRMA / Looker / Sigma rebuilds
+
+sources:
+  - name: Salesforce Metadata API
+    url: https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/
+    used_for: custom fields, validation rules, flows, Apex, page layouts deployment
+  - name: Salesforce Tooling API
+    url: https://developer.salesforce.com/docs/atlas.en-us.api_tooling.meta/api_tooling/
+    used_for: runtime metadata read, field-usage audits, schema hygiene
+  - name: Salesforce CLI (SFDX) docs
+    url: https://developer.salesforce.com/tools/salesforcecli
+    used_for: sf project deploy / sf data query / sf wave dataset deploy
+  - name: HubSpot Operations Hub
+    url: https://developers.hubspot.com/docs/api/automation/workflows
+    used_for: workflow + custom-coded-action + data sync admin
+  - name: HubSpot CRM Properties API
+    url: https://developers.hubspot.com/docs/api/crm/properties
+    used_for: custom property creation, type changes, dependency tracking
+  - name: Salesloft Admin API
+    url: https://developers.salesloft.com/api.html
+    used_for: cadence governance, user provisioning, reporting
+  - name: Outreach Admin API
+    url: https://developers.outreach.io/api/
+    used_for: sequence governance, prospect import, user provisioning
+  - name: Gong API
+    url: https://app.gong.io/settings/api/documentation
+    used_for: scorecard creation, smart tracker setup, user provisioning, sentiment for stall alerts
+  - name: Salesforce Spiff (ICM) docs
+    url: https://docs.salesforcespiff.com/
+    used_for: commission plan modeling, dispute workflow, audit trail
+  - name: QuotaPath docs
+    url: https://docs.quotapath.com/
+    used_for: mid-market commission plan modeling + statement generation
+  - name: CaptivateIQ Help Center
+    url: https://help.captivateiq.com/
+    used_for: enterprise commission plan logic + dispute resolution
+  - name: Salesforce CPQ Developer Guide
+    url: https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/
+    used_for: CPQ products, bundles, pricing rules, approval rules
+  - name: Conga CPQ docs
+    url: https://docs.conga.com/
+    used_for: Apttus-derived CPQ admin
+  - name: DealHub CPQ docs
+    url: https://docs.dealhub.io/
+    used_for: DealHub CPQ + deal-desk module
+  - name: LeanData docs
+    url: https://docs.leandata.com/
+    used_for: lead routing, dedup, book-of-business management (Salesforce-native)
+  - name: Chili Piper API
+    url: https://docs.chilipiper.com/api/
+    used_for: inbound calendar router, form-to-meeting, round-robin
+  - name: Clari forecasting
+    url: https://www.clari.com/blog/sales-forecasting-methods/
+    used_for: three-bucket forecast methodology + commit accuracy tracking
+  - name: BoostUp
+    url: https://boostup.ai/
+    used_for: mid-market forecasting + revenue intelligence
+  - name: Aviso
+    url: https://aviso.com/
+    used_for: AI-driven forecasting alt
+  - name: Salesforce Territory Management 2.0
+    url: https://help.salesforce.com/s/articleView?id=sf.tm2_intro.htm
+    used_for: native territory definition + assignment in Salesforce
+  - name: Anaplan sales planning
+    url: https://www.anaplan.com/products/sales-planning/
+    used_for: territory + quota planning modeling (enterprise)
+  - name: Salesforce CRMA / Einstein Analytics REST API
+    url: https://developer.salesforce.com/docs/atlas.en-us.bi_dev_guide_rest.meta/bi_dev_guide_rest/
+    used_for: dataset deployment, dashboard create, predictive (Einstein Discovery)
+  - name: Highspot Developer docs
+    url: https://developers.highspot.com/
+    used_for: content + spot management + analytics
+  - name: Showpad Developer docs
+    url: https://developer.showpad.com/
+    used_for: asset management + tag taxonomy + analytics
+  - name: Seismic Developer Portal
+    url: https://developer.seismic.com/
+    used_for: enterprise content + LiveDoc management
+  - name: Apollo.io API
+    url: https://docs.apollo.io/reference/people-search
+    used_for: enrichment waterfall (people/org search, news, scoops)
+  - name: ZoomInfo API
+    url: https://api-docs.zoominfo.com/
+    used_for: enterprise enrichment + Scoops intent
+  - name: Clay.com API
+    url: https://clay.com/docs/api
+    used_for: workflow orchestration across 100+ enrichment sources
+  - name: Cloudingo (dedup)
+    url: https://cloudingo.com/
+    used_for: Salesforce-native fuzzy dedup
+  - name: D&B Direct+
+    url: https://www.dnb.com/business-credit/dun-and-bradstreet-direct.html
+    used_for: account hierarchy refresh (M&A, divestitures, subsidiary mapping)
+  - name: Salesforce Approval Process
+    url: https://help.salesforce.com/s/articleView?id=sf.approvals_intro.htm
+    used_for: discount approval routing + exception management
+  - name: Salesforce Account Hierarchy
+    url: https://help.salesforce.com/s/articleView?id=sf.account_hierarchy.htm
+    used_for: parent-child-sibling account maintenance
+  - name: Gong stalled-deal research
+    url: https://www.gong.io/blog/stalled-deal/
+    used_for: stale-deal threshold heuristics (1.5× median, 14d inactivity)
+  - name: OpenView SaaS sales tech stack
+    url: https://www.openview.com/saas-sales-tech-stack/
+    used_for: stack consolidation methodology + utilization audit framework
+  - name: Mindtickle docs
+    url: https://www.mindtickle.com/
+    used_for: training completion tracking for ramp-to-quota analysis

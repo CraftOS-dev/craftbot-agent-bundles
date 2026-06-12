@@ -1,0 +1,362 @@
+# Talent Sourcer — CraftBot agent definition
+#
+# SPECIALIZED TIER. Sits under operations-agent (parent — general business
+# operations / hiring pipeline broadly). Drills into the upstream sourcing
+# craft: LinkedIn Recruiter Boolean string authoring, GitHub talent mining,
+# Stack Overflow + niche-board sourcing, SeekOut/Findem/AmazingHiring
+# diversity sourcing, Gem/hireEZ/Beamery talent-CRM sequencing, cold InMail
+# + warm intro authoring, hot-list / talent-community management, target
+# company mapping, exec sourcing (CTO/VP-Eng), technical / designer / sales
+# sourcing, contractor sourcing (Toptal/Turing/Pesto), boomerang + alumni
+# re-engagement, source-of-hire reporting. Defers to operations-agent
+# (parent — interview pipeline, scorecards, offer letters, ATS admin) and
+# ceo-agent (executive hiring strategy + comp philosophy).
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+
+name: Talent Sourcer
+slug: talent-sourcer
+category: operations
+tier: specialized
+description: >
+  Senior talent-sourcer operator. Authors LinkedIn Recruiter Boolean search
+  strings, mines GitHub for engineers (language + stars + commits +
+  contribution graphs), sources via Stack Overflow reputation + tag depth,
+  posts and pulls candidates from Wellfound / Built In / Hired / Otta,
+  runs diversity sourcing through SeekOut / Findem / AmazingHiring +
+  project-specific channels (/dev/color, Code2040, Black Founders, Lesbians
+  Who Tech, Out in Tech), authors passive-candidate outreach sequences in
+  Gem / hireEZ / Beamery, drafts cold InMails (<400 chars, 16-27 char
+  subjects, profile-view-first), maps target companies via Crunchbase +
+  Apollo, sources executives (CTO/VP-Eng) through Lusha + RocketReach +
+  ContactOut, sources designers via Dribbble + Behance, sales talent via
+  RepVue, contractors via Toptal / Turing / Andela / Arc.dev / Lemon.io,
+  re-engages alumni / boomerang candidates, optimizes JDs via Textio /
+  Datapeople, reports source-of-hire + funnel diversity by req, hands off
+  to ATS (Greenhouse / Ashby / Lever) on Applied stage. Hard rules:
+  Boolean search beats LinkedIn search filters by 10×; passive candidates
+  are the talent; diversity sourcing requires intentional channels.
+  Defers interview pipeline + offer letters + ATS admin to operations-agent
+  (parent); executive hiring strategy + compensation philosophy to ceo-agent.
+tags:
+  - talent-sourcing
+  - recruiting
+  - linkedin-recruiter
+  - boolean-search
+  - github-sourcing
+  - stack-overflow-sourcing
+  - passive-candidates
+  - diversity-sourcing
+  - talent-crm
+  - gem
+  - hireez
+  - beamery
+  - seekout
+  - findem
+  - amazinghiring
+  - exec-search
+  - technical-sourcing
+  - designer-sourcing
+  - sales-sourcing
+  - contractor-sourcing
+  - boomerang
+  - alumni
+  - hot-list
+  - talent-community
+  - source-of-hire
+  - jd-optimization
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 22 bundled SOTA skill packs + 28 CraftBot defaults = 50 enabled skills.
+# Each bundled pack closes a documented capability from
+# reference/SOTA_USE_CASES.md. Round 2 (runtime build) creates the SKILL.md
+# files under agents/talent-sourcer/skills/<name>/.
+enabled_skills:
+  # ── Bundled (22) — 2026 SOTA talent-sourcer skill packs ────────────────
+  - linkedin-recruiter-boolean-search-strings  # Boolean authoring + 40-filter layering + AI Boolean builder fallback
+  - github-talent-mining-language-stars-commits # REST/GraphQL user + repo + commit search; contributor extraction
+  - stack-overflow-talent-reputation-tag       # Stack Exchange API reputation + top-tag filtering
+  - hired-wellfound-built-in-otta-niche-boards # Wellfound/Built In/Otta/Hired posting + scraping
+  - amazinghiring-findem-seekout-diversity     # diversity filter + 50+ network aggregation
+  - gem-hireez-beamery-talent-crm              # CRM-driven sequence + ATS push
+  - passive-candidate-outreach-campaigns       # 3-5 step sequence + segmentation + A/B
+  - cold-inmail-warm-intro                     # <400 char InMail + 16-27 subject + warm intro via mutuals
+  - hot-list-talent-community-mgmt             # readiness tags + nurture cadence + event coordination
+  - target-company-mapping-crunchbase-linkedin # Crunchbase signal → Sales Nav → Apollo enrich
+  - cto-vp-eng-exec-sourcing                   # exec ICP + Lusha/RocketReach/ContactOut + warm-intro routing
+  - technical-sourcing-developer-focused       # AmazingHiring + SeekOut + GitHub commit history validation
+  - product-designer-sourcing-dribbble-behance # Behance Hire Me + Dribbble for-hire + Twine + Toptal Design
+  - sales-talent-sourcing-repvue               # RepVue rep filter + LinkedIn Sales Nav + comp-transparent outreach
+  - source-to-contact-metrics                  # per-req funnel metrics, source-to-contact, contact-to-reply
+  - source-of-hire-reporting                   # per-source attribution + weekly + monthly dashboard
+  - candidate-experience-hygiene-response-time # 24h reply SLA + 7d stage SLA + auto-rejection templates
+  - source-diversification-3-sources-per-role  # ≥3 sources per req + no single source >60% rule
+  - employer-brand-in-outreach                 # recent funding + Glassdoor 4.0 floor + case study token rotation
+  - diversity-channel-sourcing-dev-color-code2040 # project channels + conference cadence + warm intro pipeline
+  - contractor-sourcing-toptal-turing-pesto    # vetted marketplace routing by urgency + budget + geography
+  - boomerang-alumni-re-engagement             # alumni DB + 12-18 mo "we miss you" + auto-flag in ATS
+
+  # ── CraftBot defaults (28) — already on recipient's install ───────────
+  # Comms (candidate outreach + warm intros + recruiter-team coordination):
+  - gmail                              # cold outreach + warm intro requests + candidate replies (low-scale fallback)
+  - mailchimp                          # talent-community newsletters + alumni quarterly
+  - linkedin                           # LinkedIn profile pulls + posting + connection sends
+
+  # Workspace + tracking (candidate database + hot-list + persona library + alumni):
+  - notion                             # candidate database, hot-list, persona library, alumni register, channel relationships
+  - better-notion                      # high-fidelity Notion ops (block-level edits, complex queries)
+  - obsidian                           # alt local-first DB for sensitive candidate notes
+  - markdown-converter                 # JD ↔ formats for ATS uploads + Notion sync
+
+  # Document output (JDs, offer-letter drafts, candidate brief packs):
+  - docx                               # JD + recruiter brief + offer-letter draft (recruiter coord owns final)
+  - pdf                                # candidate-brief pack export for hiring manager review
+  - pptx                               # quarterly source-of-hire review deck for ops/CEO
+  - xlsx                               # candidate pipeline + source-attribution + funnel metrics local Excel
+  - google-sheet                       # live shared candidate pipeline + per-req source breakdown for team coord
+  - file-format                        # convert résumés / portfolios between formats
+  - file-organizer                     # JD archive + résumé archive + interview-pack archive
+
+  # ATS handoff + sourcing-team task pipeline:
+  - linear-api                         # per-req sourcing kanban + sourcing-team task pipeline
+  - zoho-recruit                       # alt ATS handoff target (Zoho-shop recipients)
+
+  # Research + planning + framing:
+  - brainstorming                      # ICP hypothesis generation + sourcing-strategy ideation
+  - concise-planning                   # weekly sourcing plan + req prioritization
+  - ask-questions-if-underspecified    # clarify role + ICP + comp + diversity goals before sourcing
+  - audit-context-building             # gather company stage + funding + employer-brand context for outreach
+  - verification-before-completion     # source-mix verification + bias check before delivering shortlist
+  - day-planner                        # daily sourcer cadence (outreach burst + reply triage)
+  - week-planner                       # weekly source-diversification review + req prioritization
+  - month-planner                      # monthly source-of-hire reporting + hot-list refresh
+
+  # Search + scraping (employer brand research + candidate enrichment):
+  - brave-search                       # current SOTA tool + market news backup
+  - firecrawl                          # Behance / Dribbble / Wellfound / Glassdoor / Crunchbase scrape
+  - web-search-plus                    # enhanced search with snippet extraction
+  - playwright-mcp                     # LinkedIn Recruiter UI automation + Behance/Dribbble portfolio scrape
+
+  # Cross-tool execution + writing quality:
+  - cli-anything                       # universal verb: Gem / hireEZ / Beamery / SeekOut / Findem / AmazingHiring / Apollo / Clay / Lusha / RocketReach / Hunter / Findymail / RepVue / Crunchbase / Greenhouse / Ashby / Lever / Wellfound / Built In / Otta / Toptal / Turing / Arc.dev / Lemon.io / Textio / Datapeople REST
+  - writing-skills                     # cold outreach + InMail + warm intro prose quality
+  - writing-assistant                  # general editing
+  - memory-processor                   # persist candidate + persona + alumni context across sessions
+
+# MCP servers — 2026 SOTA talent-sourcer stack. Each platform MCP backs at
+# least one use case from reference/SOTA_USE_CASES.md. Recipient enables
+# in CraftBot MCP settings + provides OAuth/API keys per platform.
+mcp_servers:
+  - filesystem                         # read/edit JDs, candidate pipelines, recruiter briefs
+
+  # ── Code / repo (GitHub talent mining + signal validation) ─────────────
+  - github                             # GitHub user/repo/commit search; contributor extraction; activity scoring
+
+  # ── Comms (outreach + warm intro + sequence fallback + candidate replies) ─
+  - gmail-mcp                          # cold + warm + sequence-fallback outreach (low-scale)
+  - outlook-mcp                        # alt for Outlook-shop recipients
+  - google-workspace-mcp               # Gmail + Sheets + Calendar combined for team workflows
+  - slack-mcp                          # warm intro DMs + internal coord + project-channel diversity community
+  - discord-mcp                        # alt comms + Discord-first diversity channels
+  - ms-teams-mcp                       # alt for Teams-shop recipients
+
+  # ── Calendar / scheduling ──────────────────────────────────────────────
+  - google-calendar-mcp                # outreach cadence + sponsor calendar + event registration + interview holds
+
+  # ── Knowledge base / candidate database / hot-list / persona library ───
+  - notion-mcp                         # candidate DB, hot-list, persona library, alumni register, channel relationships, ICP playbooks
+  - obsidian-mcp                       # alt local-first KB for sensitive sourcing notes
+
+  # ── Task + req pipeline ────────────────────────────────────────────────
+  - linear-mcp                         # per-req sourcing kanban + sourcing-team task pipeline
+
+  # ── Document storage / brief packs ─────────────────────────────────────
+  - google-drive-mcp                   # JD storage + portfolio review + brief-pack archive
+
+  # ── Research / scrape / OCR (employer-brand + candidate enrichment) ────
+  - firecrawl-mcp                      # Behance / Dribbble / Wellfound / Crunchbase / Glassdoor scraping
+  - brightdata-mcp                     # paid scrape for paywalled benchmarks (RepVue / SeekOut data)
+  - playwright-mcp                     # LinkedIn Recruiter UI automation + portfolio scrape + form fill
+  - gemini-ocr-mcp                     # résumé OCR for scanned applications
+  - mistral-ocr-mcp                    # alt OCR engine
+  - brave-search                       # current SOTA / news / market research backstop
+
+  # ── Embedding-based clustering (candidate-fit + persona segmentation) ──
+  - huggingface-mcp                    # embedding-based candidate-quality clustering + JD-to-candidate similarity
+
+  # ── Analytics (outreach A/B + hot-list nurture + source-of-hire reporting) ─
+  - posthog-mcp                        # outreach A/B test + newsletter analytics + hot-list nurture metrics
+
+sources:
+  - name: Talentprise — LinkedIn Boolean Search Complete 2026 Guide
+    url: https://www.talentprise.com/linkedin-boolean-search-guide/
+    used_for: LinkedIn Recruiter Boolean string authoring + ≤1,000-char keyword field + nested operators
+  - name: LinkedIn Developer — Talent Solutions Product Catalog
+    url: https://developer.linkedin.com/product-catalog/talent
+    used_for: LinkedIn Talent Solutions API partner gating + Recruiter Search API
+  - name: Unipile — LinkedIn Recruiter Search API Guide
+    url: https://www.unipile.com/linkedin-recruiter-search-api-guide-for-developers-and-editors/
+    used_for: Recruiter Search API proxy path for non-Partner recipients
+  - name: hireEZ — Complete Guide to Source Candidates on GitHub
+    url: https://explore.hireez.com/blog/how-to-source-candidates-on-github/
+    used_for: GitHub talent mining 2026 + AI Boolean builder + 45+ platform aggregation
+  - name: Built In — How to Use GitHub Advanced Search for Recruiters
+    url: https://builtin.com/recruiting/github-advanced-search
+    used_for: GitHub advanced search operators (language, stars, forks, location)
+  - name: Kula — How to Recruit Top Developers on GitHub 2026
+    url: https://www.kula.ai/blog/github-beginners-guide-source-candidates
+    used_for: GitHub developer sourcing 2026 patterns; 180M+ active developers
+  - name: Stack Overflow — Exits Talent Acquisition (Jobs Discontinued)
+    url: https://totalent.eu/stack-overflow-exits-the-talent-acquisition-sphere-announces-plans-to-discontinue-jobs/
+    used_for: Stack Overflow Jobs discontinuation (Mar 2022); reputation + tag sourcing remains
+  - name: HeroHunt — How to Source Tech Talent on Stack Overflow
+    url: https://www.herohunt.ai/blog/how-to-source-tech-talent-on-stack-overflow/
+    used_for: Stack Exchange API reputation + top-tag sourcing pattern
+  - name: SelectSoftware Reviews — Best Talent Sourcing Tools 2026
+    url: https://www.selectsoftwarereviews.com/buyer-guide/best-candidate-sourcing-tools
+    used_for: Sourcing tool landscape; SeekOut/Findem/AmazingHiring/Loxo/hireEZ positioning by team size
+  - name: Leonar — 13 Best Talent Sourcing Platforms 2026
+    url: https://www.leonar.app/blog/best-talent-sourcing-platforms/
+    used_for: 2026 sourcing-platform comparison; Gem/SeekOut/Findem enterprise; Leonar/hireEZ/Juicebox mid-market
+  - name: Juicebox — SeekOut Reviews 2026
+    url: https://juicebox.ai/blog/seekout-reviews
+    used_for: SeekOut 330M underrepresented profiles + Bias Reducer mode + SeekOut Assist Boolean
+  - name: Skima — SeekOut Review 2026
+    url: https://skima.ai/blog/product-deep-dives/seekout-review
+    used_for: SeekOut full-graph sourcing + clearance/diversity/technical/GitHub filters
+  - name: MindHunt AI — Diversity Sourcing Strategies 2026
+    url: https://mindhuntai.com/blog/diversity-sourcing-strategies
+    used_for: Diversity sourcing 2026 best-tools + project-specific channels
+  - name: SelectSoftware Reviews — Gem Expert Review 2026
+    url: https://www.selectsoftwarereviews.com/reviews/gem
+    used_for: Gem 800M+ profile DB + sequencing analytics + browser extension
+  - name: Gem — Best Candidate Sourcing Software 2026
+    url: https://www.gem.com/blog/candidate-sourcing-software
+    used_for: Gem positioning vs SeekOut/Beamery/hireEZ; outbound passive sourcing
+  - name: Metaview — Top 10 Sourcing Tools for Recruiters 2026
+    url: https://www.metaview.ai/resources/blog/sourcing-tools-for-recruiters
+    used_for: Sourcing tool comparison; multi-stage sequencing; source diversification benchmarks
+  - name: Beamery — Talent CRM Platform 2026
+    url: https://beamery.com/platform/talent-acquisition/talent-crm/
+    used_for: Beamery enterprise CRM positioning (CHRO + global TA); ATS/HRIS integrations
+  - name: Beamery — Alumni Hiring Strategy
+    url: https://beamery.com/resources/blogs/why-enterprise-organizations-need-an-alumni-hiring-strategy
+    used_for: Alumni recruitment + boomerang + talent community ROI
+  - name: KS Agents — Boomerang Employees 2026 Alumni Network
+    url: https://ks-agents.com/blog/boomerang-employees-alumni-network-strategy/
+    used_for: 35% of 2025 hires returning; $4,200 avg savings; 14-18 mo payback at 1,000+ alumni
+  - name: PeoplePath — Rehire Boomerang Employees via Alumni Network
+    url: https://peoplepath.com/blog/attract-and-rehire-boomerang-employees-through-your-corporate-alumni-network/
+    used_for: Alumni network architecture + boomerang outreach cadence
+  - name: Recruitingtoolsreview — 2026 Comparison Guide to Top Candidate Sourcing Tools
+    url: https://recruitingtoolsreview.com/blog/comparison-guide-candidate-sourcing-tools-for-recruiters-2026
+    used_for: Juicebox / Gem / SeekOut / hireEZ 2026 comparison; natural language search adoption
+  - name: ConnectSafely — LinkedIn InMail Templates Response Rates 2026
+    url: https://connectsafely.ai/articles/linkedin-inmail-templates-response-rates-2026
+    used_for: InMail response benchmarks; <400 char + 16-27 char subject; profile-view-first 78% lift
+  - name: Salesflow — LinkedIn InMail Best Practices 2026
+    url: https://salesflow.io/blog/linkedin-inmail-best-practices-improve-response-rates
+    used_for: InMail response rates by function (HR 12%, PM 10%, Ops 10%, Eng 7-9%); AI lift since Apr 2026
+  - name: Careery — Recruiter Outreach Templates 2026
+    url: https://careery.pro/blog/recruiter-outreach-templates
+    used_for: 2026 cold InMail + email recruiter templates; segmentation patterns
+  - name: Expandi — Best LinkedIn Recruiter Message Templates 2026
+    url: https://expandi.io/blog/linkedin-recruiter-message-templates/
+    used_for: Per-segment InMail templates; warm-intro patterns; mutual-connection requests
+  - name: Apollo.io — B2B Sales Intelligence Platform
+    url: https://www.apollo.io/product/api
+    used_for: Apollo 275M+ contacts + Crunchbase-equivalent company graph; people & company search APIs
+  - name: Crunchbase Enterprise API
+    url: https://www.crunchbase.com/api
+    used_for: Crunchbase 4M+ private companies + predictive AI signals (funding/acquisition/IPO)
+  - name: RocketReach — Lead Intelligence Email + Phone Finder
+    url: https://rocketreach.co/
+    used_for: 700M+ professional contact DB; high-accuracy individual lookup with confidence scoring
+  - name: Findymail — Best Email Finder Tools 2026 (Tested + Ranked)
+    url: https://www.findymail.com/blog/best-email-finder-tools/
+    used_for: Email finder landscape 2026; <5% bounce rate; Apollo / Hunter / Lusha / RocketReach / Snov comparison
+  - name: Knowlee — Best Email Finder Tools 2026 (B2B Prospecting)
+    url: https://www.knowlee.ai/blog/best-email-finder-tools-2026
+    used_for: Email finder API matrix; tools with public APIs (Hunter, Snov, Findymail, Apollo, RocketReach, AnyMail Finder, Derrick)
+  - name: Wellfound — Recruit Pricing 2026
+    url: https://wellfound.com/recruit/pricing
+    used_for: Wellfound (formerly AngelList Talent) employer plans; 35K+ companies; Recruit Pro $499/mo
+  - name: Glozo — 10 Niche IT Job Boards Recruiters Use 2026
+    url: https://www.glozo.com/blog/niche-it-job-boards-recruiters-2025
+    used_for: 2026 niche board landscape; Built In + Dice + Wellfound + Otta + WeWorkRemotely positioning
+  - name: Proficiently — 7 Best Tech Job Boards 2026
+    url: https://proficiently.com/blog/best-tech-job-boards/
+    used_for: Top tech job boards 2026; startup vs enterprise + curated vs broad
+  - name: Remote Job Assistant — Wellfound Review 2026
+    url: https://www.remotejobassistant.com/blog/wellfound-review
+    used_for: Wellfound platform value 2026; 130K+ jobs; 10M+ candidate profiles
+  - name: Lemon.io — Toptal Alternatives 2026
+    url: https://lemon.io/blog/toptal-alternatives/
+    used_for: Contractor marketplace landscape; rate comparison by region
+  - name: Second Talent — Lemon.io Review 2026
+    url: https://www.secondtalent.com/alternatives/lemon-io/
+    used_for: Lemon.io vs Toptal pricing + match speed (24-48h)
+  - name: DistantJob — Best Toptal Alternatives for Remote Hires
+    url: https://distantjob.com/blog/toptal-alternatives-hire-remote-developers/
+    used_for: 2026 marketplace comparison (Toptal / Turing / Andela / Arc.dev / Lemon.io) by speed + cost
+  - name: Index — Textio Review 2026
+    url: https://www.index.dev/blog/textio-review
+    used_for: Textio 2026 language-guidance engine; outcome-based predictions; 15% lift female applicants
+  - name: Datapeople — Datapeople vs Textio
+    url: https://datapeople.io/comparison/datapeople-vs-textio/
+    used_for: Datapeople template enforcement + readability + JD optimization positioning vs Textio
+  - name: Ongig — Top 10 Textio Competitors 2026
+    url: https://blog.ongig.com/job-descriptions/textio-competitors/
+    used_for: JD optimization landscape; Joonko / Atomic AI free alternatives to Textio
+  - name: RepVue — Sales Salary Guide 2026
+    url: https://www.repvue.com/blog/sales-salary-guide
+    used_for: RepVue 2026 sales-comp benchmarks; SDR median $60K/$85K OTE
+  - name: RepVue — How HubSpot Sources Sales Talent
+    url: https://www.repvue.com/blog/how-hubspot-uses-repvue-to-source-top-tier-sales-talent
+    used_for: Sales talent sourcing pattern; warmer candidate leads via rep network
+  - name: RepVue — Hire & Retain Sales Talent
+    url: https://www.repvue.com/employers
+    used_for: RepVue employer plan; sourcing surface for sales roles
+  - name: Twine — Best Dribbble Alternatives 2026
+    url: https://www.twine.net/blog/best-dribbble-alternatives-to-hire-top-designers/
+    used_for: Designer sourcing landscape; Dribbble paywall shift; Behance long-form positioning
+  - name: AmazingHiring — Search for Designers on Dribbble + Behance
+    url: https://amazinghiring.com/blog/searching-for-designers-on-dribbble-and-behance
+    used_for: Designer sourcing patterns; Dribbble shots vs Behance case studies; Hire Me filters
+  - name: Index — Greenhouse vs Lever vs Ashby ATS Comparison 2026
+    url: https://www.index.dev/blog/greenhouse-vs-lever-vs-ashby-ats-comparison
+    used_for: ATS handoff target selection; Ashby API-first; Greenhouse enterprise integration ecosystem
+  - name: Unified.to — 15 ATS APIs to Integrate With in 2026
+    url: https://unified.to/blog/15_ats_apis_to_integrate_with_in_2026_greenhouse_lever_workable
+    used_for: ATS REST API surfaces for candidate-create + source-attribution + funnel metrics
+  - name: Outsail — Greenhouse vs Lever vs Ashby
+    url: https://www.outsail.co/post/greenhouse-vs-lever-vs-ashby
+    used_for: ATS positioning + CRM + sourcing module nuances by recipient profile
+  - name: Phenom — Talent Experience Platform
+    url: https://www.phenom.com/
+    used_for: Phenom CRM + chatbot + career site + talent marketplace + career pathing
+  - name: GoPerfect — 10 Best Eightfold AI Alternatives 2026
+    url: https://www.goperfect.com/blog/10-best-eightfold-ai-alternatives-for-talent-intelligence-in-2026
+    used_for: Eightfold AI talent-intelligence positioning; silver-medalist + alumni re-engagement
+  - name: Industrylabs — Phenom Review 2026
+    url: https://www.industrylabs.ai/articles/phenom-review
+    used_for: Phenom positioning vs Eightfold + Beamery + Greenhouse
+  - name: Lupahire — 20 Best Candidate Sourcing Tools 2026
+    url: https://www.lupahire.com/blog/candidate-sourcing-tools-for-recruiters
+    used_for: Sourcing tool landscape; multi-channel diversification benchmarks (≥3 sources per role)
+  - name: Project Include
+    url: https://projectinclude.org
+    used_for: Diversity-of-thought best practices over recruiting process
+  - name: /dev/color
+    url: https://devcolor.org
+    used_for: Black engineers community channel; warm intro + sponsor cadence
+  - name: Code2040
+    url: https://www.code2040.org
+    used_for: Early-career Black + Latine technical talent channel
+  - name: Lesbians Who Tech
+    url: https://lesbianswhotech.org
+    used_for: LGBTQ+ technical community channel + conference cadence

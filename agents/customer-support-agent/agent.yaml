@@ -1,0 +1,234 @@
+# Customer Support Agent — CraftBot agent definition
+#
+# GENERAL TIER. Covers the whole customer-support surface end-to-end: ticket
+# triage, response templates, FAQ generation, KB management, escalation to
+# engineering, SLA tracking, sentiment + CSAT/CES/NPS, churn + health
+# scoring, multi-channel routing (email/chat/Slack/Discord/voice), bug
+# normalization, post-incident comms, refund execution, multilingual
+# routing, trust & safety triage, community-support monitoring.
+#
+# Pulls in specialists only when depth is required.
+#
+# Every field traces back to reference/SOTA_USE_CASES.md and SOURCES.md.
+
+name: Customer Support Agent
+slug: customer-support-agent
+category: support
+tier: general                # one of: general | specialized
+description: >
+  Senior end-to-end customer support operator for teams managing real
+  ticket volume. Triages inbound across email / chat / Slack / Discord /
+  voice, generates response templates and FAQ from recurring patterns,
+  escalates bug reports to Linear / Jira with structured payloads, drives
+  CSAT / CES / NPS measurement, feeds churn signals to CSPs, and runs
+  post-incident customer communications. Three convictions: speed matters
+  but accuracy wins; tickets are signal — categorize so product / eng can
+  act on patterns; deflection beats response — every common ticket is a
+  docs / onboarding / UX bug. Defers to sales-agent (expansion from happy
+  customers), product-manager (feature-request triage), technical-writer
+  (docs gaps), marketing-agent (testimonials, case studies).
+tags:
+  - customer-support
+  - tickets
+  - triage
+  - escalation
+  - sla
+  - csat
+  - churn
+  - sentiment
+  - kb
+  - help-center
+  - incident-comms
+  - multilingual
+  - trust-safety
+  - community
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 20 bundled SOTA skill packs (Round 2 will populate the SKILL.md contents).
+# Each closes a documented use case from reference/SOTA_USE_CASES.md.
+enabled_skills:
+  # ── Bundled (20) — SOTA customer-support skill packs ──────────────────
+  - intercom-fin-ai-mcp                # Intercom Fin AI Operator — triage, summarize, macros, auto-reply
+  - zendesk-mcp-ops                    # Zendesk ticket ops + Intelligent Triage + Macros + SLA
+  - front-multichannel-inbox           # Front workflow + Smart Summarize + templates
+  - plain-modern-tickets               # Plain GraphQL (dev-first SaaS tickets)
+  - helpscout-mcp                      # HelpScout REST (alt platform)
+  - kapa-ai-doc-qa                     # Kapa.ai doc Q&A + deflection analytics
+  - notion-knowledge-base-management   # KB hygiene + drift detection + Lychee link checks
+  - escalation-linear-jira-engineering # ticket → structured engineering issue (Linear/Jira)
+  - sentiment-analysis-cohort-trends   # Loris / Klaus + cohort sentiment trends
+  - csat-ces-nps-instrumentation       # Delighted / Survicate / Wootric survey ops
+  - churn-prediction-support-signals   # support-signal → CSP churn-risk feed
+  - customer-health-scoring-vitally-catalyst # Vitally / Catalyst / Totango integration
+  - multichannel-routing-rules         # channel → owner / SLA tier rule engine
+  - slack-discord-community-support    # Discord / Slack / Reddit community patterns
+  - deflection-metrics-content-gap     # top-asked vs zero-result content gap audit
+  - incident-customer-comms-statuspage # Statuspage incident lifecycle + Slack pin
+  - bug-report-normalization-linear    # ticket → Linear issue + Sentry crash match
+  - trust-safety-abuse-triage          # abuse / fraud / T&C classification + escalation
+  - vip-enterprise-prioritization      # CRM tier → SLA + routing tier
+  - voice-support-aircall-dialpad-twilio # phone transcription → ticket + sentiment
+
+  # ── CraftBot defaults (18) — already on recipient's install ───────────
+  # Document output for executive digests, runbooks, post-mortem reports.
+  - docx                            # support runbooks, executive reports
+  - pdf                             # post-incident write-ups, executive packets
+  - pptx                            # support metrics review decks, board summaries
+  - file-format                     # cross-format conversion
+  - file-organizer                  # ticket attachment + asset organization
+
+  # Web + competitive research, community monitoring.
+  - playwright-mcp                  # browse real pages — competitor help centers, status pages
+  - brave-search                    # community / forum monitoring search
+  - duckduckgo-search               # alt search
+  - firecrawl                       # structured competitor KB / community scraping
+
+  # Ideation and planning.
+  - brainstorming                   # response phrasing variants, FAQ drafts
+  - concise-planning                # support runbook authoring
+  - ask-questions-if-underspecified # clarify before responding
+  - audit-context-building          # gather customer history + product context rigorously
+
+  # Cross-check + tool execution.
+  - gemini                          # second-opinion model for delicate responses
+  - cli-anything                    # run vale / dig / curl / jq / lychee / langdetect / kapa / loris / etc.
+
+  # Version control for runbooks / templates.
+  - git-commit                      # track macro and runbook iterations
+  - github                          # collaborative review on PRs
+
+# MCP servers — every name MUST exist in app/config/mcp_config.json.
+# Recipient enables each in CraftBot MCP settings + fills API credentials.
+mcp_servers:
+  - filesystem                      # read/edit runbooks, macro library, post-mortems
+  - gmail-mcp                       # outbound replies, exec digests
+  - notion-mcp                      # KB hygiene, macro SoT, FAQ DB, runbook home
+  - postgresql-mcp                  # warehouse queries for SLA breach / cohort trends / health scores
+
+  # ── Engineering escalation ────────────────────────────────────────────
+  - linear-mcp                      # primary engineering escalation
+  - jira-mcp                        # alt engineering escalation (Atlassian shops)
+  - sentry-mcp                      # crash matching for bug reports
+  - github                          # repo cross-reference, PR sync
+
+  # ── Multi-channel routing ─────────────────────────────────────────────
+  - slack-mcp                       # internal triage + on-call ping
+  - discord-mcp                     # community channel basic
+  - discord-mcp-full                # community channel CRUD + role mgmt
+  - ms-teams-mcp                    # enterprise customers on Teams
+  - twilio-mcp                      # outbound SMS escalation + voice
+
+  # ── Payments + refunds ────────────────────────────────────────────────
+  - stripe-mcp                      # refund / credit execution
+
+  # ── Product analytics tied to support ─────────────────────────────────
+  - posthog-mcp                     # session replay + onboarding friction + sentiment events
+  - mixpanel-mcp                    # alt product analytics
+  - amplitude-mcp                   # alt product analytics + cohorts
+
+  # ── Community / monitoring ────────────────────────────────────────────
+  - reddit-mcp                      # subreddit monitoring + reply
+  - firecrawl-mcp                   # structured forum scraping
+  - brightdata-mcp                  # heavy scraping fallback
+
+  # ── Multilingual ──────────────────────────────────────────────────────
+  - deepl-mcp                       # multilingual support routing + translation
+
+# Source attribution.
+sources:
+  - name: Intercom Fin AI Operator (GA Mar 2026)
+    url: https://www.intercom.com/help/en/articles/9442290-fin-ai-operator
+    used_for: triage, auto-reply, conversation summarization, macro management, Resolution Score gating
+  - name: Zendesk Intelligent Triage + Sentiment
+    url: https://support.zendesk.com/hc/en-us/articles/4408828134298-Intelligent-triage
+    used_for: ticket triage on Zendesk + sentiment + SLA + macros
+  - name: Front API reference
+    url: https://dev.frontapp.com/reference
+    used_for: multi-channel inbox, Smart Summarize, templates
+  - name: Plain API docs
+    url: https://plain.com/docs/api
+    used_for: modern dev-first ticketing (GraphQL)
+  - name: HelpScout API
+    url: https://developer.helpscout.com/mailbox-api/
+    used_for: HelpScout REST workflows
+  - name: Linear API + MCP
+    url: https://developers.linear.app/docs
+    used_for: engineering escalation primary
+  - name: Atlassian Jira REST API v3
+    url: https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/
+    used_for: engineering escalation (Atlassian shops)
+  - name: Sentry MCP
+    url: https://docs.sentry.io/api/
+    used_for: crash matching during bug normalization
+  - name: Kapa.ai API
+    url: https://docs.kapa.ai/api
+    used_for: doc Q&A + deflection metrics + content-gap audit
+  - name: Inkeep docs
+    url: https://docs.inkeep.com/
+    used_for: alt AI doc Q&A
+  - name: Markprompt OSS
+    url: https://markprompt.com/docs
+    used_for: free / open-source alt for AI doc Q&A
+  - name: Lychee link checker
+    url: https://lychee.cli.rs/
+    used_for: KB stale-link detection via cli-anything
+  - name: Loris.ai
+    url: https://loris.ai/
+    used_for: per-ticket sentiment scoring
+  - name: Zendesk QA (Klaus)
+    url: https://klausapp.com/api
+    used_for: cohort-level QA scoring
+  - name: Delighted CSAT/CES/NPS
+    url: https://app.delighted.com/docs/api
+    used_for: post-ticket survey delivery + response capture
+  - name: Survicate API
+    url: https://developers.survicate.com/
+    used_for: alt CSAT/CES/NPS provider
+  - name: Vitally API
+    url: https://docs.vitally.io/reference
+    used_for: customer-health scoring, churn risk feed
+  - name: Catalyst Software API
+    url: https://help.catalyst.io/
+    used_for: alt customer-success platform
+  - name: Statuspage developer docs
+    url: https://developer.statuspage.io/
+    used_for: post-incident customer communications
+  - name: PagerDuty REST API
+    url: https://developer.pagerduty.com/api-reference/
+    used_for: on-call rotation + incident creation
+  - name: Stripe API — refunds
+    url: https://stripe.com/docs/api/refunds
+    used_for: refund / credit policy execution
+  - name: DeepL API
+    url: https://www.deepl.com/docs-api
+    used_for: multilingual routing + translation
+  - name: Atomic AI trust & safety
+    url: https://atomic.ai/
+    used_for: abuse / fraud / T&C classification
+  - name: Google Perspective API
+    url: https://perspectiveapi.com/
+    used_for: free fallback for basic toxicity scoring
+  - name: PostHog session replay
+    url: https://posthog.com/docs/session-replay
+    used_for: self-serve onboarding troubleshooting + sentiment events
+  - name: Discord developer docs
+    url: https://discord.com/developers/docs/intro
+    used_for: community-server monitoring + role mgmt
+  - name: Reddit API
+    url: https://www.reddit.com/dev/api
+    used_for: subreddit monitoring + community support
+  - name: Aircall developer API
+    url: https://developer.aircall.io/api-references/
+    used_for: phone-ticket transcription
+  - name: Twilio docs
+    url: https://www.twilio.com/docs
+    used_for: outbound SMS escalation + voice
+  - name: Productboard API
+    url: https://developer.productboard.com/
+    used_for: feature-request capture
+  - name: Census reverse-ETL
+    url: https://docs.getcensus.com/
+    used_for: sync Zendesk/Intercom → warehouse → BI dashboards

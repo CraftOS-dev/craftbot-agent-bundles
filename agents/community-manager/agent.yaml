@@ -1,0 +1,394 @@
+# Community Manager — CraftBot agent definition
+#
+# GENERAL TIER under community/. Covers the whole community-operator surface:
+# platform selection (Circle / Discord / Slack / Discourse / Bevy / Skool),
+# onboarding + welcome flows, code of conduct + moderation policies + bot
+# stacks (Carl-bot / MEE6 / Dyno / Polly / Geekbot / Donut), engagement
+# programming (themed days + AMAs), ambassador program design, UGC
+# cultivation + rights workflow, community-led growth (CLG) measurement,
+# Common Room CRM ops, member journey design (lurker → ambassador), events
+# (Bevy / Lu.ma / Goldcast), community analytics (Common Room / Notable),
+# sentiment monitoring, feedback loop → product (Productboard / Linear),
+# gated communities (Memberstack / Outseta / Substack / Whop / Skool), Web3
+# community (Snapshot / Mirror / Lens / Collab.Land), community ROI math
+# (retention + expansion + advocacy + deflection + brand love), community-
+# led PLG motion, library + KB curation, Discourse FOSS forum operation,
+# Bevy chapter events, streaming community (Twitch / Kick / YouTube Live /
+# Discord Stage), newsletter+community hybrids (Substack / Beehiiv / Subkit),
+# beta program management, Reddit ops + AMAs, swag + recognition (Reachdesk /
+# Sendoso / Printful).
+#
+# Defers to: `marketing-agent` (paid + brand strategy), `social-media-manager`
+# (public social posting / DMs at scale), `customer-support-agent` (ticket
+# escalations / SLA), `customer-success` (post-sale relationship +
+# expansion + advocacy nuance), `content-creator` (long-form editorial),
+# `email-strategist` (newsletter mechanics).
+#
+# Every field traces back to reference/SOTA_USE_CASES.md and SOURCES.md.
+
+name: Community Manager
+slug: community-manager
+category: community
+tier: general                # one of: general | specialized
+description: >
+  Senior end-to-end community operator for solo founders, brand teams, and
+  community-led companies running real member volume. Selects platforms
+  (Circle / Discord / Slack / Discourse / Bevy / Skool / Mighty Networks);
+  ships welcome flows + code of conduct + moderation policies + bot stacks;
+  runs engagement programming (themed days, AMAs, town halls); designs
+  ambassador programs with tiered perks; cultivates UGC with rights
+  tracking; measures community-led growth (member → MQL, retention lift,
+  expansion lift, advocacy lift, support deflection); operates Common Room
+  / Insider Notable as community CRM; designs member journey from lurker
+  → ambassador; programs virtual + in-person community events; sets up
+  gated paid communities (Memberstack / Outseta / Substack / Whop); runs
+  Web3 community ops (Snapshot / Mirror / Lens). Three convictions:
+  community is not audience — interaction is the product; lurkers >
+  posters, design for the 90% reading silently; community ROI is a leading
+  indicator of retention. Defers to `marketing-agent` (paid + brand),
+  `social-media-manager` (public social), `customer-support-agent`
+  (escalations), `customer-success` (post-sale relationship).
+tags:
+  - community
+  - community-management
+  - community-led-growth
+  - community-roi
+  - circle
+  - discord
+  - slack
+  - discourse
+  - bevy
+  - skool
+  - mighty-networks
+  - ambassador-program
+  - ugc
+  - common-room
+  - moderation
+  - member-journey
+  - code-of-conduct
+  - amas
+  - web3
+  - dao
+  - gated-community
+  - newsletter-community
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 21 bundled SOTA skill packs (Round 2 will populate the SKILL.md contents).
+# Each closes a documented use case from reference/SOTA_USE_CASES.md.
+enabled_skills:
+  # ── Bundled (21) — SOTA community-operator skill packs ────────────────
+  - community-platform-selection-circle-discord-slack-discourse  # platform fit decision matrix
+  - community-onboarding-welcome-flow                            # multi-step welcome + 7d activation
+  - community-code-of-conduct-charter                            # CoC + charter authoring + publish
+  - community-moderation-policies-bots                           # per-platform mod policies + bot stack
+  - engagement-programming-themed-days-amas                      # editorial calendar + AMAs + recurring
+  - ambassador-program-design                                    # tier rubric + perks + onboarding
+  - ugc-cultivation-spotlights                                   # UGC pipeline + rights + repost
+  - community-led-growth-measurement                             # CLG model + warehouse join
+  - common-room-community-crm                                    # Common Room ops + HubSpot push
+  - member-journey-lurker-to-ambassador                          # journey-stage scoring + nudges
+  - community-events-virtual-in-person-bevy                      # event-type decision + setup
+  - discord-bot-setup-mee6-dyno                                  # Discord bot stack config + deploy
+  - slack-bot-polly-geekbot                                      # Slack engagement bot stack + workflows
+  - community-analytics-common-room-insider                      # analytics stack + weekly digest
+  - sentiment-monitoring-in-community                            # cross-platform + per-channel alerts
+  - community-feedback-loop-product                              # feedback → product backlog reverse-sync
+  - gated-community-memberstack-outseta-substack                 # paywall + role-sync + tiers
+  - web3-community-snapshot-mirror-lens                          # DAO governance + token-gated content
+  - community-roi-retention-expansion-advocacy                   # 5-dim ROI calc + board-grade slide
+  - community-led-plg-motion                                     # PLG → community handoff points
+  - community-library-kb-curation                                # KB drift + zero-result + auto-draft
+
+  # ── CraftBot defaults (18) — already on recipient's install ───────────
+  # Document output for charter, briefs, board ROI decks, ambassador kits.
+  - docx                            # community charter, ambassador contracts, AMA briefs
+  - pdf                             # board-grade ROI decks, ambassador welcome packets
+  - pptx                            # community strategy presentations, town hall slides
+  - file-format                     # cross-format conversion
+  - file-organizer                  # event assets, swag designs, ambassador kits
+
+  # Web + competitive research, community monitoring, scraping fallback.
+  - playwright-mcp                  # Bevy / Circle / Heartbeat / Mighty UI automation
+  - brave-search                    # SERP for competitor communities + platform research
+  - duckduckgo-search               # alt search
+  - firecrawl                       # competitor community snapshots + Discourse structured pull
+
+  # Ideation, planning, brief construction.
+  - brainstorming                   # post ideas, AMA questions, member-spotlight hooks
+  - concise-planning                # editorial calendar + AMA prep + event run-of-show
+  - ask-questions-if-underspecified # clarify community context before action
+  - audit-context-building          # gather brand voice + audience + competitor rigorously
+
+  # Cross-check + tool execution.
+  - gemini                          # second-opinion model on delicate moderation calls
+  - cli-anything                    # run Common Room / Bevy / Lu.ma / Circle / Discourse APIs
+
+  # Versioning + governance.
+  - git-commit                      # track CoC and rule-pack iterations
+  - github                          # collaborative review on PRs (OSS communities)
+
+# MCP servers — every name MUST exist in app/config/mcp_config.json.
+# Recipient enables each in CraftBot MCP settings + fills API credentials.
+mcp_servers:
+  - filesystem                      # read/edit charter, rule packs, member directory
+  - gmail-mcp                       # ambassador outreach, member-of-month emails, AMA prep
+  - notion-mcp                      # charter SoT, UGC rights DB, editorial calendar, member directory
+  - postgresql-mcp                  # CLG warehouse, ROI calc, sentiment cohort trends
+
+  # ── Real-time community channels ──────────────────────────────────────
+  - slack-mcp                       # Slack community + bot deployment
+  - discord-mcp                     # Discord community (basic)
+  - discord-mcp-full                # Discord community (CRUD + role mgmt + automod + scheduled)
+  - ms-teams-mcp                    # enterprise communities on Teams
+
+  # ── Forum / SEO community ─────────────────────────────────────────────
+  - reddit-mcp                      # own subreddit + AMA + monitoring
+
+  # ── Product backlog + engineering escalation ──────────────────────────
+  - linear-mcp                      # community-feedback → product backlog
+
+  # ── Product analytics tied to community-led growth ────────────────────
+  - posthog-mcp                     # CLG event instrumentation + member activity
+  - mixpanel-mcp                    # alt product analytics
+  - amplitude-mcp                   # alt cohort segmentation
+
+  # ── Scraping + competitive intel ──────────────────────────────────────
+  - firecrawl-mcp                   # competitor community structured pull
+  - brightdata-mcp                  # heavy scraping fallback
+
+  # ── Multilingual community routing ────────────────────────────────────
+  - deepl-mcp                       # member language translation + multi-market routing
+
+  # ── Streaming + video community ───────────────────────────────────────
+  - twitch-mcp                      # streaming community ops + chat bot
+  - youtube-mcp                     # community video + Live + Community Posts
+  - youtube-mcp-transcript          # AMA / town hall transcripts
+
+  # ── Regional messaging community ──────────────────────────────────────
+  - whatsapp-mcp                    # WhatsApp Business community channels
+  - wechat-mcp                      # APAC community
+  - line-mcp                        # Japan / Taiwan / Thailand community
+
+  # ── Commerce + payments (gated tiers + swag) ──────────────────────────
+  - shopify-mcp                     # community swag store integration
+  - stripe-mcp                      # gated paid-tier subscription + perks billing
+
+  # ── Public-signal community ───────────────────────────────────────────
+  - twitter-mcp                     # X Spaces + public signal scan
+  - bilibili-mcp                    # China-market community + live
+
+  # ── Webinars + town halls ─────────────────────────────────────────────
+  - zoom-mcp                        # community webinars + town halls
+
+# Source attribution.
+sources:
+  - name: Common Room community intelligence
+    url: https://www.commonroom.io/
+    used_for: member graph, champion identification, CLG measurement, ambassador candidate sourcing
+  - name: Common Room API
+    url: https://docs.commonroom.io/api/
+    used_for: programmatic member, segment, and activity access
+  - name: Reforge — Community-Led Growth
+    url: https://www.reforge.com/blog/community-led-growth
+    used_for: CLG framework, 5-dim ROI math, retention/expansion/advocacy lift definitions
+  - name: Reforge — Measuring Community ROI (Common Room blog)
+    url: https://www.commonroom.io/blog/measuring-community-roi/
+    used_for: ROI calc methodology and board-grade reporting
+  - name: Orbit Model (legacy reference)
+    url: https://orbit.love/blog/the-orbit-model/
+    used_for: member journey design (lurker → contributor → ambassador)
+  - name: Circle community platform
+    url: https://www.circle.so/pricing
+    used_for: platform-selection capability map + 2026 pricing
+  - name: Discord Safety + AutoMod
+    url: https://discord.com/safety
+    used_for: AutoMod policy + community moderation primitives
+  - name: Discord AutoModeration API
+    url: https://discord.com/developers/docs/resources/auto-moderation
+    used_for: programmatic automod rule deployment
+  - name: Carl-bot
+    url: https://carl.gg/
+    used_for: advanced Discord moderation + reaction roles + embed templates
+  - name: MEE6
+    url: https://mee6.xyz/
+    used_for: Discord leveling + welcome + auto-mod baseline
+  - name: Dyno
+    url: https://dyno.gg/
+    used_for: Discord anti-raid + moderation logs
+  - name: Mighty Networks
+    url: https://www.mightynetworks.com/
+    used_for: alt community platform (course + community bundle)
+  - name: Heartbeat.chat
+    url: https://www.heartbeat.chat/
+    used_for: alt community platform for SMB / creator-led
+  - name: Discourse (open-source forum)
+    url: https://www.discourse.org/
+    used_for: FOSS forum + community-as-SEO platform
+  - name: Discourse Meta
+    url: https://meta.discourse.org/
+    used_for: trust levels, automation, theme components, moderation queue
+  - name: Bevy community-led events
+    url: https://bevy.com/
+    used_for: chapter-based community programs (Atlassian / Salesforce / Notion model)
+  - name: Lu.ma events
+    url: https://lu.ma/
+    used_for: casual / creator-led events platform
+  - name: Goldcast B2B virtual events
+    url: https://www.goldcast.io/
+    used_for: B2B hybrid + virtual event platform
+  - name: Welcome events
+    url: https://welcome.com/
+    used_for: alt B2B virtual event platform
+  - name: Eventbrite
+    url: https://www.eventbrite.com/
+    used_for: ticketing + RSVP for community events
+  - name: Skool
+    url: https://www.skool.com/
+    used_for: course + community bundle platform
+  - name: Substack (Chat + Notes + Paid community)
+    url: https://substack.com/community
+    used_for: newsletter-as-community + paid tier
+  - name: Beehiiv
+    url: https://www.beehiiv.com/
+    used_for: alt newsletter-as-community + paid tier
+  - name: Subkit
+    url: https://subkit.com/
+    used_for: monetized newsletter + community add-on
+  - name: Memberstack
+    url: https://www.memberstack.com/
+    used_for: gated community paywall for SaaS / creator
+  - name: Outseta
+    url: https://www.outseta.com/
+    used_for: all-in-one CRM + paywall + community
+  - name: Whop creator-economy gated Discord
+    url: https://whop.com/
+    used_for: creator-economy gated Discord access + payments
+  - name: Contributor Covenant 2.1
+    url: https://www.contributor-covenant.org/version/2/1/code_of_conduct/
+    used_for: code-of-conduct base for OSS communities
+  - name: Open Source Guide — Code of Conduct
+    url: https://opensource.guide/code-of-conduct/
+    used_for: charter + CoC authoring patterns
+  - name: Snapshot off-chain governance
+    url: https://docs.snapshot.org/
+    used_for: DAO governance voting + Web3 community ops
+  - name: Mirror token-gated publishing
+    url: https://dev.mirror.xyz/
+    used_for: token-gated content publishing for Web3 communities
+  - name: Lens Protocol
+    url: https://docs.lens.xyz/
+    used_for: decentralized social graph for Web3 communities
+  - name: Collab.Land
+    url: https://collab.land/
+    used_for: NFT-gated Discord/Telegram roles via wallet sign-in
+  - name: Brand24 social listening
+    url: https://brand24.com/
+    used_for: cross-platform community-topic sentiment + 2026 sarcasm/slang model
+  - name: Notable (Insider community intel)
+    url: https://www.notable.so/
+    used_for: SMB alt to Common Room
+  - name: Threado community CRM
+    url: https://threado.com/
+    used_for: SMB community intelligence + Slack/Discord focus
+  - name: Productboard
+    url: https://developer.productboard.com/
+    used_for: community feedback → product roadmap pipeline
+  - name: Canny feedback portal
+    url: https://canny.io/
+    used_for: public feedback boards + roadmap status sync
+  - name: Featurebase
+    url: https://www.featurebase.app/
+    used_for: alt feedback portal + community-driven roadmap
+  - name: Polly Slack polls
+    url: https://www.polly.ai/
+    used_for: Slack engagement bot (polls + pulse surveys)
+  - name: Geekbot async standups
+    url: https://geekbot.com/
+    used_for: Slack async standup bot for distributed communities
+  - name: Donut Slack intros
+    url: https://www.donut.com/
+    used_for: Slack member-to-member intro coffees
+  - name: Twitch developer docs
+    url: https://dev.twitch.tv/docs/api/
+    used_for: streaming community ops + chat bot deploy
+  - name: Kick (creator-friendly streaming alt)
+    url: https://kick.com/
+    used_for: alt streaming platform with creator-friendly revenue split
+  - name: Nightbot
+    url: https://nightbot.tv/
+    used_for: chat moderation for Twitch + YouTube live
+  - name: Reddit AutoModerator
+    url: https://www.reddit.com/r/AutoModerator/wiki/library
+    used_for: YAML rule-based subreddit moderation
+  - name: Reddit Toolbox
+    url: https://www.reddit.com/wiki/toolbox
+    used_for: subreddit mod power tool
+  - name: AnswerOverflow
+    url: https://www.answeroverflow.com/
+    used_for: index Discord questions to Google for community-as-SEO
+  - name: Reachdesk swag
+    url: https://www.reachdesk.com/
+    used_for: B2B swag + recognition kits at scale
+  - name: Sendoso swag
+    url: https://www.sendoso.com/
+    used_for: alt B2B direct-mail + swag platform
+  - name: Printful DTC merch
+    url: https://www.printful.com/
+    used_for: DTC merch fallback for community swag
+  - name: Mavrck ambassador platform
+    url: https://www.mavrck.co/
+    used_for: enterprise ambassador-program platform
+  - name: SocialLadder ambassador platform
+    url: https://socialladder.tech/
+    used_for: alt ambassador-program platform
+  - name: Roster ambassador-program
+    url: https://roster.media/
+    used_for: alt ambassador / influencer hybrid platform
+  - name: Centercode beta-management
+    url: https://www.centercode.com/
+    used_for: enterprise beta-program management
+  - name: BetaList
+    url: https://betalist.com/
+    used_for: SaaS beta launchpad
+  - name: Notion API
+    url: https://developers.notion.com/
+    used_for: community charter SoT, UGC rights DB, editorial calendar
+  - name: Slab knowledge base
+    url: https://slab.com/
+    used_for: alt community KB / library platform
+  - name: Tettra
+    url: https://tettra.com/
+    used_for: alt KB for community library curation
+  - name: Stack Overflow for Teams
+    url: https://stackoverflowteams.com/
+    used_for: technical-community Q&A KB
+  - name: Mattermost (OSS)
+    url: https://mattermost.com/
+    used_for: OSS Slack alt for self-hosted communities
+  - name: Rocket.Chat (FOSS)
+    url: https://rocket.chat/
+    used_for: FOSS Slack alt for self-hosted communities
+  - name: Matrix + Element
+    url: https://matrix.org/
+    used_for: decentralized chat protocol for privacy-first communities
+  - name: Farcaster crypto-native social
+    url: https://www.farcaster.xyz/
+    used_for: crypto-native Twitter alt for Web3 communities
+  - name: Mastodon federated social
+    url: https://joinmastodon.org/
+    used_for: federated social option for community presence
+  - name: Bluesky AT Protocol
+    url: https://bsky.app/
+    used_for: federated social option for community presence
+  - name: Vale prose linter
+    url: https://vale.sh/
+    used_for: community voice consistency + CoC tone consistency
+  - name: Showca — UGC usage rights
+    url: https://www.showca.se/post/ugc-usage-rights
+    used_for: UGC rights workflow + FTC disclosure rule for community spotlights
+  - name: Lychee link checker
+    url: https://lychee.cli.rs/
+    used_for: community KB dead-link sweep

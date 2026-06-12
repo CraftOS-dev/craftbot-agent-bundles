@@ -1,0 +1,386 @@
+# Compliance Agent — CraftBot agent definition
+#
+# Every field traces back to web-sourced SOTA research summarized in
+# reference/SOTA_USE_CASES.md (per-use-case mapping) and SOURCES.md
+# (section-to-source map). Upstream reference agents have not been
+# downloaded in v1; see reference/INVENTORY.md.
+
+name: Compliance Agent
+slug: compliance-agent
+category: compliance
+tier: general
+description: >
+  Senior compliance officer for solo founders, startups, and small-to-mid-market
+  teams. Covers SOC 2, ISO 27001 (+27017/27018/27701/42001), GDPR, CCPA/CPRA,
+  HIPAA, PCI DSS v4.0, AML/KYC (BSA/OFAC/FinCEN/FATF), vendor risk + TPRM,
+  vulnerability management, penetration testing coordination, security
+  awareness training, phishing simulation, incident response (NIST SP 800-61
+  Rev. 3), breach notification (72hr GDPR + US state + sector), data
+  classification / DLP, policy authoring, AI governance (EU AI Act + NIST AI
+  RMF + ISO 42001), whistleblower programs, risk registers, and regulatory
+  horizon scanning (DORA, NIS2, EU AI Act, state privacy expansion). Operates
+  on the load-bearing conviction that compliance is a process, not a project —
+  the audit is a checkpoint, not the goal. DISTINCT from `legal-counsel`
+  (binding contracts, IP, T&C). Defers to licensed compliance professionals,
+  auditors, and privacy attorneys for binding decisions.
+
+tags:
+  - compliance
+  - grc
+  - soc2
+  - iso27001
+  - iso27701
+  - iso42001
+  - gdpr
+  - ccpa
+  - cpra
+  - hipaa
+  - pci-dss
+  - aml
+  - kyc
+  - bsa
+  - ofac
+  - fincen
+  - fatf
+  - vendor-risk
+  - tprm
+  - vulnerability-management
+  - pentest
+  - phishing-simulation
+  - incident-response
+  - nist-800-61
+  - breach-notification
+  - dlp
+  - data-classification
+  - ai-governance
+  - eu-ai-act
+  - dora
+  - nis2
+  - whistleblower
+  - risk-register
+  - policy-authoring
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time:
+#   1. agents/compliance-agent/skills/<name>/  (bundled — ships INSIDE the .craftbot)
+#   2. <repo>/skills/<name>/                    (CraftBot default — already on recipient's install)
+#   A missing skill (in neither location) causes a build error.
+enabled_skills:
+  # ── Bundled (25) — SOTA compliance skill packs we ship with this agent ──
+  # Round 2 will populate each folder under agents/compliance-agent/skills/<name>/
+  # with a SKILL.md. The names below are reserved and referenced from soul.md
+  # / role.md / SOTA_USE_CASES.md.
+  - drata-vanta-secureframe-soc2-monitoring          # SOC 2 + multi-framework GRC automation (Vanta/Drata/Secureframe/Sprinto/Thoropass)
+  - iso-27001-isms-readiness                         # ISO/IEC 27001:2022 ISMS prep + 27017/27018/27701 add-ons
+  - gdpr-article-30-ropa-dpia                        # GDPR core: ROPA + DPIA + LIA + TIA
+  - ccpa-cpra-dsar-workflows                         # DSAR / DSR handling (Transcend/Securiti/DataGrail/OneTrust DSR/Ketch)
+  - hipaa-risk-assessment-baa                        # HIPAA Security Rule risk analysis + BAA
+  - pci-dss-scope-reduction-saq-selection            # PCI DSS v4.0 scope + tokenization + SAQ selection
+  - aml-kyc-bsa-ofac-fincen-fatf                     # AML program design (BSA/OFAC/FinCEN/FATF/MiCA)
+  - customer-due-diligence-cdd-edd-sumsub-persona-jumio   # KYC vendor integration (Sumsub/Persona/Jumio/Onfido/Trulioo/Veriff/Alloy)
+  - sanctions-transaction-monitoring-comply-advantage     # Sanctions + TM + SAR (ComplyAdvantage/Chainalysis/Elliptic/Refinitiv/Dow Jones)
+  - vendor-risk-bitsight-securityscorecard-upguard   # TPRM platform integration (BitSight/SecurityScorecard/UpGuard/Vanta Vendor)
+  - tprm-third-party-risk-lifecycle                  # TPRM lifecycle (sourcing → offboarding)
+  - pentest-coordination-hackerone-bugcrowd          # Pentest + bug bounty (HackerOne/Bugcrowd/Cobalt/Synack/Intigriti)
+  - vulnerability-mgmt-tenable-qualys-snyk           # VM platforms (Tenable One/Qualys VMDR/Rapid7 InsightVM/Snyk/GHAS)
+  - security-awareness-training-knowbe4-hoxhunt      # Awareness training (KnowBe4/Hoxhunt/SoSafe/Living Security/Arsen)
+  - phishing-simulation-program                      # Phishing sim (email/voice/SMS/QR/deepfake)
+  - incident-response-nist-sp-800-61                 # IR plan + playbooks (NIST SP 800-61 r3 / CSF 2.0)
+  - breach-notification-gdpr-72hr-state-laws         # Breach matrix (GDPR Art. 33/34 + US state + SEC 8-K + NYDFS + NIS2)
+  - data-classification-dlp-purview-nightfall        # DLP + classification (Purview/Nightfall/Cyberhaven/Varonis)
+  - data-retention-deletion-policy                   # Retention schedule + deletion runbook
+  - policy-authoring-cybersecurity-aup-byod          # Policy library (cybersec/AUP/BYOD/AI use/remote/code of conduct)
+  - ai-governance-eu-ai-act-eticas-credo             # AI governance (EU AI Act + NIST AI RMF + ISO 42001 + Credo/Holistic/Robust)
+  - whistleblower-program-navex-ethicspoint          # Whistleblower (EU Directive 2019/1937 + SOX 806; NAVEX/Lighthouse/Convercent/FaceUp)
+  - risk-register-maintenance-scoring                # Risk register (NIST 800-30 / ISO 27005 / FAIR / OpenFAIR)
+  - regulatory-horizon-scanning-eu-ai-act-dora-nis2  # Quarterly horizon brief (DORA/NIS2/EU AI Act/state privacy)
+  - vendor-security-questionnaire-caiq-sig           # CAIQ v4 / SIG (Lite/Core/Plus) answering + Trust Centers
+
+  # ── CraftBot defaults (16) — already on recipient's install ────────────
+  # Document I/O, file ops, research, writing assistance, review discipline.
+  - cli-anything                                     # universal verb — install Vanta/Drata CLIs, curl regulator APIs, OFAC SDN, CNIL PIA tool, OpenVAS, etc.
+  - compliance-cert-planner                          # default CraftBot skill — applicability + roadmap + shared controls matrix
+  - supply-chain-risk-auditor                        # default — dependency risk audit for OSS / supply chain
+  - file-format                                      # convert .docx / .pdf / .md / .xlsx for evidence intake
+  - file-organizer                                   # organize a workspace of audit evidence, policies, vendor docs
+  - docx                                             # produce Word output (default for policies + audit reports)
+  - pdf                                              # produce PDF for auditor + regulator delivery
+  - pptx                                             # produce board-level compliance + risk briefings
+  - xlsx                                             # produce Excel for risk register + control matrix + vendor inventory
+  - markdown-converter                               # cross-convert markdown for memos + policies + playbooks
+  - writing-skills                                   # general writing discipline for memos + reports
+  - writing-plans                                    # structured drafting plans for long policy libraries
+  - writing-assistant                                # collaborative drafting flow
+  - brainstorming                                    # use-case exploration before control / policy design
+  - concise-planning                                 # plan multi-step compliance audits + roadmap
+  - research-assistant                               # regulator + standard + secondary-source research
+  - web-search-plus                                  # broad regulator + comparison-blog search
+  - tavily-search                                    # high-quality search for source material
+  - firecrawl                                        # scrape regulator pages (ICO, EDPB, CPPA, FTC, FinCEN, OFAC, NCSL, EU Commission)
+  - verification-before-completion                   # quality-gate every audit report / policy / memo before delivery
+  - prompt-engineering-expert                        # structure prompts to Vanta AI / Drata AI / Loopio
+  - github                                           # repo IaC review for secret scanning + CodeQL + Dependabot
+  - github-api                                       # raw GitHub API for SAST + dependency + secret + SBOM
+  - using-git-worktrees                              # isolate audit-evidence branches in versioned doc repos
+  - differential-review                              # structured review of policy redlines / audit PRs
+
+# MCP servers — every name verified against app/config/mcp_config.json.
+# The recipient enables each in MCP settings after import and fills in any
+# required API keys.
+mcp_servers:
+  - filesystem                                       # read/edit policies, audit reports, evidence packets
+  - firecrawl-mcp                                    # fetch frequently-changing regulator pages (ICO, EDPB, CPPA, Cal AG, NCSL, FinCEN, OFAC, FATF, FINRA, SEC, FDA, EU Commission, IAPP)
+  - gemini-ocr-mcp                                   # extract text from scanned policies + audit exhibits
+  - mistral-ocr-mcp                                  # alt OCR for redundancy
+  - notion-mcp                                       # write audit reports / risk registers / vendor inventories / CSIRT rosters
+  - gmail-mcp                                        # vendor security questionnaires + auditor comms + DSAR verification + breach notifications
+  - google-drive-mcp                                 # read/write evidence packets + policy library
+  - google-workspace-mcp                             # Docs (policies) + Sheets (risk register, vendor inventory, evidence tracker)
+  - github                                           # repo scanning for secrets, vulnerabilities, IaC, supply-chain
+  - splunk-mcp                                       # SIEM query for audit evidence + incident forensics
+  - sentry-mcp                                       # error / incident telemetry for IR
+  - cloudflare-mcp                                   # WAF / DDoS / Bot management evidence
+  - aws-s3-mcp                                       # log retention buckets + audit evidence storage
+  - kubernetes-mcp                                   # container security posture evidence
+  - shodan-mcp-full                                  # external attack surface for TPRM + own-surface discovery
+  - virustotal-mcp                                   # IOC lookup + malware analysis for IR
+  - sec-edgar-mcp                                    # public-company peer cyber 8-K benchmarks
+  - deepl-mcp                                        # multi-jurisdiction translation (EU + US + LATAM + APAC)
+
+# Source attribution. See SOURCES.md for section→source map. See
+# reference/INVENTORY.md for the per-file URL + license + description.
+sources:
+  - name: AICPA — SOC 2 Trust Services Criteria (TSP 100)
+    url: https://us.aicpa.org/interestareas/frc/assuranceadvisoryservices/sorhome
+    used_for: SOC 2 Type I / II readiness + TSC mapping + auditor coordination
+  - name: Vanta — SOC 2 / ISO 27001 / HIPAA / GDPR Automation
+    url: https://www.vanta.com/
+    used_for: Multi-framework GRC automation; ~35% market share leader
+  - name: Drata — Continuous Compliance Automation
+    url: https://drata.com/
+    used_for: SOC 2 / ISO 27001 / HIPAA evidence automation; auditor-favorite UX
+  - name: Secureframe — SOC 2 / ISO 27001 / PCI Automation
+    url: https://secureframe.com/
+    used_for: SOC 2 + advisory-heavy automation alternative
+  - name: Sprinto — Mid-market SOC 2 / ISO Automation
+    url: https://sprinto.com/
+    used_for: Mid-market / international GRC automation alternative
+  - name: Thoropass (formerly Laika) — Compliance + Audit Bundle
+    url: https://thoropass.com/
+    used_for: Compliance platform + bundled audit services
+  - name: ISO/IEC 27001:2022
+    url: https://www.iso.org/standard/27001
+    used_for: ISMS readiness + Annex A (93 controls reorganized 4 themes)
+  - name: ISO/IEC 42001 — AI Management System
+    url: https://www.iso.org/standard/81230.html
+    used_for: AI governance certifiable management system; maps to EU AI Act
+  - name: GDPR (EU 2016/679) + Article 30 + 33 + 34 + 35
+    url: https://gdpr-info.eu/
+    used_for: ROPA + DPIA + DSAR + breach notification + lawful basis
+  - name: ICO — UK GDPR Guidance
+    url: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/
+    used_for: ROPA template + DPIA template + DSAR procedures
+  - name: EDPB — European Data Protection Board
+    url: https://edpb.europa.eu/
+    used_for: GDPR enforcement guidance + SCC clarifications + post-Schrems II transfers
+  - name: CNIL PIA Software (open-source DPIA tool)
+    url: https://www.cnil.fr/en/open-source-pia-software-helps-carry-out-data-protection-impact-assesment
+    used_for: Free DPIA execution
+  - name: California Privacy Protection Agency (CPPA)
+    url: https://cppa.ca.gov/
+    used_for: CCPA / CPRA regulations + enforcement
+  - name: California AG — CCPA
+    url: https://oag.ca.gov/privacy/ccpa
+    used_for: CCPA enforcement focus areas (children, dark patterns, GPC signal)
+  - name: Transcend — DSR Automation (encrypted)
+    url: https://www.transcend.io/
+    used_for: DSR / DSAR fulfillment with end-to-end encryption
+  - name: Securiti.ai — Privacy + Data Discovery
+    url: https://securiti.ai/
+    used_for: Data discovery + classification + DSR
+  - name: DataGrail — DSR + 2000+ integrations
+    url: https://www.datagrail.io/
+    used_for: DSR fulfillment with broadest integration depth
+  - name: OneTrust — Privacy + Consent + DSR + Vendor + Policy
+    url: https://www.onetrust.com/
+    used_for: Enterprise privacy + consent + DSR + TPRM stack
+  - name: Ketch — API-driven Consent + DSR
+    url: https://www.ketch.com/
+    used_for: API-first consent + DSR alternative
+  - name: HHS — HIPAA Security Rule Guidance + Sample BAA
+    url: https://www.hhs.gov/hipaa/for-professionals/security/guidance/index.html
+    used_for: HIPAA risk analysis + sample BAA + breach notification
+  - name: NIST SP 800-66 Rev. 2 — HIPAA Security Rule Guidance
+    url: https://csrc.nist.gov/pubs/sp/800/66/r2/final
+    used_for: HIPAA risk analysis methodology
+  - name: HHS HealthIT — Security Risk Assessment Tool
+    url: https://www.healthit.gov/topic/privacy-security-and-hipaa/security-risk-assessment-tool
+    used_for: Free SRA tool for small/medium HIPAA-covered orgs
+  - name: PCI Security Standards Council — PCI DSS v4.0
+    url: https://www.pcisecuritystandards.org/document_library/
+    used_for: PCI DSS v4.0 scope + SAQ selection
+  - name: Stripe — PCI Compliance Guide
+    url: https://stripe.com/guides/pci-compliance
+    used_for: SAQ-A / A-EP scope reduction via tokenization
+  - name: FinCEN — Bank Secrecy Act Resources
+    url: https://www.fincen.gov/resources/financial-institutions/bank-secrecy-act-resources
+    used_for: BSA / AML program design + SAR / CTR filing
+  - name: OFAC — Sanctions + SDN List
+    url: https://ofac.treasury.gov/
+    used_for: Sanctions screening + SDN list fetch
+  - name: FATF — Recommendations
+    url: https://www.fatf-gafi.org/en/topics/Fatf-recommendations.html
+    used_for: International AML standards + Travel Rule (R.16)
+  - name: Sumsub — KYC / KYB / AML
+    url: https://sumsub.com/
+    used_for: Broadest single-vendor KYC (14k+ doc types, MiCA + FinCEN aligned)
+  - name: Persona — Identity Verification (customizable)
+    url: https://withpersona.com/
+    used_for: Customizable KYC workflows
+  - name: Jumio — Enterprise Identity Verification
+    url: https://www.jumio.com/
+    used_for: Enterprise ID-doc + facial liveness (5k doc types from 200 countries)
+  - name: ComplyAdvantage — AI-driven AML / Sanctions
+    url: https://complyadvantage.com/
+    used_for: Real-time AML / sanctions / PEP / watchlist / adverse media
+  - name: Chainalysis — Crypto Compliance
+    url: https://www.chainalysis.com/
+    used_for: KYT + Address Screening + VASP Risk Scoring + Sentinel
+  - name: Refinitiv World-Check
+    url: https://www.refinitiv.com/en/products/world-check-kyc-screening
+    used_for: Sanctions + PEP + adverse media database
+  - name: BitSight — Cyber Risk Intelligence (Forrester 2026 Leader)
+    url: https://www.bitsight.com/
+    used_for: TPRM outside-in ratings (highest possible Forrester Wave score 2026)
+  - name: SecurityScorecard — Security Ratings
+    url: https://securityscorecard.com/
+    used_for: TPRM outside-in security ratings
+  - name: UpGuard — TPRM + Attack Surface Management
+    url: https://www.upguard.com/
+    used_for: TPRM + ASM + data-leak detection combined
+  - name: Shared Assessments — SIG Questionnaire (Lite/Core/Plus)
+    url: https://sharedassessments.org/sig/
+    used_for: Vendor security questionnaire standard
+  - name: Cloud Security Alliance — CAIQ v4 + CCM
+    url: https://cloudsecurityalliance.org/research/cloud-controls-matrix
+    used_for: CAIQ vendor questionnaire (261 questions, 17 CCM domains)
+  - name: HackerOne — Bug Bounty Platform
+    url: https://www.hackerone.com/
+    used_for: Pentest + bug bounty coordination
+  - name: Bugcrowd — Bug Bounty + Managed Triage
+    url: https://www.bugcrowd.com/
+    used_for: Bug bounty with managed triage alternative
+  - name: Cobalt — PtaaS
+    url: https://www.cobalt.io/
+    used_for: Pen-test-as-a-service (time-boxed)
+  - name: Synack — Vetted Pentest + AI Assist
+    url: https://www.synack.com/
+    used_for: Vetted-researcher pentest alternative
+  - name: Tenable One — Exposure Management
+    url: https://www.tenable.com/
+    used_for: Unified VM + cloud + OT + AD + identity
+  - name: Qualys VMDR — Vulnerability Management + Patching
+    url: https://www.qualys.com/apps/vulnerability-management-detection-response/
+    used_for: VM + native patching + TruRisk scoring
+  - name: Rapid7 InsightVM — Modern VM
+    url: https://www.rapid7.com/products/insightvm/
+    used_for: VM with Real Risk Score
+  - name: Snyk — Developer App-Sec
+    url: https://snyk.io/
+    used_for: Code + dependencies + containers + IaC scanning
+  - name: KnowBe4 — Security Awareness Training (largest library)
+    url: https://www.knowbe4.com/
+    used_for: Awareness training + phishing simulation (largest content library)
+  - name: Hoxhunt — Adaptive Phishing + Training
+    url: https://hoxhunt.com/
+    used_for: Behavioral / adaptive phishing simulation
+  - name: SoSafe — EU Security Awareness (NIS2 + GDPR)
+    url: https://sosafe-awareness.com/
+    used_for: EU-focused awareness training (NIS2 + GDPR)
+  - name: Living Security — HRM Dashboards
+    url: https://www.livingsecurity.com/
+    used_for: Board-level Human Risk Management dashboards
+  - name: NIST SP 800-61 Rev. 3 — Incident Response (April 2025)
+    url: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+    used_for: IR plan + playbooks aligned to NIST CSF 2.0 six functions
+  - name: NIST Cybersecurity Framework (CSF) 2.0
+    url: https://www.nist.gov/cyberframework
+    used_for: Cross-walk anchor for SOC 2 / ISO 27001 / NIST 800-53 / CIS v8
+  - name: NCSL — US State Breach Notification Laws
+    url: https://www.ncsl.org/technology-and-communication/security-breach-notification-laws
+    used_for: 50-state breach notification matrix
+  - name: SEC — Cyber Incident 8-K Item 1.05
+    url: https://www.sec.gov/rules/final/2023/33-11216.pdf
+    used_for: Public-company 4-business-day material cyber incident disclosure
+  - name: Microsoft Purview — DLP / DSPM / Insider Risk
+    url: https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp
+    used_for: M365-native DLP + classification
+  - name: Nightfall AI — API-first SaaS DLP
+    url: https://www.nightfall.ai/
+    used_for: API-first DLP for SaaS + GenAI
+  - name: Cyberhaven — Data Lineage / DDR
+    url: https://www.cyberhaven.com/
+    used_for: 2026 Unified AI & Data Security Platform; tracks data origin
+  - name: SANS — Information Security Policy Templates
+    url: https://www.sans.org/information-security-policy/
+    used_for: Free policy templates baseline
+  - name: CIS — Security Policy Templates
+    url: https://www.cisecurity.org/insights/white-papers/cis-security-policy-templates
+    used_for: Free policy templates baseline
+  - name: PowerDMS — Policy Management
+    url: https://www.powerdms.com/
+    used_for: Versioning + attestation policy mgmt
+  - name: NAVEX — Policy + EthicsPoint
+    url: https://www.navex.com/
+    used_for: Policy mgmt + whistleblower hotline
+  - name: EU AI Act
+    url: https://artificialintelligenceact.eu/
+    used_for: AI governance high-risk obligations (effective Aug 2, 2026)
+  - name: NIST AI Risk Management Framework (RMF) 1.0
+    url: https://www.nist.gov/itl/ai-risk-management-framework
+    used_for: AI governance voluntary framework (cross-references EU AI Act + ISO 42001)
+  - name: Credo AI — AI Governance Platform
+    url: https://www.credo.ai/
+    used_for: Policy packs for EU AI Act + NIST RMF + ISO 42001 + SOC 2
+  - name: Holistic AI — AI Governance
+    url: https://www.holisticai.com/
+    used_for: Continuous AI audit trails + evidence collection
+  - name: EU Whistleblower Directive 2019/1937
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32019L1937
+    used_for: EU internal reporting channel requirements (50+ EE orgs)
+  - name: NAVEX EthicsPoint — Whistleblower Hotline
+    url: https://www.navex.com/en-us/products/navex-one-grc-information-system/ethicspoint-hotline-incident-management/
+    used_for: Enterprise whistleblower hotline + case management
+  - name: NIST SP 800-30 Rev. 1 — Risk Assessment
+    url: https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final
+    used_for: Risk assessment methodology
+  - name: ISO/IEC 27005:2022 — Risk Management Guidance for ISMS
+    url: https://www.iso.org/standard/80585.html
+    used_for: ISMS-aligned risk methodology
+  - name: FAIR Institute — Factor Analysis of Information Risk
+    url: https://www.fairinstitute.org/
+    used_for: Quantitative risk methodology (monetized)
+  - name: EU NIS2 Directive
+    url: https://digital-strategy.ec.europa.eu/en/policies/nis2-directive
+    used_for: EU Network and Information Security Directive 2 enforcement (2026)
+  - name: EU DORA — Digital Operational Resilience Act
+    url: https://www.eiopa.europa.eu/digital-operational-resilience-act-dora_en
+    used_for: EU financial sector ICT operational resilience (effective Jan 17, 2025)
+  - name: IAPP — US State Privacy Legislation Tracker
+    url: https://iapp.org/resources/article/us-state-privacy-legislation-tracker/
+    used_for: US state privacy law horizon scanning (19+ as of 2026)
+  - name: FINRA — Books and Records
+    url: https://www.finra.org/rules-guidance/key-topics/books-records
+    used_for: FINRA Rule 4511 + 17a-4 supervisory recordkeeping
+  - name: FDA — Guidance Documents
+    url: https://www.fda.gov/regulatory-information/search-fda-guidance-documents
+    used_for: 21 CFR Part 11 + Quality System Reg + GxP for medtech/pharma
+  - name: Splunk — Cloud SIEM
+    url: https://www.splunk.com/en_us/products/cloud-siem.html
+    used_for: SIEM for audit evidence + IR forensics (catalog splunk-mcp)
+  - name: Panther — Modern SIEM
+    url: https://panther.com/
+    used_for: Cloud-native SIEM alternative

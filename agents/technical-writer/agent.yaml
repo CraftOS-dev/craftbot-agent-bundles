@@ -1,0 +1,136 @@
+# Technical Writer — CraftBot agent definition
+#
+# Every field traces back to a downloaded reference under reference/
+# OR to a default CraftBot capability already shipped on the recipient's
+# install. See reference/INVENTORY.md for sources and SOURCES.md for the
+# section→source map.
+
+name: Technical Writer
+slug: technical-writer
+category: content
+tier: specialized           # one of: general | specialized
+description: >
+  Developer documentation architect. Writes READMEs, API references,
+  tutorials, conceptual guides, and ADRs that developers actually read.
+  Operates on a zero-hallucination protocol — extracts reality from the
+  repository rather than guessing. Applies the Divio Documentation System
+  (tutorial / how-to / reference / explanation) and follows
+  Conventional Commits + Keep a Changelog for releases.
+tags:
+  - documentation
+  - readme
+  - api-docs
+  - tutorial
+  - openapi
+  - adr
+  - changelog
+  - docs-as-code
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# Skills are resolved at build time. The build script looks up each name in
+# agents/technical-writer/skills/ (bundled — ships INSIDE the .craftbot)
+# first, then in the repo's top-level skills/ (default — already on the
+# recipient's CraftBot install).
+enabled_skills:
+  # ── Bundled (23) — SOTA writing skill packs we ship with this agent ────
+  # Original 4 sourced from wshobson/agents (3) + anthropics/skills (1).
+  # 19 new packs added in June 2026 SOTA upgrade. See reference/SOTA_USE_CASES.md.
+  - architecture-decision-records   # 5 ADR template formats + lifecycle + adr-tools automation
+  - changelog-automation            # Keep a Changelog + Conventional Commits + SemVer + tooling
+  - openapi-spec-generation         # OpenAPI 3.1 structure, design-first vs code-first, best practices
+  - doc-coauthoring                 # OFFICIAL Anthropic skill — 3-stage workflow (context → refine → reader test)
+  - mintlify-api-docs               # Mintlify CLI, playgrounds, llms.txt, MCP integration
+  - redocly-openapi-pipeline        # Redocly lint/bundle/build-docs + Scalar/ReDoc rendering
+  - openapi-sdk-generation          # @hey-api/openapi-ts, openapi-generator-cli, Speakeasy/Fern
+  - log4brains-adr-management       # Visual ADR site + MADR 4.0 + adr-kit + adr-tools migration
+  - git-cliff-changelog             # Rust-fast Conventional Commits → CHANGELOG (Tera templates)
+  - release-please-automation       # Google's release-PR automation, monorepo manifest mode
+  - lychee-link-checking            # Fastest 2026 link checker, JSON output, CI gate patterns
+  - vale-prose-linting              # Google/MS/write-good/proselint/alex styles, custom rules
+  - pytest-markdown-docs-validation # Modal Labs' executable code-fence validation + mktestdocs
+  - pa11y-axe-accessibility-audit   # WCAG 2.2 AA, pa11y-ci + axe-core + Lighthouse CI
+  - microsoft-clarity-doc-analytics # Free behavioral analytics + heatmaps via native MCP
+  - ga4-doc-analytics               # google-analytics-data SDK, high-exit pages, content groups
+  - sphinx-typedoc-reference-docs   # Sphinx (Py) + TypeDoc (TS) + Doxygen (C++) + rustdoc (Rust)
+  - docusaurus-vitepress-starlight-mkdocs # Doc-system decision tree + scaffolds + deploy workflows
+  - d2-mermaid-diagrams             # D2 vs Mermaid decision, PlantUML, Structurizr DSL
+  - diataxis-divio-system           # File-system separation + Vale rules + sidebar mapping
+  - deepl-translation-i18n          # DeepL MCP + Crowdin + Lokalise + locale routing
+  - zero-hallucination-readme       # 3-phase protocol (introspect → author → verify) + 5 gates
+  - algolia-doc-search              # DocSearch + Insights API + Pagefind/MeiliSearch/Typesense/Orama
+
+  # ── CraftBot defaults (13) — already on the recipient's install ────────
+  # Document I/O, version control, doc-build tooling, review.
+  - docx                            # produce Word output when the recipient needs .docx
+  - pdf                             # produce PDF for sharing / archival
+  - pptx                            # produce slide decks for API walkthroughs / overviews
+  - file-format                     # convert between formats for cross-publishing
+  - cli-anything                    # run mkdocs / sphinx / docusaurus / vale / markdownlint
+  - file-organizer                  # organize doc trees, manage doc workspace structure
+  - git-commit                      # Conventional Commits for doc changes
+  - github                          # gh CLI — open PRs for doc changes, comment on issues
+  - github-api                      # raw GitHub API — content gathering, history scans
+  - using-git-worktrees             # isolate doc branches from code work
+  - differential-review             # structured review of doc PRs
+  - requesting-code-review          # checklist before merging doc PRs
+  - receiving-code-review           # apply doc-review feedback with rigor
+
+# MCP servers — 2026 SOTA docs stack. Adds doc-analytics (Microsoft
+# Clarity, free) + diagram rendering + visual design + OCR for capturing
+# screenshot-only legacy docs.
+mcp_servers:
+  - filesystem                      # read/edit doc files in the workspace
+  - github                          # PRs, issues, repo content for accurate examples
+  - postgresql-mcp                  # schema inspection for documenting database APIs and ERDs
+
+  # ── Diagram and design rendering ─────────────────────────────────────
+  - drawio-mcp                      # rich diagrams beyond Mermaid (C4, ER, UML)
+  - figma-mcp                       # design-system + UI screenshots for tutorials
+  - canva-mcp                       # branded marketing-style docs covers
+
+  # ── OCR for legacy screenshot-only docs / scanned PDFs ──────────────
+  - gemini-ocr-mcp                  # extract text from screenshots in legacy docs
+  - mistral-ocr-mcp                 # alt OCR
+
+  # ── Translation for multi-language docs ──────────────────────────────
+  - deepl-mcp                       # SOTA translation for i18n doc workflows
+
+# Source attribution. See SOURCES.md for section→source map. See
+# reference/INVENTORY.md for the per-file URL + license + description.
+sources:
+  - name: wshobson/agents — api-documenter
+    url: https://github.com/wshobson/agents/blob/main/plugins/documentation-generation/agents/api-documenter.md
+    used_for: OpenAPI 3.1 standards, AI-powered docs tooling, interactive portals, SDK generation, developer-portal architecture, authentication docs patterns
+  - name: wshobson/agents — docs-architect
+    url: https://github.com/wshobson/agents/blob/main/plugins/documentation-generation/agents/docs-architect.md
+    used_for: long-form documentation process (Discovery / Structuring / Writing), 10-section reference structure, "explain the why" principle
+  - name: wshobson/agents — tutorial-engineer
+    url: https://github.com/wshobson/agents/blob/main/plugins/documentation-generation/agents/tutorial-engineer.md
+    used_for: pedagogical design principles, progressive disclosure, tutorial section template, writing principles ("Show, don't tell", "Fail forward"), exercise types
+  - name: wshobson/agents — reference-builder
+    url: https://github.com/wshobson/agents/blob/main/plugins/documentation-generation/agents/reference-builder.md
+    used_for: reference doc entry format, hierarchical structure, navigation aids, quality standards
+  - name: wshobson/agents — mermaid-expert
+    url: https://github.com/wshobson/agents/blob/main/plugins/documentation-generation/agents/mermaid-expert.md
+    used_for: "Mermaid diagram type selection (note: source was a WebFetch summary, not verbatim)"
+  - name: VoltAgent/awesome-claude-code-subagents — documentation-engineer
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/06-developer-experience/documentation-engineer.md
+    used_for: documentation engineering checklist, info architecture, automation patterns, multi-version docs, search optimization
+  - name: VoltAgent/awesome-claude-code-subagents — api-documenter
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/07-specialized-domains/api-documenter.md
+    used_for: API documentation checklist, OpenAPI best practices, error documentation patterns, integration guide structure
+  - name: VoltAgent/awesome-claude-code-subagents — readme-generator
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/06-developer-experience/readme-generator.md
+    used_for: zero-hallucination protocol, ultradetailed repo scanning, README boundaries
+  - name: msitarzewski/agency-agents — Technical Writer
+    url: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-technical-writer.md
+    used_for: critical rules (code examples must run, no assumption of context, voice consistency, one concept per section, 5-second test), Divio Documentation System, full README + OpenAPI + Tutorial + Docusaurus templates, communication style, success metrics
+  - name: wshobson/agents — python skills bundled into this agent
+    url: https://github.com/wshobson/agents/tree/main/plugins/documentation-generation/skills
+    used_for: ADRs, changelog automation, OpenAPI spec generation patterns — bundled as the agent's skills
+  - name: anthropics/skills — doc-coauthoring
+    url: https://github.com/anthropics/skills/tree/main/skills/doc-coauthoring
+    used_for: 3-stage co-authoring workflow (Context Gathering → Refinement & Structure → Reader Testing) — bundled as a skill

@@ -1,0 +1,492 @@
+# Recruiter — CraftBot agent definition
+#
+# SPECIALIZED TIER. Sits under operations-agent (parent — broader HR/IT ops +
+# payroll + onboarding + handbook + hiring pipeline broadly). Adjacent to
+# talent-sourcer (sibling specialist — top-of-funnel sourcing). Drills into
+# the full recruiter craft: ATS configuration (Greenhouse / Lever / Ashby /
+# Workable), candidate pipeline mgmt from Applied → Hired, recruiter screen
+# conversations, structured behavioral interviewing (STAR / BAR), interview
+# kit + weighted-rubric authoring, interview panel coordination (Goodtime /
+# Calendly / Cal.com / Ashby native), interview debrief facilitation,
+# reference checking (Crosschq / Checkster / SkillSurvey / phone), offer
+# negotiation (Pave / Carta / Compa / Levels.fyi comp intel), offer letter
+# drafting + DocuSign / PandaDoc e-sign, candidate experience SLA mgmt,
+# employer-brand mgmt (Glassdoor / Comparably review responses), recruiting
+# metrics (time-to-fill / offer-accept / candidate NPS / source-of-hire),
+# DEI hiring (diverse slate / panel diversity / blind resume / Greenhouse
+# Inclusion), structured-interview training for hiring managers, AI-assisted
+# screening (Pinpoint / Eightfold) with audit + disclosure, employee referral
+# program (ERIN / Teamable / Boon), executive recruiting (different process —
+# retained search), contractor-to-FTE conversion, internal mobility (Gloat /
+# Eightfold Career Hub), post-offer pre-start renege prevention, background
+# checks (Checkr / Sterling / GoodHire FCRA-compliant), technical interview
+# design (Karat interview-as-a-service / CodeSignal / CoderPad / HackerRank /
+# Codility). Hands off interview pipeline + offer letters from Applied stage
+# back to talent-sourcer (sibling — top-of-funnel sourcing), broader HR
+# admin / onboarding / payroll / handbook to operations-agent (parent), exec
+# hiring strategy + comp philosophy + board talent to ceo-agent, binding
+# employment-law + offer-letter wording to legal-counsel, long-form employer
+# brand campaigns to marketing-agent.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+
+name: Recruiter
+slug: recruiter
+category: operations
+tier: specialized
+description: >
+  Senior recruiter operator. Configures ATS (Greenhouse / Lever / Ashby /
+  Workable) including custom stages, scorecards, automations, and webhooks.
+  Manages candidate pipeline from Applied stage through Hired (handoff from
+  talent-sourcer on Applied). Runs structured 30-min recruiter screens with
+  comp-expectation calibration. Authors role-specific interview kits with
+  weighted scoring rubrics and STAR/BAR behavioral questions. Coordinates
+  multi-person interview panels via Goodtime / Ashby native / Calendly /
+  Cal.com. Facilitates debriefs with consensus or disagree-and-commit
+  decision protocol. Conducts structured 3-question reference checks via
+  Crosschq / Checkster / SkillSurvey + phone. Negotiates offers using Pave /
+  Carta Total Comp / Compa AI / Levels.fyi comp benchmarks plus equity
+  modeling. Drafts offer letters via DocuSign / PandaDoc templates with
+  legal-reviewed boilerplate. Manages 24h candidate-experience SLA, status
+  updates, and structured rejection templates. Responds to Glassdoor /
+  Comparably reviews and surfaces candidate testimonials. Tracks recruiting
+  metrics (time-to-fill, time-to-offer, offer-acceptance, candidate NPS,
+  source-of-hire). Enforces DEI hiring via diverse-slate rule, panel
+  diversity, blind resume screening, Greenhouse Inclusion anti-bias kit, JD
+  bias scrub via Textio / Datapeople. Trains hiring managers on structured
+  interviewing via BrightHire / Metaview / Pillar. Builds the employer brand
+  career site through Greenhouse / Ashby job-board layer + Pinpoint /
+  Recruitee. Audits and deploys AI-assisted screening (Pinpoint AI /
+  Eightfold) only with bias audit + candidate disclosure + jurisdictional
+  compliance review. Manages employee referral programs via ERIN / Teamable /
+  Boon. Runs executive recruiting via retained-search firms (Heidrick /
+  Spencer Stuart / True / Daversa) + 360 references + outcome scorecards.
+  Coordinates contractor-to-FTE conversions and internal-mobility transfers.
+  Owns the post-offer-to-Day-1 dead zone with weekly touch-base to prevent
+  25-30% senior-hire renege rate. Coordinates Checkr / Sterling / GoodHire
+  FCRA-compliant background checks. Designs technical interviews via Karat
+  interview-as-a-service / CodeSignal / CoderPad / HackerRank / Codility
+  (live-pairing preferred over take-home in 2026). Hard rules: candidate
+  experience is brand — every touchpoint matters; the best candidates have
+  offers — speed matters; structured interviews predict 2.5× better than
+  unstructured. Always defer binding employment-law / offer-letter wording /
+  non-compete language / FCRA pre-adverse-action wording / EEO compliance
+  interpretation to legal-counsel; exec hiring strategy + comp philosophy +
+  board-level talent decisions to ceo-agent; broader HR ops + onboarding +
+  payroll + handbook to operations-agent (parent); top-of-funnel sourcing to
+  talent-sourcer (sibling); long-form employer-brand campaigns + paid
+  recruitment ads to marketing-agent.
+tags:
+  - recruiting
+  - recruiter
+  - ats
+  - greenhouse
+  - lever
+  - ashby
+  - workable
+  - candidate-pipeline
+  - interview-kit
+  - structured-interviewing
+  - star-bar
+  - interview-debrief
+  - reference-checking
+  - offer-negotiation
+  - offer-letter
+  - docusign
+  - pandadoc
+  - candidate-experience
+  - employer-brand
+  - glassdoor
+  - recruiting-metrics
+  - time-to-fill
+  - offer-acceptance
+  - dei-hiring
+  - diverse-slate
+  - blind-resume
+  - panel-diversity
+  - greenhouse-inclusion
+  - employee-referral
+  - executive-recruiting
+  - retained-search
+  - contractor-to-fte
+  - internal-mobility
+  - background-check
+  - checkr
+  - sterling
+  - karat
+  - codesignal
+  - coderpad
+  - hackerrank
+  - codility
+  - goodtime
+  - calendly
+  - cal-com
+  - compensation
+  - pave
+  - carta
+  - levels-fyi
+  - compa
+  - ai-screening
+  - pinpoint
+  - eightfold
+  - paradox
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 24 bundled SOTA skill packs + 39 CraftBot defaults = 63 enabled skills.
+# Each bundled pack closes a documented capability from
+# reference/SOTA_USE_CASES.md. Round 2 (runtime build) creates the SKILL.md
+# files under agents/recruiter/skills/<name>/.
+enabled_skills:
+  # ── Bundled (24) — 2026 SOTA recruiter skill packs ─────────────────────
+  - ats-greenhouse-lever-ashby-configuration   # ATS config: stages, scorecards, automations, webhooks
+  - candidate-pipeline-stage-management        # pipeline Applied→Hired + intake + stale candidate hygiene
+  - recruiter-screen-30-min-behavioral         # 30-min structured screen + comp expectation + Zoom record
+  - structured-interview-star-bar              # STAR/BAR structured behavioral + rubric authoring
+  - interview-kit-rubric-weighted-scoring      # interview kit, weighted rubric, calibration meeting
+  - interview-panel-goodtime-ashby-scheduling  # panel coord: Goodtime / Ashby / Calendly / Cal.com
+  - interview-debrief-consensus                # debrief facilitation + consensus / disagree-and-commit
+  - reference-checking-structured-3-questions  # Crosschq / Checkster / SkillSurvey + phone reference
+  - offer-negotiation-comp-band-equity-perks   # Pave / Carta / Compa / Levels.fyi negotiation playbook
+  - offer-letter-docusign-pandadoc             # DocuSign / PandaDoc template + e-sign + ATS attach
+  - candidate-experience-sla-status-updates    # 24h reply SLA + status updates + structured rejection
+  - employer-brand-glassdoor-comparably        # Glassdoor / Comparably review responses + testimonials
+  - recruiting-metrics-time-to-fill-offer-accept # metrics dashboard + weekly sync + quarterly review
+  - dei-hiring-diverse-slate-blind-resume      # diverse slate + panel diversity + Greenhouse Inclusion
+  - structured-interview-training-hiring-managers # 90-min HM training + BrightHire / Metaview / Pillar
+  - employer-brand-campaigns-career-site       # career site + EVP + structured-data SEO + employer brand
+  - ai-screening-pinpoint-eightfold-with-care  # AI screening with bias audit + disclosure + legal review
+  - employee-referral-program                  # ERIN / Teamable / Boon + bonus tiers + 90-day retention
+  - executive-recruiting-process               # retained search + outcome scorecard + 360 references
+  - contractor-to-fte-conversion               # contractor→FTE workflow + classification audit
+  - internal-mobility-program                  # Gloat / Eightfold Career Hub + internal job board
+  - post-offer-pre-start-check-ins             # renege prevention + pre-boarding + Day-1 handoff
+  - background-check-checkr-sterling           # Checkr / Sterling / GoodHire + FCRA compliance
+  - technical-interview-karat-codesignal-coderpad # Karat-as-a-service + CodeSignal + CoderPad + HackerRank
+
+  # ── CraftBot defaults (31) — already on recipient's install ───────────
+  # Comms (recruiter sends a *lot* of email + Slack + Zoom + Teams):
+  - gmail                              # candidate status updates + reference requests + offer letters + decline templates
+  - linkedin                           # LinkedIn profile pulls + outreach to passive candidates
+  - mailchimp                          # silver-medalist newsletter + boomerang re-engagement + talent community
+  - microsoft-teams                    # alt for Teams-shop recipients
+  - slack                              # hiring-team channels + debrief async + onboarding handoff to operations-agent
+
+  # Calendar / scheduling fallback (when Goodtime / Ashby / Calendly not configured):
+  - gcalcli-calendar                   # Google Calendar holds + 1:1 cadence + standups + pre-start touch base
+  - calendly-api                       # 1:1 screens + simple scheduling fallback
+
+  # Workspace + tracking (interview kits, scorecards, intake docs, debrief notes):
+  - notion                             # interview kits + scorecards + intake template + rejection templates + offer talking points
+  - better-notion                      # high-fidelity Notion ops (block-level edits, complex queries)
+  - obsidian                           # alt local-first KB for sensitive candidate notes
+  - markdown-converter                 # convert kit/scorecard formats
+
+  # Document output (offer letters, scorecards, interview kits, brief packs, decks):
+  - docx                               # offer letter drafts + interview kit export + reference report
+  - pdf                                # signed offer letter + reference packet + quarterly review export
+  - pptx                               # quarterly recruiting review deck + interviewer training slides
+  - xlsx                               # pipeline reports + comp benchmarks + funnel metrics local
+  - google-sheet                       # live shared pipeline + per-source dashboard + weekly sync
+  - microsoft-excel                    # local Excel for sensitive comp work
+  - file-format                        # convert résumés / portfolios / reference letters between formats
+  - file-organizer                     # interview-kit archive + offer-letter archive + reference archive
+
+  # ATS direct skill (Zoho-shop fallback) + project management:
+  - zoho-recruit                       # alt ATS path (Zoho Recruit native skill for Zoho-shop recipients)
+  - linear-api                         # recruiter-team task pipeline + per-req kanban + onboarding handoff
+  - asana-api                          # alt PM fallback
+  - clickup-api                        # alt PM fallback
+
+  # Research + planning + framing:
+  - brainstorming                      # interview-question authoring + scorecard authoring + panel design
+  - concise-planning                   # weekly recruiting plan + per-req sequencing
+  - ask-questions-if-underspecified    # clarify role + ICP + comp band + DEI goal before kit authoring
+  - audit-context-building             # gather company stage + funding + comp band for offer negotiation
+  - verification-before-completion     # kit calibration verification + reference packet verification before offer
+  - day-planner                        # daily recruiter cadence (screens + debriefs + offer extends)
+  - week-planner                       # weekly per-req review + offer-accept rate trend
+  - month-planner                      # monthly source-of-hire refresh + quarterly review prep
+
+  # Search + scraping (employer brand monitoring + comp intel):
+  - brave-search                       # market research + comp benchmark backstop
+  - firecrawl                          # Glassdoor / Comparably / Levels.fyi scrape for brand monitoring + free comp data
+  - web-search-plus                    # enhanced search with snippet extraction
+  - playwright-mcp                     # ATS UI automation when no API surface + Glassdoor response UI
+
+  # Cross-tool execution + writing quality:
+  - cli-anything                       # universal verb: Greenhouse / Lever / Ashby / Workable / Goodtime / Calendly / Checkr / Sterling / DocuSign / PandaDoc / Pave / Carta / Compa / Karat / CodeSignal / CoderPad / HackerRank / Crosschq / ERIN / Pinpoint / Eightfold / Paradox / Mya REST
+  - writing-skills                     # offer letter + status update + rejection + reference request prose quality
+  - writing-assistant                  # general editing
+  - memory-processor                   # persist candidate + role + persona context across sessions
+
+# MCP servers — 2026 SOTA recruiter stack. Each platform MCP backs at
+# least one use case from reference/SOTA_USE_CASES.md. Recipient enables
+# in CraftBot MCP settings + provides OAuth/API keys per platform.
+# (verify.py checks every name exists in app/config/mcp_config.json.)
+mcp_servers:
+  - filesystem                         # read/edit interview kits, scorecards, offer letters, reference reports
+
+  # ── Comms (status updates + offer letters + reference requests + decline templates) ─
+  - gmail-mcp                          # candidate emails + offer letter delivery + reference requests
+  - outlook-mcp                        # alt for Outlook-shop recipients
+  - google-workspace-mcp               # Gmail + Drive + Calendar + Sheets combined for workspace teams
+  - slack-mcp                          # hiring-team channels + debrief async + manager DMs + onboarding handoff
+  - ms-teams-mcp                       # alt for Teams-shop recipients
+  - zoom-mcp                           # interview scheduling + recording + transcript hand-off
+
+  # ── Calendar / scheduling ────────────────────────────────────────────
+  - google-calendar-mcp                # interview holds + 1:1 cadence + pre-start touch base + standups + offer follow-up
+
+  # ── Knowledge base / docs (interview kit + scorecard + intake + debrief + offer playbook) ─
+  - notion-mcp                         # interview kits, scorecards, intake docs, debrief notes, offer talking points, rejection templates
+  - obsidian-mcp                       # alt local-first KB for sensitive candidate notes
+
+  # ── Task + req pipeline + recruiter-team coordination ────────────────
+  - linear-mcp                         # per-req recruiter kanban + recruiter-team task pipeline + onboarding handoff
+  - jira-mcp                           # alt PM for Atlassian-shop recipients
+
+  # ── Code / repo (interview kit + hiring policy doc version control) ───
+  - github                             # interview kit, hiring policy, recruiter playbook version control
+
+  # ── Finance (referral bonus payout + offer-comp cross-ref) ────────────
+  - xero-mcp                           # referral bonus payout coordination + comp band finance reconciliation
+
+  # ── Document storage / signed contracts / data room / interview archive ─
+  - google-drive-mcp                   # offer letter + signed contracts + interview kit archive + reference packet
+
+  # ── Research / scrape / OCR (employer brand + comp intel + resume OCR) ─
+  - firecrawl-mcp                      # Glassdoor / Comparably / Levels.fyi scrape for free comp intel + brand monitoring
+  - brightdata-mcp                     # paid scrape for paywalled comp (Radford) + brand
+  - playwright-mcp                     # ATS UI automation + Glassdoor response UI when no API
+  - gemini-ocr-mcp                     # résumé OCR for scanned applications + reference letter OCR
+  - mistral-ocr-mcp                    # alt OCR engine
+  - brave-search                       # current SOTA / news / comp benchmark backstop
+
+  # ── Embedding-based clustering (JD-to-resume + candidate-fit similarity) ─
+  - huggingface-mcp                    # JD-to-resume similarity scoring + candidate-fit clustering
+
+  # ── Analytics (candidate-experience survey + outreach A/B) ────────────
+  - posthog-mcp                        # candidate-experience NPS survey analytics + outreach A/B
+
+  # ── High-volume SMS comm (RPO-style hiring) ────────────────────────────
+  - twilio-mcp                         # SMS for high-volume candidate comm (35-50% reply vs email 5-15%)
+
+  # ── Diagramming (debrief flow + intake state machine + interview process visualization) ─
+  - drawio-mcp                         # debrief flow + intake → offer state machine + process visualization
+  - figma-mcp                          # career site + offer letter design polish + interview kit cover
+
+  # ── Observability (career site uptime — low priority) ─────────────────
+  - sentry-mcp                         # career site / job board uptime monitoring
+
+sources:
+  - name: Greenhouse Developer Docs (Harvest API)
+    url: https://developers.greenhouse.io/harvest.html
+    used_for: ATS config + candidate-create + scorecards + interview kits + Reports API
+  - name: Ashby Developer Docs
+    url: https://developers.ashbyhq.com/reference
+    used_for: Ashby API-first ATS for series A-B; includeCompensation=true; analytics depth
+  - name: Lever Developer Documentation
+    url: https://hire.lever.co/developer/documentation
+    used_for: Lever CRM-first pipeline + Lever Hooks webhook config
+  - name: Index — Greenhouse vs Lever vs Ashby ATS Comparison 2026
+    url: https://www.index.dev/blog/greenhouse-vs-lever-vs-ashby-ats-comparison
+    used_for: ATS selection by stage + market positioning
+  - name: Greenhouse Blog — Recruiting Funnel Metrics
+    url: https://www.greenhouse.io/blog/recruiting-funnel-metrics
+    used_for: 2026 funnel benchmarks; conversion rate per stage
+  - name: Metaview — Recruiting Metrics That Matter
+    url: https://www.metaview.ai/resources/blog/recruiting-metrics
+    used_for: 2026 metrics that actually predict success; time-to-fill / offer-accept benchmarks
+  - name: Lever — Recruiting Metrics Funnel
+    url: https://www.lever.co/blog/recruiting-metrics-funnel
+    used_for: Per-stage conversion + age limits + benchmark targets
+  - name: Greenhouse — The Recruiter Screen Call
+    url: https://www.smartrecruiters.com/resources/articles/the-recruiter-screen-call
+    used_for: 30-min recruiter screen structure
+  - name: BrightHire — Interview Intelligence
+    url: https://brighthire.ai/
+    used_for: Interview recording + transcription + AI summary
+  - name: HBR — Structured Interviews Predict Performance
+    url: https://hbr.org/2016/05/structured-interviews
+    used_for: Predictive validity 0.20 unstructured → 0.51 structured; Schmidt & Hunter meta-analysis
+  - name: Greenhouse — Structured Interview Questions
+    url: https://www.greenhouse.io/blog/structured-interview-questions
+    used_for: STAR/BAR question authoring + behavioral evidence
+  - name: Ashby — Structured Interviewing
+    url: https://www.ashbyhq.com/learn/articles/structured-interviewing
+    used_for: Competency model + per-stage assignment + calibration
+  - name: Greenhouse — Interview Kits
+    url: https://www.greenhouse.io/blog/interview-kits
+    used_for: Interview kit authoring + competency-rubric alignment
+  - name: Goodtime — Interview Scheduling
+    url: https://goodtime.io/product/scheduling
+    used_for: Multi-day panel coordination + interviewer load balancing + DEI composition
+  - name: Ashby Scheduling
+    url: https://www.ashbyhq.com/scheduling
+    used_for: Built-in ATS-native scheduling for Ashby-shop recipients
+  - name: Calendly API Documentation
+    url: https://developer.calendly.com/api-docs
+    used_for: 1:1 recruiter screen scheduling + simple flow
+  - name: Greenhouse — The Perfect Interview Debrief
+    url: https://www.greenhouse.io/blog/the-perfect-interview-debrief
+    used_for: Debrief format; anti-anchoring; consensus protocol
+  - name: Lattice — Interview Debrief Template
+    url: https://lattice.com/library/the-interview-debrief-template
+    used_for: Debrief notes structure + decision rationale logging
+  - name: Crosschq — 360 Reference Checks
+    url: https://crosschq.com/360-reference-checks/
+    used_for: Structured digital reference checks + 360 distribution
+  - name: Checkster — Reference Check Platform
+    url: https://www.checkster.com/
+    used_for: Survey-based reference automation + scoring aggregation
+  - name: SkillSurvey — Recruiter Pre-Hire 360
+    url: https://www.skillsurvey.com/recruiter-pre-hire-360/
+    used_for: Pre-hire 360 reference patterns + scoring
+  - name: Pave — Total Comp Benchmarks
+    url: https://pave.com/product/total-comp
+    used_for: Real-time crowdsourced comp benchmarks; offer-negotiation defense
+  - name: Levels.fyi
+    url: https://www.levels.fyi/
+    used_for: Free public comp data; ICs / managers / TLs benchmarks; fallback
+  - name: Carta — Equity + Total Compensation
+    url: https://carta.com/learn/equity/
+    used_for: Equity grant modeling + dilution scenarios + Total Comp benchmarks
+  - name: Compa AI — Compensation Communication
+    url: https://www.compa.ai/
+    used_for: Offer-letter comp comm + negotiation talking points
+  - name: DocuSign eSignature REST API
+    url: https://developers.docusign.com/docs/esign-rest-api/
+    used_for: Offer letter e-sign + template merge fields + envelope reminder cadence
+  - name: PandaDoc Developer Docs
+    url: https://developers.pandadoc.com/
+    used_for: Offer letter generation + e-sign alt to DocuSign
+  - name: Talent Board — CandE Awards Research
+    url: https://www.thetalentboard.org/cande-research-reports/
+    used_for: Candidate experience NPS benchmarks + 24h SLA standard + survey methodology
+  - name: Greenhouse — Candidate Experience Best Practices
+    url: https://www.greenhouse.io/blog/candidate-experience
+    used_for: Status updates + structured rejection + post-decision survey
+  - name: Greenhouse — Candidate Rejection Emails
+    url: https://www.greenhouse.io/blog/candidate-rejection-emails
+    used_for: Stage-specific decline templates + tone + reconnection rules
+  - name: Glassdoor — Employers
+    url: https://www.glassdoor.com/employers/
+    used_for: Employer brand response + Enhanced Profile + EVP statement
+  - name: Comparably — Companies
+    url: https://www.comparably.com/companies
+    used_for: Employer-brand badges + culture scoring + free brand analytics
+  - name: Workology — Employer Branding 2026
+    url: https://www.workology.com/employer-branding-2026/
+    used_for: 2026 employer-brand patterns; Glassdoor / Comparably / Built In comparison
+  - name: Greenhouse — Inclusion Anti-Bias Toolkit
+    url: https://www.greenhouse.io/inclusion
+    used_for: Anti-bias toolkit + blind screening + demographic survey + calibration
+  - name: Datapeople — Job Description Optimization
+    url: https://datapeople.io/
+    used_for: JD bias scrub + readability + template enforcement; Textio competitor
+  - name: Applied Platform — Blind Hiring
+    url: https://www.appliedhq.co/
+    used_for: Blind resume screening + structured + work-sample testing
+  - name: GapJumpers — Blind Hiring
+    url: https://gapjumpers.me/
+    used_for: Free blind-hiring fallback alternative to paid platforms
+  - name: HBR — Reducing Bias in Hiring (NYC LL144 + Illinois AI Video Interview)
+    url: https://www.eeoc.gov/laws/guidance/ai-employment-decisions
+    used_for: EEOC AI screening guidance; NYC LL144 + Illinois AI Video Act + CO SB 24-205
+  - name: NYC Local Law 144 — Automated Employment Decision Tools
+    url: https://www.nyc.gov/site/dca/about/automated-employment-decision-tools.page
+    used_for: NYC bias audit + candidate disclosure requirement for AI screening
+  - name: Pillar — Interview Intelligence
+    url: https://www.pillar.hr/
+    used_for: HM training + interview-question library + real-time coaching
+  - name: Phenom — Talent Pipeline + Talent Experience
+    url: https://www.phenom.com/talent-experience/talent-pipeline
+    used_for: Silver-medalist + future-role nurture + Career Sites
+  - name: ERIN — Employee Referral Platform
+    url: https://erinapp.com/
+    used_for: Gamified referral submission + bonus tier mgmt + 90-day retention
+  - name: Teamable — Referrals + Networking
+    url: https://teamable.com/
+    used_for: Network-based referral surfacing + warm-intro requests
+  - name: Boon — Referral Program
+    url: https://www.boon.co/
+    used_for: Referral platform + bonus payout cadence
+  - name: Heidrick & Struggles — Executive Search
+    url: https://www.heidrick.com/
+    used_for: C-level retained search firm; Spencer Stuart / Russell Reynolds / Egon Zehnder peer group
+  - name: True Search — Executive Search for Tech
+    url: https://truesearch.com/
+    used_for: Tech VP+ retained search; modern alternative to traditional firms
+  - name: Daversa Partners — Venture-Backed Exec Search
+    url: https://www.daversapartners.com/
+    used_for: VC-network-tied retained search for Series A-D tech companies
+  - name: Deel — Contractor to Employee Conversion
+    url: https://www.deel.com/blog/contractor-to-employee
+    used_for: Contractor → FTE classification audit + conversion workflow
+  - name: Gloat — Internal Talent Marketplace
+    url: https://gloat.com/
+    used_for: AI-powered internal mobility + skill-based matching + career pathing
+  - name: Eightfold — Career Hub
+    url: https://www.eightfold.ai/talent-management/career-hub/
+    used_for: AI career pathing + internal mobility + skill graph
+  - name: Eightfold — Silver Medalists
+    url: https://eightfold.ai/talent-acquisition/silver-medalists/
+    used_for: Almost-hired candidate pool + future-role nurture pattern
+  - name: Enboarder — Pre-boarding
+    url: https://www.enboarder.com/
+    used_for: Post-offer pre-start touch base; renege prevention; Day-1 readiness
+  - name: Kallidus — Pre-boarding Best Practices
+    url: https://www.kallidus.com/blog/preboarding/
+    used_for: 25-30% senior-hire renege rate; weekly touch cadence; pre-boarding kit components
+  - name: Checkr Developer Docs
+    url: https://developers.checkr.com/
+    used_for: Background check API + invitation flow + webhook + FCRA-compliant adverse action
+  - name: Sterling Check
+    url: https://www.sterlingcheck.com/
+    used_for: Enterprise + international background checks + Global option
+  - name: GoodHire — SMB Background Checks
+    url: https://www.goodhire.com/
+    used_for: SMB tier background check; fallback when Checkr / Sterling not needed
+  - name: Karat — Technical Interview as a Service
+    url: https://karat.com/product/
+    used_for: Karat interviewers run loops; 24h turnaround; bias-audited; volume scaling
+  - name: CodeSignal — Industry Coding Framework
+    url: https://codesignal.com/
+    used_for: ICF + General Coding Assessment + Cosmo AI cheat detection
+  - name: CoderPad — Live Collaborative Coding
+    url: https://coderpad.io/
+    used_for: Live-pairing interview platform + IDE-quality + Drawing Mode anti-cheat + ATS integration
+  - name: HackerRank — Recruiter
+    url: https://www.hackerrank.com/products/recruiter
+    used_for: HackerRank broad question library + plagiarism detection + recruiter platform
+  - name: Pinpoint AI — Talent Acquisition Suite
+    url: https://www.pinpointhq.com/ai/
+    used_for: AI-assisted screening + applicant ranking + Career Sites
+  - name: Eightfold AI — Talent Intelligence
+    url: https://eightfold.ai/
+    used_for: AI talent intelligence + bias-aware matching + workforce intelligence
+  - name: Paradox — Olivia AI Assistant
+    url: https://www.paradox.ai/olivia
+    used_for: High-volume conversational AI for screening + scheduling
+  - name: KS Agents — Boomerang Employees 2026 Alumni Network
+    url: https://ks-agents.com/blog/boomerang-employees-alumni-network-strategy/
+    used_for: 35% of 2025 hires are boomerangs; $4,200 savings; recruiter-side fast-track
+  - name: EEOC — EEO-1 Data Collection
+    url: https://www.eeoc.gov/employers/eeo-1-data-collection
+    used_for: Annual EEO-1 reporting; 100+ employees + federal contractors
+  - name: OFCCP — Federal Contractor Compliance
+    url: https://www.dol.gov/agencies/ofccp
+    used_for: OFCCP audit readiness; affirmative action plan basics
+  - name: Schmidt & Hunter — Validity and Utility of Selection Methods
+    url: https://psycnet.apa.org/record/1998-10661-006
+    used_for: Predictive validity baselines; structured interview r=0.51 vs unstructured r=0.20
+  - name: Project Implicit IAT
+    url: https://implicit.harvard.edu/implicit/
+    used_for: Bias-awareness training reference for hiring-manager curriculum
+  - name: Cielo — RPO
+    url: https://www.cielotalent.com/
+    used_for: RPO partner option for high-volume hiring; enterprise scale

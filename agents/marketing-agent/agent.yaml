@@ -1,0 +1,157 @@
+# Marketing Agent — CraftBot agent definition
+#
+# GENERAL TIER. Covers the whole marketing surface end-to-end: positioning,
+# brand voice, campaigns, content calendars, copy drafts, decks, landing
+# page outlines, video/social ideation, email lifecycle, light analytics.
+# Solo founders and small teams use this one agent for "everything
+# marketing." Pulls in narrower specialists only when depth is needed.
+#
+# Every field traces back to reference/. See reference/INVENTORY.md for
+# sources and SOURCES.md for the section→source map.
+
+name: Marketing Agent
+slug: marketing-agent
+category: marketing
+tier: general                # one of: general | specialized
+description: >
+  Senior end-to-end marketer for solo founders and small teams. Covers
+  positioning, brand voice, content strategy, SEO basics, social media,
+  email lifecycle, landing pages, campaign management, growth loops, and
+  light analytics. White-hat SEO only; segmentation over broadcast for
+  email; clicks over opens for measurement; growth loops over funnels for
+  defensible acquisition. Pulls in specialists (video-creator, SEO
+  specialist, email strategist) only when depth is required.
+tags:
+  - marketing
+  - content
+  - seo
+  - social
+  - email
+  - growth
+  - brand
+  - copywriting
+  - campaigns
+
+model:
+  llm_provider: anthropic
+  llm_model: claude-sonnet-4-5-20250929
+
+# 19 bundled SOTA skill packs added June 2026 — each closes a documented
+# gap from the original "draft only, can't execute" assessment.
+# See reference/SOTA_USE_CASES.md for per-use-case SOTA mapping.
+enabled_skills:
+  # ── Bundled (19) — 2026 SOTA marketing skill packs ────────────────────
+  - buffer-cross-platform-publishing  # Buffer MCP — LinkedIn/X/IG/TikTok/Threads/Bluesky cascade
+  - linkedin-marketing-api            # MCPBundles LinkedIn MCP — org page, ads, 2-step URN upload
+  - meta-ads-official-mcp             # Official Meta Ads MCP (mcp.facebook.com/ads, 29 tools)
+  - google-ads-mcp                    # Official Google Ads MCP, GAQL search + mutations
+  - klaviyo-email-lifecycle           # Klaviyo MCP — segments, flows, campaigns, post-MPP metrics
+  - hubspot-crm-marketing-mcp         # HubSpot remote MCP (mcp.hubspot.com) — CRM + automation
+  - ahrefs-seo-mcp                    # Ahrefs remote MCP (mcp.ahrefs.com) — keywords, backlinks
+  - suganthan-gsc-audit               # Suganthan GSC MCP — cannibalization, content decay, Indexing API
+  - pagespeed-cwv-audit               # PageSpeed Insights API — LCP/INP/CLS Core Web Vitals
+  - posthog-growth-loops              # PostHog MCP HogQL — K-factor, retention, cohorts
+  - growthbook-experiments            # GrowthBook MCP — A/B + multi-variant + holdouts
+  - vale-brand-voice                  # Vale linter — AI-slop catch list, custom org rules
+  - email-deliverability-spf-dkim-dmarc # dig + mail-tester + Postmark spam check
+  - google-analytics-mcp-attribution  # Official GA4 MCP — run_report, last-touch + multi-touch
+  - aeo-geo-ai-search-tracking        # AthenaHQ + Profound — AI search citation share tracking
+  - bitly-utm-campaign-tracking       # Bitly bulk_shorten — UTM convention, CRM passthrough
+  - marketmuse-topic-clustering       # MarketMuse Topical Map API — pillar + supporting clusters
+  - tiktok-trend-research             # Official TikTok Research API + Apify scraper fallback
+  - schema-org-structured-data        # JSON-LD generation, validator.schema.org
+
+  # ── CraftBot defaults (20) — already on recipient's install ───────────
+  # Document output for briefs, decks, sales collateral.
+  - docx                            # Word docs — briefs, contracts, content
+  - pdf                             # PDF — sales collateral, lead magnets, ebooks
+  - pptx                            # decks — pitch, campaign, brand
+  - file-format                     # cross-format conversion
+  - file-organizer                  # campaign asset organization
+
+  # Web + competitive research, content monitoring.
+  - playwright-mcp                  # browse real pages — competitor sites, SERPs
+  - brave-search                    # SEO + competitive research
+  - duckduckgo-search               # alt search engine
+  - baidu-search                    # Chinese-language coverage
+  - firecrawl                       # structured competitor content scraping
+  - ai-news-collectors              # industry trend monitoring
+
+  # Ideation and planning.
+  - brainstorming                   # campaign ideas, angles, hooks
+  - concise-planning                # campaign briefs, editorial calendar
+  - ask-questions-if-underspecified # clarify objectives before drafting
+  - audit-context-building          # gather brand voice + history rigorously
+
+  # Cross-check + tool execution.
+  - gemini                          # second-opinion model for copy / strategy
+  - cli-anything                    # run mkdocs / vale / image conversion / etc.
+
+  # Version control for marketing assets.
+  - git-commit                      # track campaign iterations
+  - github                          # collaborative review on PRs
+  - github-api                      # deeper queries for content gathering
+
+# MCP servers — 2026 SOTA marketing stack. Each platform MCP closes a
+# previously-documented "draft only" gap. Recipient enables in CraftBot
+# MCP settings and adds OAuth/API credentials per platform.
+mcp_servers:
+  - filesystem                      # read/edit marketing assets
+  - gmail-mcp                       # send campaign emails, monitor responses
+  - notion-mcp                      # marketing knowledge base, brief storage, calendar
+  - postgresql-mcp                  # query analytics warehouses for performance data
+
+  # ── Social posting (replaces "can't post" gap) ───────────────────────
+  - twitter-mcp                     # X/Twitter publishing
+  - insta-business-mcp              # Instagram Business + Reels publishing
+  - facebook-mcp-server             # Facebook page publishing
+  - tiktok-mcp                      # TikTok publishing + trending
+  - reddit-mcp                      # Reddit publishing + community insight
+
+  # ── Paid ads (replaces "draft only, user runs ads" gap) ──────────────
+  - facebook-ads-mcp                # Meta Ads campaigns + creative
+  - tiktok-ads-mcp                  # TikTok Ads campaigns
+
+  # ── Analytics (closes "limited real-time analytics" gap) ─────────────
+  - posthog-mcp                     # product analytics, funnels, retention, HogQL
+  - mixpanel-mcp                    # alt product analytics
+  - amplitude-mcp                   # alt product analytics + behavioral cohorts
+
+  # ── Research/scraping ───────────────────────────────────────────────
+  - firecrawl-mcp                   # structured competitor scraping
+  - brightdata-mcp                  # paid SERP/web data (cannibalization audit)
+
+  # ── Translation (multi-language email/content) ──────────────────────
+  - deepl-mcp                       # SOTA translation for multi-language
+
+  # ── Design / collateral generation ──────────────────────────────────
+  - canva-mcp                       # design templates, social posts, decks
+  - figma-mcp                       # design system + marketing asset access
+  - imagegen-mcp                    # AI image gen for blog headers/social
+  - stability-ai-mcp                # alt AI image gen
+
+sources:
+  - name: VoltAgent — content-marketer (CORE)
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/08-business-product/content-marketer.md
+    used_for: content marketing checklist, content strategy, SEO basics, content creation formats, social media marketing, email marketing, lead generation, campaign management, analytics, brand building
+  - name: VoltAgent — growth-loops
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/08-business-product/growth-loops.md
+    used_for: funnels vs loops principle, 5 loop types (viral / content-SEO / paid / network-effect / sales-led), loop design process, viral coefficient (K), measurement metrics
+  - name: VoltAgent — content-quality-editor
+    url: https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/08-business-product/content-quality-editor.md
+    used_for: AI-slop catch list (corporate jargon, sycophantic phrases, hedging, stock transitions), what-to-protect vs what-to-clean rules
+  - name: msitarzewski — Content Creator
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-content-creator.md
+    used_for: multi-format content strategy, brand storytelling, success metrics (engagement, traffic, video, share, leads, awareness, growth, ROI), specialized skills (long-form, video, podcast, UGC)
+  - name: msitarzewski — Growth Hacker
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-growth-hacker.md
+    used_for: growth strategy (funnel + retention + LTV), experimentation framework, viral mechanics, channel optimization, PLG, growth success metrics (Day 7/30/90 retention, CAC payback, LTV:CAC, K-factor, experiment velocity)
+  - name: msitarzewski — SEO Specialist (RICH)
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-seo-specialist.md
+    used_for: technical SEO, E-E-A-T, Core Web Vitals (LCP/INP/CLS), white-hat-only rule, cannibalization audit (MANDATORY before optimization), keyword research framework, on-page checklist, topic cluster architecture, link building, AI search adaptation
+  - name: msitarzewski — Social Media Strategist
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-social-media-strategist.md
+    used_for: cross-platform strategy, LinkedIn mastery, Twitter integration, campaign management, thought leadership, success metrics, employee advocacy
+  - name: msitarzewski — Email Marketing Strategist (RICH)
+    url: https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-email-strategist.md
+    used_for: segmentation > broadcast rule, lifecycle sequence design, post-Apple MPP measurement (clicks > opens), deliverability (SPF/DKIM/DMARC), 2024-2025 Google/Yahoo/Microsoft enforcement, exit conditions, consent as infrastructure, never-mix-transactional-and-marketing, sequence/audit templates, multi-language architecture
