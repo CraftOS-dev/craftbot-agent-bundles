@@ -1,9 +1,10 @@
 ![CraftBot Agent Bundles](assets/craftbot_top_banner.jpg)
 
-# CraftBot Agent Bundles
+# 💼 CraftBot Agent Bundles
 
 **Turn stock [CraftBot](https://github.com/CraftOS-dev/CraftBot) into a senior specialist with one click.**
-Drag a `.craftbot` file into the app — your agent walks in as a CEO, lawyer, marketing lead, Python engineer, video producer, or 37 others. No prompt engineering. No system-prompt wrangling. Already wired to the right MCPs and skills for the job.
+
+Import a `.craftbot` file into the CraftBot, your agent walks in as a CEO, lawyer, marketing lead, Python engineer, video producer, or 37 others. No prompt engineering. No system-prompt wrangling. Already wired to the right MCPs and skills for the job.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Agents](https://img.shields.io/badge/Agents-42-success)](#the-catalog)
@@ -12,11 +13,11 @@ Drag a `.craftbot` file into the app — your agent walks in as a CEO, lawyer, m
 [![Built for CraftBot](https://img.shields.io/badge/Built%20for-CraftBot-orange)](https://github.com/CraftOS-dev/CraftBot)
 [![Quality gates](https://img.shields.io/badge/Quality%20gates-13-informational)](verify.py)
 
-> If you star one agent repo this year, make it the one that ships **executable** agents, not pretty system prompts.
+> Your CraftBot deserve a role.
 
 ---
 
-## Stop "prompting" an AI. Start hiring one.
+## 👉 Stop "prompting" an AI. Start hiring one.
 
 Most agent repos give you a 600-word system prompt and call it a day. The agent sounds confident. Then you ask it to actually *send the investor update* — and it tells you what *you* should do.
 
@@ -41,23 +42,7 @@ That is the difference between a *prompt* and an *operator*.
 
 ---
 
-## What you actually get
-
-| | Generic "awesome agents" repo | This repo |
-|---|---|---|
-| **Format** | Markdown system prompts | Importable `.craftbot` bundles |
-| **Capability layer** | None (just prose) | 800+ bundled SOTA skill packs |
-| **Tools wired in** | Whatever your harness has | 20+ MCPs auto-enabled per agent |
-| **Honesty about gaps** | Implicit "vibes" | `USE_CASES.md` with executable / caveat / impossible table |
-| **Provenance** | Trust me, bro | `SOURCES.md` — every section traces to a downloaded source |
-| **Quality gate** | A reviewer's gut | 13 automated `verify.py` gates per agent |
-| **Currency** | Whenever the README was last touched | Per-use-case SOTA research dated by month |
-| **Always-on context cost** | Whatever the author wrote | Soft-warned at 400 lines, hard cap 600 |
-| **Persona framing** | "covers / leans on / advises" | Hard-fails CI unless action-verb-first (writes / ships / runs) |
-
----
-
-## Quick start (60 seconds)
+## 🧰 Quick start (60 seconds)
 
 1. **Install [CraftBot](https://github.com/CraftOS-dev/CraftBot)** — self-hosted, BYOK (Claude / GPT / Gemini / Ollama), Win/Mac/Linux.
 2. **Download a bundle** from [`bundles/`](bundles/) — pick by role and date stamp (e.g. `ceo-agent-20260611.craftbot`).
@@ -69,11 +54,11 @@ That's it. No CLI install, no `.cursorrules`, no plugin marketplace, no `claude.
 
 ---
 
-## The catalog (42 agents, growing more and more)
+## 👔 The catalog (42 agents, growing more and more)
 
 Every agent is either a **General** (covers a whole domain end-to-end — good for solo founders) or a **Specialized** (drills deep into a niche — good for teams composing a roster). Most domains ship both. Users compose.
 
-### Executive & Strategy
+### 🎯 Executive & Strategy
 
 | Agent | Tier | Skills | MCPs | What can they do |
 |---|---|---|---|---|
@@ -84,7 +69,7 @@ Every agent is either a **General** (covers a whole domain end-to-end — good f
 | [`growth-agent`](agents/growth-agent/) | General | 47 | 12 | Designs growth loops, activation mechanics, retention strategies, experimentation, attribution frameworks |
 | [`investor-relations`](agents/investor-relations/) | General | 47 | 27 | Prepares investor updates, earnings materials, SEC filings, analyst relations management |
 
-### Engineering
+### ⚙️ Engineering
 
 | Agent | Tier | Skills | MCPs | What can they do |
 |---|---|---|---|---|
@@ -93,7 +78,7 @@ Every agent is either a **General** (covers a whole domain end-to-end — good f
 | [`frontend-engineer`](agents/frontend-engineer/) | Specialized | 38 | 11 | Writes, reviews, debugs, refactors, tests, audits, and deploys production frontend code |
 | [`qa-engineer`](agents/qa-engineer/) | Specialized | 37 | 11 | Owns test strategy, suite infrastructure, cross-cutting quality, accessibility, performance, security |
 
-### Marketing & Growth
+### 📈 Marketing & Growth
 
 | Agent | Tier | Skills | MCPs | What can they do |
 |---|---|---|---|---|
@@ -107,7 +92,7 @@ Every agent is either a **General** (covers a whole domain end-to-end — good f
 | [`pr-comms`](agents/pr-comms/) | General | 41 | 36 | Executes PR and comms: media relations, press releases, crisis comms, thought leadership |
 | [`community-manager`](agents/community-manager/) | General | 38 | 27 | Operates end-to-end communities: platform selection, moderation, engagement, events, CAB management |
 
-### Sales & Customer
+### 💰 Sales & Customer
 
 | Agent | Tier | Skills | MCPs | What can they do |
 |---|---|---|---|---|
@@ -116,7 +101,7 @@ Every agent is either a **General** (covers a whole domain end-to-end — good f
 | [`customer-success`](agents/customer-success/) | General | 49 | 25 | Executes customer success: onboarding, QBRs, health scoring, NRR/GRR, expansion, renewals |
 | [`customer-support-agent`](agents/customer-support-agent/) | General | 37 | 21 | Manages customer support: triage, templates, FAQ, escalation, SLA tracking, sentiment analysis |
 
-### Content & Documentation
+### 🎬 Content & Documentation
 
 | Agent | Tier | Skills | MCPs | What can they do |
 |---|---|---|---|---|
@@ -126,7 +111,7 @@ Every agent is either a **General** (covers a whole domain end-to-end — good f
 | [`l10n`](agents/l10n/) | Specialized | 39 | 13 | Ships product locales: TMS pipelines, CAT tools, translation memory, RTL/CJK testing |
 | [`grant-writer`](agents/grant-writer/) | General | 50 | 20 | Researches grants, drafts LOIs, ensures compliance, manages submissions, handles reporting requirements |
 
-### Research & Analytics
+### 🔬 Research & Analytics
 
 | Agent | Tier | Skills | MCPs | What can they do |
 |---|---|---|---|---|
@@ -135,7 +120,7 @@ Every agent is either a **General** (covers a whole domain end-to-end — good f
 | [`ux-researcher`](agents/ux-researcher/) | Specialized | 54 | 18 | Conducts end-to-end UX research: planning, usability testing, IA testing, JTBD, personas |
 | [`competitive-intelligence`](agents/competitive-intelligence/) | Specialized | 53 | 21 | Monitors competitors continuously, authors battlecards, integrates win/loss CI using public sources |
 
-### Legal, Compliance & Finance
+### ⚖️ Legal, Compliance & Finance
 
 | Agent | Tier | Skills | MCPs | What can they do |
 |---|---|---|---|---|
@@ -144,7 +129,7 @@ Every agent is either a **General** (covers a whole domain end-to-end — good f
 | [`finance-controller`](agents/finance-controller/) | General | 45 | 22 | Operates end-to-end finance: bookkeeping, monthly close, cash forecasting, SaaS metrics, cap table |
 | [`tax-agent`](agents/tax-agent/) | Specialized | 44 | 19 | Prepares tax filings: federal, state, multi-jurisdiction, R&D credits, QSBS, transfer pricing |
 
-### People, Product & Personal
+### 🌱 People, Product & Personal
 
 | Agent | Tier | Skills | MCPs | What can they do |
 |---|---|---|---|---|
@@ -185,7 +170,7 @@ Per-agent source (under [`agents/<slug>/`](agents/)) also ships:
 
 ---
 
-## Why these aren't just prompts
+## ✨ Why these aren't just prompts
 
 The repo is held to a methodology — see [METHODOLOGY.md](METHODOLOGY.md) — that the build pipeline enforces. Every bundle passes 13 automated gates before [`build.py`](build.py) will emit a zip:
 
@@ -243,7 +228,7 @@ Bundles are deliberately small (<300 KB) because CraftBot defaults aren't re-shi
 
 ---
 
-## Build your own agent bundle
+## 🛠️ Build your own agent bundle
 
 The pipeline is the README. Read [METHODOLOGY.md](METHODOLOGY.md) front to back, then look at [`agents/senior-python-engineer/`](agents/senior-python-engineer/) as a worked example. The 10-step workflow in short:
 
@@ -259,18 +244,6 @@ The pipeline is the README. Read [METHODOLOGY.md](METHODOLOGY.md) front to back,
 10. Run `python build.py <slug>` to emit the `.craftbot`
 
 Contributions welcome. The bar is: pass [`verify.py`](verify.py), ≥90% fulfillment, every line cited.
-
----
-
-## Why star / watch this repo
-
-- **You'll get an actually-executable senior specialist** the day it lands in `bundles/` — no waiting for vendors to ship the integration, no manual MCP wiring, no curated-prompt-list shopping.
-- **The catalog is on a roadmap to 130 agents.** v0 → v1 → v2 → v3 shipped 42. The next waves (v4+) cover the long tail: clinical research ops, supply chain, real estate ops, music production, podcast production, design ops, brand-systems, more. Watching means you get every new bundle on release.
-- **The methodology is published.** Even if you don't use CraftBot, reading [METHODOLOGY.md](METHODOLOGY.md) is the cheapest way to learn how to build agents that *execute* instead of *advise*. The "map use cases → research SOTA per use case → integrate" loop applies to any agent framework.
-- **The SOTA stack is dated.** Every `SOTA_USE_CASES.md` carries a research date. When the SOTA shifts (Sora 2 → Sora 3, Pyrefly v1 → v2), the next dated bundle reflects it. You don't have to track every tool launch — we do.
-- **It's MIT licensed** and bundles are self-contained. Fork the methodology, fork an agent, run your own private catalog if you want.
-
-If this repo saves you the 40 hours it takes to manually research, wire, and validate one specialist — that's the **star**.
 
 ---
 
@@ -296,4 +269,4 @@ Where a bundled `SKILL.md` was derived from one of these upstream packs, the sou
 
 ## Star history
 
-If you find yourself coming back to this repo, **star it** — it tells contributors which bundles to prioritize next. Star count drives the v4 roster.
+If you find yourself coming back to this repo, **star it**. It tells contributors which bundles to prioritize next. Star count drives the next roster.
